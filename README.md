@@ -21,6 +21,7 @@ Tenant organizers and tenants facing gaslighting, neglect, or abuse by landlords
 
 Justfix.nyc creates tech to help tenants, but only for those residing in New York City. PDF checklist for Texans is [here](http://www.txtha.org/wp-content/uploads/2016/01/MIMOIForm1.pdf). Other [big PDF handbooks](https://www.texasbar.com/AM/Template.cfm?ContentID=25969&Section=Free_Legal_Information2&Template=/CM/ContentDisplay.cfm) also exist.
 
+We recently came across [this application](https://www.uwazi.io/) designed to help human rights organizations organize documents.
 
 ### Where can we find any research/data available/articles?
 
