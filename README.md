@@ -8,7 +8,6 @@ Records include photos, receipts, the lease terms, notes from the landlord, fees
 
 That would be version 1.
 
-### Who will benefit (directly and indirectly) from your project?
 For later versions:
 Eventually, we'd also like to be able to auto-generate forms and complaints for repair requests and code complaints.
 Include nudges/to-do lists to let tenants and others know when to submit records or take other actions.
@@ -27,11 +26,11 @@ Justfix.nyc creates tech to help tenants, but only for those residing in New Yor
 
 [Audrey McGlinchy](https://www.kut.org/people/audrey-mcglinchy-kut) writes about housing, zoning, and eviction in Austin. [This](https://www.texasobserver.org/rent-by-another-name/) recent article discusses ways in which tenants are taken advantage of with mandatory fees.
 
+Here's the link to our [Google Drive folder](https://drive.google.com/open?id=1ThK_ThKCyllMOzyot5wIKgrcTXWpzoan).
 
 ### What help do you need now?
 
 We're relatively new to legit web development, so we need help with...everything! We want to think through the most reasonable way to get this set up in stages -- first being very simple, then building out from there.
-
 
 ### What are the next steps (validation, research, coding, design)?
 
