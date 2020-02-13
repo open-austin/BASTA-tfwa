@@ -14,6 +14,19 @@ Include nudges/to-do lists to let tenants and others know when to submit records
 Incorporate Appraisal District and Census datasets. 
 Display data publicly on a map / something visually appealing.
 
+Document types:
+Leases
+Notices
+Photos of conditions
+Apartment Newsletters
+Bills (Utility, Rent, etc)
+Lease Violations
+Court summons
+Petitions
+Letters/notes to MGMT
+Receipts
+Checks
+
 ### Who will benefit (directly and indirectly) from your project?
 Tenant organizers and tenants facing gaslighting, neglect, or abuse by landlords.
 
