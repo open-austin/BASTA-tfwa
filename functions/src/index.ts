@@ -1,67 +1,64 @@
 import * as functions from "firebase-functions";
 import * as twilio from "twilio";
-import * as firebase from "firebase";
+// import * as firebase from "firebase";
 import * as extName from "ext-name";
+import * as admin from "firebase-admin";
+// import { Bucket } from "@google-cloud/storage";
 const path = require("path");
 const urlUtil = require("url");
+const fetch = require("node-fetch");
 
-async function SaveMedia(mediaItem) {
-  const { mediaUrl, filename } = mediaItem;
-  if (NODE_ENV !== "test") {
-    const fullPath = path.resolve(`${PUBLIC_DIR}/${filename}`);
+admin.initializeApp();
 
-    if (!fs.existsSync(fullPath)) {
-      const response = await fetch(mediaUrl);
-      const fileStream = fs.createWriteStream(fullPath);
+const bucket = admin.storage().bucket();
 
-      response.body.pipe(fileStream);
+const SaveMedia = async ({ filename, mediaUrl, contentType }: MediaItem) => {
+  const file = bucket.file(`images/${filename}`);
+  console.log(
+    await file.getSignedUrl({
+      action: "read",
+      expires: "03-09-2491"
+    })
+  );
+  const writeStream = file.createWriteStream({ contentType });
+  return fetch(mediaUrl).then((res: any) => {
+    res.body.pipe(writeStream);
+  });
+};
 
-      deleteMediaItem(mediaItem);
-    }
+type MediaItem = { mediaUrl: string; filename: string; contentType: string };
 
-    images.push(filename);
-  }
-}
+const processMedia = async (body: any) => {
+  const NumMedia = parseInt(body.NumMedia);
 
-export const uploadPhoto = functions.https.onRequest((request, response) => {
-  const { body } = request;
-  const { NumMedia, From: SenderNumber, MessageSid } = body;
+  const mediaItems: MediaItem[] = [];
+  let saveOperations: Promise<void>[] = [];
 
-  const mediaItems = [];
-  let saveOperations = [];
-
-  for (var i = 0; i < NumMedia; i++) {
+  for (let i = 0; i < NumMedia; i++) {
     // eslint-disable-line
-    const mediaUrl = body[`MediaUrl${i}`];
-    const contentType = body[`MediaContentType${i}`];
-    const extension = extName.mime(contentType)[0].ext;
-    const mediaSid = path.basename(urlUtil.parse(mediaUrl).pathname);
-    const filename = `${mediaSid}.${extension}`;
+    const mediaUrl: string = body[`MediaUrl${i}`];
+    const contentType: string = body[`MediaContentType${i}`];
+    const extension: string = extName.mime(contentType)[0].ext;
+    const mediaSid: string = path.basename(urlUtil.parse(mediaUrl).pathname);
+    const filename: string = `${mediaSid}.${extension}`;
 
-    mediaItems.push({ mediaSid, MessageSid, mediaUrl, filename });
+    mediaItems.push({ mediaUrl, filename, contentType });
     saveOperations = mediaItems.map(mediaItem => SaveMedia(mediaItem));
   }
 
   await Promise.all(saveOperations);
+};
 
-  const twiml = new twilio.twiml.MessagingResponse();
-  twiml.message("Got the text");
-  response.writeHead(200, { "Content-Type": "text/xml" });
-  response.end(twiml.toString());
+export const uploadPhoto = functions.https.onRequest(
+  async (request, response) => {
+    const { body } = request;
 
-  request.body;
+    console.log(body);
+    await processMedia(body);
 
-  // Set the configuration for your app
-  var firebaseConfig = {
-    apiKey: "<your-api-key>",
-    authDomain: "<your-auth-domain>",
-    databaseURL: "<your-database-url>",
-    storageBucket: "<your-storage-bucket-url>"
-  };
-  firebase.initializeApp(firebaseConfig);
-
-  // Get a reference to the storage service, which is used to create references in your storage bucket
-  var storage = firebase.storage();
-
-  functions.storage.bucket();
-});
+    const twiml = new twilio.twiml.MessagingResponse();
+    twiml.message("Got the text");
+    response.writeHead(200, { "Content-Type": "text/xml" });
+    response.end(twiml.toString());
+  }
+);
