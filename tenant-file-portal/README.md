@@ -1,3 +1,15 @@
+# Tenant File App Portal
+
+You can compile this to a set of deliverable static assets following the `yarn build` steps below.
+
+---
+
+---
+
+---
+
+## Below lies CRA boilerplate README
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
