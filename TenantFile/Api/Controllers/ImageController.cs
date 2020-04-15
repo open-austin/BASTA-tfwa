@@ -7,11 +7,11 @@ using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace TenantFileApi.Controllers
+namespace TenantFile.Api.Controllers
 {
     public class ImageController : ControllerBase
     {
-        private static readonly string projectId = "tenant-file-fc6de";
+        // private static readonly string projectId = "tenant-file-fc6de";
 
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
@@ -46,7 +46,7 @@ namespace TenantFileApi.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
     }
