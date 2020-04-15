@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Storage.V1" Version="2.5.0" />
+    <PackageReference Include="Twilio" Version="5.39.0" />
+    <PackageReference Include="Twilio.AspNet.Core" Version="5.33.1" />
   </ItemGroup>
 
 
