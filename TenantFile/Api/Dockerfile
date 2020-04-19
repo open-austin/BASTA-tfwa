@@ -23,4 +23,4 @@ WORKDIR /app
 COPY --from=build /app/out ./
 
 # Run the web service on container startup.
-ENTRYPOINT ["dotnet", "tenant-file-api.dll"]
+ENTRYPOINT ["dotnet", "TenantFile.Api.dll"]
