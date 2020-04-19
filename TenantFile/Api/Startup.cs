@@ -28,6 +28,15 @@ namespace TenantFile.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "_allowFirebaseAndLocal",
+                              builder =>
+                              {
+                                  builder.WithOrigins("https://tenant-file-fc6de.web.app/",
+                                                      "http://localhost:3000/");
+                              });
+            });
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
         }
