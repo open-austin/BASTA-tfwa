@@ -27,18 +27,20 @@ namespace TenantFile.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+
             services.AddCors(options =>
             {
-                options.AddPolicy(name: "_allowFirebaseAndLocal",
+                options.AddDefaultPolicy(
                               builder =>
                               {
-                                  builder.WithOrigins("https://tenant-file-fc6de.web.app/",
-                                                      "http://localhost:3000/");
+                                  builder.WithOrigins("https://tenant-file-fc6de.web.app",
+                                                      "http://localhost:3000")
+                                                      .AllowAnyMethod()
+                                                      .AllowAnyHeader();
                               });
             });
-
-            services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,8 @@ namespace TenantFile.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
