@@ -34,7 +34,7 @@ namespace TenantFile.Api
                 options.AddDefaultPolicy(
                               builder =>
                               {
-                                  builder.WithOrigins("https://tenant-file-fc6de.web.app",
+                                  builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
                                                       "http://localhost:3000")
                                                       .AllowAnyMethod()
                                                       .AllowAnyHeader();
