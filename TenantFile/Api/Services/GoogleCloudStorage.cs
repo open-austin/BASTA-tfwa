@@ -1,8 +1,11 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace TenantFile.Api.Services
 {
@@ -12,10 +15,17 @@ namespace TenantFile.Api.Services
         private readonly StorageClient _storageClient;
         private readonly string _bucketName;
 
-        public GoogleCloudStorage(IConfiguration configuration)
+        public GoogleCloudStorage(IConfiguration configuration, IWebHostEnvironment env)
         {
             _googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
-            _storageClient = StorageClient.Create(_googleCredential);
+            if (env.IsDevelopment())
+            {
+                _storageClient = StorageClient.Create(_googleCredential);
+            }
+            else
+            {
+                _storageClient = StorageClient.Create();
+            }
             _bucketName = configuration.GetValue<string>("GoogleCloudStorageBucket");
         }
 
