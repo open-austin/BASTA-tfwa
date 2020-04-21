@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TenantFile.Api.Models;
 
@@ -17,7 +19,7 @@ namespace TenantFile.Api.Controllers
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
 
-        public ImageController(ILogger<ImageController> logger)
+        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env)
         {
             _logger = logger;
             _storageClient = StorageClient.Create();

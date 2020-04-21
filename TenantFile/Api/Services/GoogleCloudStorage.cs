@@ -11,16 +11,16 @@ namespace TenantFile.Api.Services
 {
     public class GoogleCloudStorage : ICloudStorage
     {
-        private readonly GoogleCredential _googleCredential;
         private readonly StorageClient _storageClient;
         private readonly string _bucketName;
 
         public GoogleCloudStorage(IConfiguration configuration, IWebHostEnvironment env)
         {
-            _googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
+
             if (env.IsDevelopment())
             {
-                _storageClient = StorageClient.Create(_googleCredential);
+                var googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
+                _storageClient = StorageClient.Create(googleCredential);
             }
             else
             {
