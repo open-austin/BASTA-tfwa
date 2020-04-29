@@ -65,7 +65,8 @@ namespace Api.UnitTests
 
             var smsRequest = new SmsRequest
             {
-                From = "(555) 555-1234"
+                From = "(555) 555-1234",
+                Body = "TEST"
             };
 
             // ACT

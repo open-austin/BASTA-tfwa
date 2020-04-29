@@ -55,6 +55,16 @@ namespace TenantFile.Api.Controllers
                 document = querySnapshot.Documents[0];
             }
 
+            // Save the message body if there is one
+            if (request.Body != null)
+            {
+                await document.Reference.UpdateAsync("Messages", FieldValue.ArrayUnion(new Dictionary<string, object>()
+                {
+                    {"Text", request.Body},
+                    {"Timestamp", Timestamp.GetCurrentTimestamp()}
+                }));
+            }
+
 
             var filenames = await SaveMedia(numMedia);
 
