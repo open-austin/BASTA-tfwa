@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Specialized;
 using Twilio.AspNet.Common;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.UnitTests
 {
@@ -48,12 +49,24 @@ namespace Api.UnitTests
                 HttpContext = contextMock.Object
             };
 
-            var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object)
+            var myConfiguration = new Dictionary<string, string>
+            {
+                {"GoogleProjectId", "tenant-file-fc6de"},
+            };
+
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(myConfiguration)
+                .Build();
+
+            var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object, configuration)
             {
                 ControllerContext = ctx
             };
 
-            var smsRequest = new SmsRequest();
+            var smsRequest = new SmsRequest
+            {
+                From = "(555) 555-1234"
+            };
 
             // ACT
             await controller.SmsWebhook(smsRequest, 1);

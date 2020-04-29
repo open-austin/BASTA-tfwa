@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="1.1.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="2.5.0" />
     <PackageReference Include="MediaTypeMap.Core" Version="2.3.3" />
     <PackageReference Include="Twilio" Version="5.39.0" />
