@@ -1,6 +1,9 @@
 # Use Microsoft's official build .NET image.
 # https://hub.docker.com/_/microsoft-dotnet-core-sdk/
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
+
+RUN apk update && apk add libc6-compat
+
 WORKDIR /app
 
 # Install production dependencies.
