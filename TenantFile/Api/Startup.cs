@@ -35,7 +35,11 @@ namespace TenantFile.Api
                               builder =>
                               {
                                   builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
-                                                      "http://localhost:3000")
+                                                      "http://localhost:3000",
+                                                      "http://api.tfwa.jacobcasper.com",
+                                                      "http://tfwa.jacobcasper.com",
+                                                      "https://api.tfwa.jacobcasper.com",
+                                                      "https://tfwa.jacobcasper.com")
                                                       .AllowAnyMethod()
                                                       .AllowAnyHeader();
                               });
