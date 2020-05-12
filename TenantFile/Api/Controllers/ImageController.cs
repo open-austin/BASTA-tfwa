@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -12,6 +13,7 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.Controllers
 {
+    [Authorize]
     public class ImageController : ControllerBase
     {
         // private static readonly string projectId = "tenant-file-fc6de";
@@ -26,7 +28,7 @@ namespace TenantFile.Api.Controllers
         }
 
         [HttpGet("/api/images")]
-        public async Task<ActionResult<ImageListResult>> Get()
+        public async Task<ActionResult<ImageListResult>> Get([FromQuery] string token)
         {
             var objects = await _storageClient
                         .ListObjectsAsync("tenant-file-fc6de.appspot.com", "images/", new ListObjectsOptions { })
@@ -36,7 +38,7 @@ namespace TenantFile.Api.Controllers
         }
 
         [HttpGet("/api/image")]
-        public IActionResult GetImage([FromQuery]string name)
+        public IActionResult GetImage([FromQuery] string name)
         {
             var stream = new MemoryStream();
             try
