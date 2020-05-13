@@ -9,12 +9,22 @@ namespace TenantFile.Api.Models
         public string Name;
         public string? Language;
 
-        public Account(DocumentSnapshot snapshot)
+        public Account(string guid, string number, string name, string language)
         {
-            GUID = snapshot.GetValue<string>("GUID");
-            PhoneNumber = snapshot.GetValue<string>("PhoneNumber");
-            Name = snapshot.GetValue<string>("Name");
-            Language = snapshot.GetValue<string>("Language");
+            GUID = guid;
+            PhoneNumber = number;
+            Name = name;
+            Language = language;
+        }
+
+        public Account(DocumentSnapshot snapshot):
+         this(
+                snapshot.GetValue<string>("GUID"),
+                snapshot.GetValue<string>("PhoneNumber"),
+                snapshot.GetValue<string>("Name"),
+                snapshot.GetValue<string>("Language")
+            )
+        {
         }
     }
 }
