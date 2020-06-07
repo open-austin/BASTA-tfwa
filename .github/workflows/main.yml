@@ -14,6 +14,8 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      react-app-dir: ./tenant-file/portal-app
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -21,10 +23,12 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Dependencies
-      run: cd ./tenant-file/portal-app && npm ci
+      run: npm ci
+      working-directory: ${{env.react-app-dir}}
       
     - name: Build the React App
       run: npm run build
+      working-directory: ${{env.react-app-dir}}
 
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
