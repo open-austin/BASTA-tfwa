@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from "react";
+
 import logo from "./logo.svg";
-import { Col, Container, Navbar, Row, NavbarBrand } from "reactstrap";
+
+import FirebaseAuth, {
+  useFirebaseAppInitialization,
+} from "./component/firebase";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
+import { Switch, Route } from "react-router-dom";
+import Login from "./component/login";
+import Layout from "./component/layout";
+import PrivateRoute from "./component/private-route";
+import DisplayImages from "./component/display-images";
 
 // import { Server } from "miragejs";
 
@@ -18,43 +30,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // });
 
 function App() {
-  let [images, setImages] = useState([]);
-
-  useEffect(() => {
-    const func = async () => {
-      const imageResponse = await fetch(
-        "https://tenant-file-api-zmzadnnc3q-uc.a.run.app/api/images"
-      ).then((res) => res.json());
-      console.log("RESPONSE", imageResponse);
-      const images = imageResponse.images;
-      setImages(images);
-    };
-    func();
-  }, []);
-  console.log(images);
-
+  useFirebaseAppInitialization();
   return (
-    <div className="App">
-      <header className="App-header">
-        <Navbar color="light" light expand="md">
-          <NavbarBrand>TFWA</NavbarBrand>
-        </Navbar>
-      </header>
-      <main>
-        <Container>
-          <Row>
-            {images.map((i) => (
-              <Col key={i} lg="3">
-                <img
-                  className="img-fluid"
-                  src={`https://tenant-file-api-zmzadnnc3q-uc.a.run.app/api/image?name=${i}`}
-                />
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </main>
-    </div>
+    <Layout>
+      <Switch>
+        <PrivateRoute path="/signed-in">
+          <p>SIGNED IN</p>
+          <DisplayImages />
+        </PrivateRoute>
+        <Route path="/login">
+          <Login />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 

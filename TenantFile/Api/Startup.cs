@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using FirebaseAdmin;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using TenantFile.Api.Services;
 
 namespace TenantFile.Api
@@ -27,6 +31,11 @@ namespace TenantFile.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
+            });
+
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 
             services.AddCors(options =>
@@ -44,6 +53,27 @@ namespace TenantFile.Api
                                                       .AllowAnyHeader();
                               });
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Audience = Configuration["GoogleProjectId"];
+                options.Authority = $"https://securetoken.google.com/{Configuration["GoogleProjectId"]}";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    RoleClaimType = ClaimTypes.Role
+                };
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
+            });
+
             services.AddControllers();
         }
 
@@ -55,10 +85,13 @@ namespace TenantFile.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
+
             // app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors();
