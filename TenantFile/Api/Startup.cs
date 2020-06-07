@@ -75,12 +75,6 @@ namespace TenantFile.Api
             });
 
             services.AddControllers();
-
-            // services.AddAuthorization(options =>
-            // {
-            //     options.AddPolicy("Admin", policy =>
-            //         policy.Requirements.Add(new MinimumAgeRequirement(21)));
-            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
