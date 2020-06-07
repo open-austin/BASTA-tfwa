@@ -30,8 +30,10 @@ jobs:
       run: npm run build
       working-directory: ${{env.react-app-dir}}
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        PROJECT_PATH: ./tenant-file
