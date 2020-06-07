@@ -28,7 +28,7 @@ namespace TenantFile.Api.Controllers
         }
 
         [HttpGet("/api/images")]
-        public async Task<ActionResult<ImageListResult>> Get([FromQuery] string token)
+        public async Task<ActionResult<ImageListResult>> Get()
         {
             var objects = await _storageClient
                         .ListObjectsAsync("tenant-file-fc6de.appspot.com", "images/", new ListObjectsOptions { })
