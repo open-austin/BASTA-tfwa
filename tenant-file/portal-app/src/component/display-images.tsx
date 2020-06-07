@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavbarBrand, Navbar, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import axios from "axios";
 import { getToken } from "./firebase";
 
@@ -9,9 +9,12 @@ const DisplayImages = () => {
   useEffect(() => {
     const func = async () => {
       const token = await getToken();
-      const baseUrl = "https://tenant-file-api-zmzadnnc3q-uc.a.run.app";
+      const baseUrl =
+        process.env.NODE_ENV === "production"
+          ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
+          : "http://localhost:8080";
       const imageResponse = await axios
-        .get(`http://localhost:8080/api/images?token=${token}`, {
+        .get(`${baseUrl}/api/images?token=${token}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,6 +34,7 @@ const DisplayImages = () => {
         {images.map((i) => (
           <Col key={i} lg="3">
             <img
+              alt="placeholderimage"
               className="img-fluid"
               src={`https://tenant-file-api-zmzadnnc3q-uc.a.run.app/api/image?name=${i}`}
             />

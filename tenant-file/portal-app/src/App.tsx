@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import logo from "./logo.svg";
-
-import FirebaseAuth, {
-  useFirebaseAppInitialization,
-} from "./component/firebase";
+import { useFirebaseAppInitialization } from "./component/firebase";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
 import { Switch, Route } from "react-router-dom";
 import Login from "./component/login";
 import Layout from "./component/layout";
