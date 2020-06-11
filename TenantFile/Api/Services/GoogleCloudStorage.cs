@@ -32,7 +32,7 @@ namespace TenantFile.Api.Services
         public async Task UploadToStorageAsync(string fileUrl, string filePath, string contentType)
         {
             WebClient webClient = new WebClient();
-            var stream = webClient.OpenRead(fileUrl);
+            var stream = await webClient.OpenReadTaskAsync(fileUrl);
 
             await _storageClient.UploadObjectAsync(_bucketName, filePath, contentType, stream);
         }

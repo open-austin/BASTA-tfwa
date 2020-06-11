@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using TenantFile.Api.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using Google.Cloud.Firestore.V1;
+using System.Linq;
 
 namespace TenantFile.Api.Controllers
 {
@@ -35,8 +37,10 @@ namespace TenantFile.Api.Controllers
         [HttpPost("/api/sms")]
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia)
         {
+            var timestamp = Timestamp.GetCurrentTimestamp();
+            var filenames = await SaveMedia(numMedia);
+            
             // Is this number in our database?
-
             var accountsRef = _db.Collection("accounts");
             var query = accountsRef.WhereEqualTo("PhoneNumber", request.From);
             var querySnapshot = await query.GetSnapshotAsync();
@@ -58,20 +62,24 @@ namespace TenantFile.Api.Controllers
             // Save the message body if there is one
             if (request.Body != null)
             {
-                await document.Reference.UpdateAsync("Messages", FieldValue.ArrayUnion(new Dictionary<string, object>()
-                {
-                    {"Text", request.Body},
-                    {"Timestamp", Timestamp.GetCurrentTimestamp()}
-                }));
+                await document.Reference.Collection("Messages")
+                        .Document(timestamp.ToString())
+                        .SetAsync(new Dictionary<string, object>()
+                        {
+                           {"Text", request.Body},
+                           {"Timestamp", timestamp},
+                           {"SentFrom", request.From},
+                           {"Images", filenames.ToArray()}
+                        });
+
             }
 
-
-            var filenames = await SaveMedia(numMedia);
-
             var response = new MessagingResponse();
-            var messageBody = numMedia == 0 ? "Send us an image!" :
-                $"Thanks for sending us {numMedia} file(s)!";
-            response.Message(messageBody);
+            var messageBody = numMedia == 0 ? "Please send an image!" :
+                $"Thanks for sending us { (numMedia > 1 ? $"{numMedia} images!" : "your image!")}\n Review your account and images at ...";
+
+
+            response.Message(messageBody); 
             return TwiML(response);
         }
 

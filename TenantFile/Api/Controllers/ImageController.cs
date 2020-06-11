@@ -30,14 +30,14 @@ namespace TenantFile.Api.Controllers
         [HttpGet("/api/images")]
         public async Task<ActionResult<ImageListResult>> Get()
         {
-            var objects = await _storageClient
-                        .ListObjectsAsync("tenant-file-fc6de.appspot.com", "images/", new ListObjectsOptions { })
+            var objects = await _storageClient //vvv this is the bucket and path
+                        .ListObjectsAsync("tenant-file-fc6de.appspot.com", "images/", new ListObjectsOptions { /*Fields = "items(Name)"*/ })
                         .AsAsyncEnumerable().ToListAsync();
             var names = objects.Select(x => x.Name);
             return Ok(new ImageListResult { Images = names });
         }
 
-        [HttpGet("/api/image")]
+        [HttpGet("/api/image")]//needs pagination
         public IActionResult GetImage([FromQuery] string name)
         {
             var stream = new MemoryStream();
