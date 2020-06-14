@@ -2,9 +2,12 @@ import React from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { SignedInStatus } from "../store/auth";
 
 const Layout: React.FC = (props) => {
-  const signedIn = useSelector((state: RootState) => state.auth.signedIn);
+  const signedInStatus = useSelector(
+    (state: RootState) => state.auth.signedInStatus
+  );
   const userEmail = useSelector((state: RootState) => state.auth.user.email);
 
   return (
@@ -18,7 +21,7 @@ const Layout: React.FC = (props) => {
       <footer>
         Footer
         <p>
-          {signedIn
+          {signedInStatus === SignedInStatus.LoggedIn
             ? `You are signed in as: ${userEmail}`
             : "You need to sign in"}
         </p>

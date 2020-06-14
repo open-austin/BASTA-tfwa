@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export enum SignedInStatus {
+  Unknown,
+  LoggedOut,
+  LoggedIn,
+}
+
 const initialState = {
-  signedIn: false,
   token: "",
+  signedInStatus: SignedInStatus.Unknown,
   user: {
     admin: false,
     email: "",
@@ -22,7 +28,9 @@ const authSlice = createSlice({
       state.token = action.payload;
     },
     setSignedIn: (state, action: PayloadAction<boolean>) => {
-      state.signedIn = action.payload;
+      state.signedInStatus = action.payload
+        ? SignedInStatus.LoggedIn
+        : SignedInStatus.LoggedOut;
     },
     setUserInfo: (state, action: PayloadAction<UserData>) => {
       state.user.email = action.payload.email;
