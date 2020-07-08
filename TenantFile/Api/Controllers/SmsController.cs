@@ -15,65 +15,41 @@ using Newtonsoft.Json;
 using TenantFile.Api.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using TenantFile.Api.Extentions;
 
 namespace TenantFile.Api.Controllers
 {
     public class SmsController : TwilioController
     {
+        private readonly Func<SmsRequest, Task<DocumentSnapshot>> ToTenantAccount;
         private readonly ILogger<SmsController> _logger;
         private readonly ICloudStorage _storageClient;
-        private readonly FirestoreDb _db;
+        private readonly IDocumentDb _firestore;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration)
+        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, IDocumentDb firestore)
         {
             _logger = logger;
             _storageClient = storageClient;
-
-            _db = FirestoreDb.Create(configuration.GetValue<string>("GoogleProjectId"));
+            _firestore = firestore;
+            ToTenantAccount = _firestore.ToTenant;
         }
 
         [HttpPost("/api/sms")]
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia)
         {
-            // Is this number in our database?
-
-            var accountsRef = _db.Collection("accounts");
-            var query = accountsRef.WhereEqualTo("PhoneNumber", request.From);
-            var querySnapshot = await query.GetSnapshotAsync();
-            DocumentSnapshot? document;
-            if (querySnapshot.Count == 0)
-            {
-                await accountsRef.Document(Guid.NewGuid().ToString())
-                        .SetAsync(new Dictionary<string, object>(){
-                            { "PhoneNumber", request.From }
-                        });
-                var snapshot = await query.GetSnapshotAsync();
-                document = snapshot.Documents[0];
-            }
-            else
-            {
-                document = querySnapshot.Documents[0];
-            }
-
-            // Save the message body if there is one
-            if (request.Body != null)
-            {
-                await document.Reference.UpdateAsync("Messages", FieldValue.ArrayUnion(new Dictionary<string, object>()
-                {
-                    {"Text", request.Body},
-                    {"Timestamp", Timestamp.GetCurrentTimestamp()}
-                }));
-            }
-
-
             var filenames = await SaveMedia(numMedia);
 
+            await request.AddMessageAsync(ToTenantAccount, filenames);
+
             var response = new MessagingResponse();
-            var messageBody = numMedia == 0 ? "Send us an image!" :
-                $"Thanks for sending us {numMedia} file(s)!";
+            var messageBody = numMedia == 0 ? "Please send an image!" :
+                $"Thanks for sending us { (numMedia > 1 ? $"{numMedia} images!" : "your image!")}\n Review your account and images at ...";
+
             response.Message(messageBody);
             return TwiML(response);
         }
+
+
 
         private async Task<IEnumerable<string>> SaveMedia(int numMedia)
         {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TenantFile.Api.Models;
+using TenantFile.Api.Services;
 
 namespace TenantFile.Api.Controllers
 {
@@ -20,11 +21,14 @@ namespace TenantFile.Api.Controllers
 
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
+        private readonly IDocumentDb _firestore;
 
-        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env)
+
+        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env, IDocumentDb firestore)
         {
             _logger = logger;
             _storageClient = StorageClient.Create();
+            _firestore = firestore;
         }
 
         [HttpGet("/api/images")]
@@ -36,7 +40,16 @@ namespace TenantFile.Api.Controllers
             var names = objects.Select(x => x.Name);
             return Ok(new ImageListResult { Images = names });
         }
-
+        
+        [HttpGet("/api/images/{Id}")]
+        public async Task<ActionResult<ImageListResult>> GetTenantPhotos(string id)
+        {
+            var tenantSnapshot = await _firestore.TenantCollection
+                                         .Document(id).GetSnapshotAsync();
+            var tenant = tenantSnapshot.ConvertTo<Tenant>();
+            return Ok(new ImageListResult { Images = tenant.Images });
+        }
+       
         [HttpGet("/api/image")]
         public IActionResult GetImage([FromQuery] string name)
         {

@@ -37,7 +37,7 @@ namespace TenantFile.Api
             });
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
-
+            services.AddSingleton<IDocumentDb, GoogleFirestore>();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
