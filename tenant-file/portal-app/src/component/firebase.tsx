@@ -7,15 +7,17 @@ import { AppDispatch } from "../store/store";
 import { useHistory } from "react-router-dom";
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: `${process.env.PROJECT_ID}.firebaseapp.com`,
-  databaseURL: `https://${process.env.PROJECT_ID}.firebaseio.com`,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: `${process.env.PROJECT_ID}.appspot.com`,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.GA_MEASUREMENT_ID,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: `${process.env.REACT_APP_PROJECT_ID}.firebaseapp.com`,
+  databaseURL: `https://${process.env.REACT_APP_PROJECT_ID}.firebaseio.com`,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: `${process.env.REACT_APP_PROJECT_ID}.appspot.com`,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_GA_MEASUREMENT_ID,
 };
+
+console.log(firebaseConfig);
 
 // This must run before any other firebase functions
 firebase.initializeApp(firebaseConfig);
