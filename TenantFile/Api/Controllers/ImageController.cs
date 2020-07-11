@@ -21,14 +21,14 @@ namespace TenantFile.Api.Controllers
 
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
-        private readonly IDocumentDb _firestore;
+        private readonly IDocumentDb _documentDb;
 
 
-        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env, IDocumentDb firestore)
+        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env, IDocumentDb documentDb)
         {
             _logger = logger;
             _storageClient = StorageClient.Create();
-            _firestore = firestore;
+            _documentDb = documentDb;
         }
 
         [HttpGet("/api/images")]
@@ -44,10 +44,7 @@ namespace TenantFile.Api.Controllers
         [HttpGet("/api/images/{Id}")]
         public async Task<ActionResult<ImageListResult>> GetTenantPhotos(string id)
         {
-            var tenantSnapshot = await _firestore.TenantCollection
-                                         .Document(id).GetSnapshotAsync();
-            var tenant = tenantSnapshot.ConvertTo<Tenant>();
-            return Ok(new ImageListResult { Images = tenant.Images });
+            return Ok(await _documentDb.GetImagesById(id));
         }
        
         [HttpGet("/api/image")]

@@ -164,31 +164,30 @@ namespace Api.UnitTests
 
             };
 
-
-            firestoreMock.SetupGet(db => db.TenantCollection).Returns(emulatedFirestore.Collection("accounts"));
-
+            var tenantCollection = emulatedFirestore.Collection("accounts");//This is always be local implementation logic of the specific database 
+           
             firestoreMock.SetupGet(db => db.ToTenant).Returns(
              async sms =>
              {
-                 var query = firestoreMock.Object.TenantCollection.WhereEqualTo("PrimaryPhone", sms.From);
+                 var query = tenantCollection.WhereEqualTo("PrimaryPhone", sms.From);
                  var querySnapshot = await query.GetSnapshotAsync();
 
-                 DocumentSnapshot? documentSnap;
+                 IAsyncEnumerable<DocumentSnapshot>? documentSnap;
                  if (querySnapshot.Count == 0)
                  {
-                     await firestoreMock.Object.TenantCollection
+                  var newTenant = await tenantCollection
                              .AddAsync(new Tenant()
                              {
                                  PrimaryPhone = sms.From,
                                  FamilyName = new string[] { "" },
                                  GivenName = new string[] { "" }
                              });
-                     var snapshot = await firestoreMock.Object.TenantCollection.GetSnapshotAsync();
-                     documentSnap = snapshot.Documents[0];
+                     documentSnap = newTenant.GetSnapshotAsync().ToAsyncEnumerable();
+                   
                  }
                  else
                  {
-                     documentSnap = querySnapshot.Documents[0];
+                     documentSnap = querySnapshot.Documents.ToAsyncEnumerable();
                  }
                  return documentSnap;
              });
@@ -199,7 +198,7 @@ namespace Api.UnitTests
             await smsRequestThree.AddMessageAsync(firestoreMock.Object.ToTenant, filenamesThree);
 
             //Read our newly written SmsRequests from the emulated db and convert them to POCO TextMessages
-            var accountDocRefs = firestoreMock.Object.TenantCollection.ListDocumentsAsync();
+            var accountDocRefs = tenantCollection.ListDocumentsAsync();
             var docSnaps = await accountDocRefs.SelectMany(m => m.Collection("Messages").ListDocumentsAsync()).ToListAsync();
             var ordered = docSnaps.OrderBy(o => o.Id);
             var messagesSnaps = ordered.Select(m => m.GetSnapshotAsync());
@@ -219,10 +218,12 @@ namespace Api.UnitTests
                 i++;
             });
 
+
             //Read our newly written tenants accounts from the emulated db and convert them to POCO TextMessages
             var tenantsSnaps = accountDocRefs.SelectAwait(async a => await a.GetSnapshotAsync());
-            var tenantsFromDb = tenantsSnaps.Select(tenant => tenant.ConvertTo<Tenant>());
-            var tenants = new List<Tenant>() { tenantTwo, tenantOne }; //reads in order of last written to db so these are switched?
+            var orderedTenants = tenantsSnaps.OrderBy(o => o.UpdateTime);
+            var tenantsFromDb = orderedTenants.Select(tenant => tenant.ConvertTo<Tenant>());
+            var tenants = new List<Tenant>() { tenantOne, tenantTwo };
             int ii = 0;
             //Run checks for Tenant deserialization
             await tenantsFromDb.ForEachAsync(tenant =>

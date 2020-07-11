@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TenantFile"
   ],
+  "SelectedNode": "\\TenantFile\\TenantFile.sln",
   "PreviewInSolutionExplorer": false
 }

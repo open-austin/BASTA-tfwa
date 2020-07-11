@@ -16,10 +16,12 @@ namespace TenantFile.Api.Services
 {
     public class GoogleFirestore : IDocumentDb
     {
-        public Func<SmsRequest, Task<DocumentSnapshot>> ToTenant { get; }
+        public Func<SmsRequest, Task<IAsyncEnumerable<object>>> ToTenant { get; }
 
         private readonly FirestoreDb _db;
+
         public CollectionReference TenantCollection { get; }
+
         public GoogleFirestore(IConfiguration configuration, IWebHostEnvironment env)
         {
             _db = FirestoreDb.Create(configuration.GetValue<string>("GoogleProjectId"));
@@ -31,33 +33,50 @@ namespace TenantFile.Api.Services
             TenantCollection = _db.Collection("accounts");
 
 
-            ToTenant = async sms => {
+            ToTenant = async sms =>
+            {
                 var query = TenantCollection.WhereEqualTo("PrimaryPhone", sms.From);
                 var querySnapshot = await query.GetSnapshotAsync();
 
-                DocumentSnapshot? document;
+                IAsyncEnumerable<object>? documentSnap;
                 if (querySnapshot.Count == 0)
                 {
-                    await TenantCollection
-                    //this is creating all Properties of the Tenant. THe Tenant Class has a Prop for Messages and Residence Records...should these be remove? Could keep them as id fields for easy access?
-                            .AddAsync(new Tenant()
-                            {
-                                PrimaryPhone = sms.From,
-                                FamilyName = new string[] { "" },
-                                GivenName = new string[] { "" }
-                            });
-                    var snapshot = await TenantCollection.GetSnapshotAsync();
-                    document = snapshot.Documents[0];
+                    var newTenant = await TenantCollection
+                               .AddAsync(new Tenant()
+                               {
+                                   PrimaryPhone = sms.From,
+                                   FamilyName = new string[] { "" },
+                                   GivenName = new string[] { "" }
+                               });
+                    documentSnap = newTenant.GetSnapshotAsync().ToAsyncEnumerable();
+                
                 }
                 else
                 {
-                    document = querySnapshot.Documents[0];
+                    documentSnap = querySnapshot.Documents.ToAsyncEnumerable();
                 }
-                return document;
+                return documentSnap;
             }; ;
         }
 
-        public async Task<DocumentSnapshot> GetTenantReference(SmsRequest request)
+
+        //public async Task AddMessage(Func<SmsRequest, Task<DocumentSnapshot>> del, Timestamp timestamp, IEnumerable<string> filenames)
+        //{
+        //    SmsRequest sms = (SmsRequest)del.Method.GetParameters().GetValue(0)!;
+
+        //    await del.Invoke(sms).GetAwaiter().GetResult().Reference.Collection($"Messages")
+        //              .Document(timestamp.ToString())
+        //              .SetAsync(new TextMessage()
+        //              {
+        //                  BodyText = sms?.Body,
+        //                  TimeReceived = timestamp,
+        //                  SentFrom = sms?.From,
+        //                  Images = filenames.ToArray()
+        //              });
+        //}
+
+
+        public async Task<object> GetTenantReference(SmsRequest request)
         {
             //var startTimestamp = Timestamp.GetCurrentTimestamp();
             var query = TenantCollection.WhereEqualTo("PrimaryPhone", request.From);
@@ -83,19 +102,26 @@ namespace TenantFile.Api.Services
             return document;
         }
 
-
-        public async Task AddMessageToTenant(DocumentSnapshot tenantDocument, SmsRequest request, Timestamp timestamp, IEnumerable<string> filenames)
+        public async Task<ImageListResult> GetImagesById(string id)
         {
-            await tenantDocument.Reference.Collection($"Messages")
-                      .Document(timestamp.ToString())
-                      .SetAsync(new TextMessage()
-                      {
-                          BodyText = request.Body ?? "",
-                          TimeReceived = timestamp,
-                          SentFrom = request.From,
-                          Images = filenames.ToArray()
-                      });
+            var tenantSnapshot = await TenantCollection.Document(id).GetSnapshotAsync();
+            var tenant = tenantSnapshot.ConvertTo<Tenant>();
+            return (new ImageListResult { Images = tenant.Images });
         }
+
+
+        //public async Task AddMessageToTenant(DocumentSnapshot tenantDocument, SmsRequest request, Timestamp timestamp, IEnumerable<string> filenames)
+        //{
+        //    await tenantDocument.Reference.Collection($"Messages")
+        //              .Document(timestamp.ToString())
+        //              .SetAsync(new TextMessage()
+        //              {
+        //                  BodyText = request.Body??"",
+        //                  TimeReceived = timestamp,
+        //                  SentFrom = request.From,
+        //                  Images = filenames.ToArray()
+        //              });
+        //} 
 
 
     }

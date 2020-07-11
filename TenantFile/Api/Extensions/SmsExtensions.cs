@@ -14,20 +14,17 @@ namespace TenantFile.Api.Extentions
     public static class SmsExtensions
     {
 
-        public static async Task AddMessageAsync<T>(this T message,
-            Func<T, Task<DocumentSnapshot>> tenantDelegate, IEnumerable<string> filenames) where T : SmsRequest
+        public static async Task AddMessageAsync<T, TDoc>(this T message,
+            Func<T, Task<IAsyncEnumerable<TDoc>>> tenantDelegate, IEnumerable<string> filenames) where T : SmsRequest
         {
             Timestamp timestamp = Timestamp.GetCurrentTimestamp();
-
             //Tenant created if non-existant through delegate method, reference returned
-            DocumentSnapshot snap = await tenantDelegate.Invoke(message);
-
+            IAsyncEnumerable<DocumentSnapshot> snap = (IAsyncEnumerable<DocumentSnapshot>)await tenantDelegate.Invoke(message);
             //Update Image array on Tenant
-            await snap.Reference.UpdateAsync("Images",
-                                    FieldValue.ArrayUnion(filenames.ToArray()[..]));
-
+            await snap.ForEachAsync(async doc => await doc.Reference.UpdateAsync("Images",
+                                    FieldValue.ArrayUnion(filenames.ToArray()[..])));
             //Add new TextMessage to Message Collection
-            await snap.Reference.Collection($"Messages")
+            await snap.ForEachAsync(async doc => await doc.Reference.Collection($"Messages")
                .Document(timestamp.ToString())
                .SetAsync(new TextMessage()
                {
@@ -35,7 +32,7 @@ namespace TenantFile.Api.Extentions
                    TimeReceived = timestamp,
                    SentFrom = message.From,
                    Images = filenames.ToArray()
-               });
+               }));
         }
 
     }

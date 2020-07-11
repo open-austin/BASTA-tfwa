@@ -21,17 +21,16 @@ namespace TenantFile.Api.Controllers
 {
     public class SmsController : TwilioController
     {
-        private readonly Func<SmsRequest, Task<DocumentSnapshot>> ToTenantAccount;
         private readonly ILogger<SmsController> _logger;
         private readonly ICloudStorage _storageClient;
-        private readonly IDocumentDb _firestore;
+        private readonly IDocumentDb _documentDB;
 
         public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, IDocumentDb firestore)
         {
             _logger = logger;
             _storageClient = storageClient;
-            _firestore = firestore;
-            ToTenantAccount = _firestore.ToTenant;
+            _documentDB = firestore;
+            
         }
 
         [HttpPost("/api/sms")]
@@ -39,7 +38,7 @@ namespace TenantFile.Api.Controllers
         {
             var filenames = await SaveMedia(numMedia);
 
-            await request.AddMessageAsync(ToTenantAccount, filenames);
+            await request.AddMessageAsync(_documentDB.ToTenant, filenames);
 
             var response = new MessagingResponse();
             var messageBody = numMedia == 0 ? "Please send an image!" :
