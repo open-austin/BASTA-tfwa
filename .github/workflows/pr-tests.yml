@@ -1,19 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Run Tests on Pull Request
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Run action on Pull Requests to master
 on:
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    
+    # We'll want to run the commands local to either the dotnet or React directories
     env:
       react-app-dir: ./tenant-file/portal-app
       dotnet-app-dir: ./TenantFile
@@ -23,18 +19,21 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
+    # Set up dotnet
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.x'
 
+    # Execute the dotnet tests
     - run: dotnet test
       working-directory: ${{env.dotnet-app-dir}}
     
+    # Install the npm dependencies
     - name: Install Dependencies
       run: npm ci
       working-directory: ${{env.react-app-dir}}
 
+    # Execute the React tests
     - name: Test the React App
       run: npm run test
       working-directory: ${{env.react-app-dir}}
