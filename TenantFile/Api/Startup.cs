@@ -74,7 +74,7 @@ namespace TenantFile.Api
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
