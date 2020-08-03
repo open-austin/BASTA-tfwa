@@ -8,5 +8,8 @@ namespace TenantFile.Api.Models
     {
         [UseSelection]
         public IQueryable<Tenant> GetTenants([Service] TenantContext tenantContext) => tenantContext.Tenants;
+
+        [UseSelection]
+        public IQueryable<Property> GetProperties([Service] TenantContext tenantContext) => tenantContext.Properties;
     }
 }
