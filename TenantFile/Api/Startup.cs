@@ -15,7 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using TenantFile.Api.Models;
 using TenantFile.Api.Services;
+using HotChocolate;
+using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Voyager;
+using HotChocolate.Execution.Configuration;
 
 namespace TenantFile.Api
 {
@@ -36,6 +41,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
+            services.AddDbContext<TenantContext>();
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 
             services.AddCors(options =>
@@ -74,6 +80,17 @@ namespace TenantFile.Api
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
             });
 
+            // this enables you to use DataLoader in your resolvers.
+            services.AddDataLoaderRegistry();
+
+            // Add GraphQL Services
+            services.AddGraphQL(
+                SchemaBuilder.New()
+                    // enable for authorization support
+                    // .AddAuthorizeDirectiveType()
+                    .AddQueryType<Models.Query>()
+                    .AddMutationType<Mutation>().Create(), new QueryExecutionOptions { ForceSerialExecution = true });
+
             services.AddControllers().AddNewtonsoftJson();
         }
 
@@ -85,11 +102,17 @@ namespace TenantFile.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            InitializeDatabase(app);
+
             app.UseAuthentication();
 
             // app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseRouting()
+               .UseWebSockets()
+               .UseGraphQL()
+               .UsePlayground()
+               .UseVoyager();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -105,6 +128,17 @@ namespace TenantFile.Api
                 });
                 endpoints.MapControllers();
             });
+        }
+        private static void InitializeDatabase(IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+
+            var context = serviceScope.ServiceProvider.GetRequiredService<TenantContext>();
+            if (context.Database.EnsureCreated())
+            {
+
+                context.SaveChangesAsync();
+            }
         }
     }
 }
