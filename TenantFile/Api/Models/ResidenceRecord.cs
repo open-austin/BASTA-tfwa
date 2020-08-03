@@ -10,9 +10,12 @@ namespace TenantFile.Api.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Tenant Tenant { get; set; } = null!;
         public DateTimeOffset MoveIn { get; set; }
         public DateTimeOffset MoveOut { get; set; }
+
+
+        public virtual Tenant Tenant { get; set; } = null!;
+        public virtual Residence Residence { get; set; } = null!;
 
     }
 }

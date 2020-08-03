@@ -23,9 +23,14 @@ namespace TenantFile.Api.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tenant>()
-                .HasMany(t => t.ResidenceRecord)
+                .HasMany(t => t.ResidenceRecords)
                 .WithOne(t => t.Tenant)
                 .HasForeignKey(t => t.Id);
+
+            modelBuilder.Entity<Residence>()
+                .HasMany(r => r.ResidenceRecords)
+                .WithOne(rr => rr.Residence)
+                .HasForeignKey(rr => rr.Id);
 
             // Create a many to many mapping of Tenants to Phones
             modelBuilder.Entity<TenantPhone>()
