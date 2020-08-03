@@ -5,15 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TenantFile.Api.Models
 {
-    public class Residence
+    public class Property
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string UnitIdentifier { get; set; } = null!;
+        public Address Address { get; set; } = null!;
 
-
-        public virtual ICollection<ResidenceRecord> ResidenceRecords { get; set; } = null!;
-        public virtual Property Property { get; set; } = null!;
+        public virtual ICollection<Residence> Residences { get; set; } = null!;
     }
 }

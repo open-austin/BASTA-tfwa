@@ -32,6 +32,11 @@ namespace TenantFile.Api.Models
                 .WithOne(rr => rr.Residence)
                 .HasForeignKey(rr => rr.Id);
 
+            modelBuilder.Entity<Property>()
+                .HasMany(p => p.Residences)
+                .WithOne(r => r.Property)
+                .HasForeignKey(p => p.Id);
+
             // Create a many to many mapping of Tenants to Phones
             modelBuilder.Entity<TenantPhone>()
                 .HasKey(tp => new { tp.TenantId, tp.PhoneId });
