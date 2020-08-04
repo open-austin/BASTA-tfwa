@@ -15,6 +15,7 @@ namespace TenantFile.Api.Models
 
         public DbSet<Tenant> Tenants { get; set; } = null!;
         public DbSet<Property> Properties { get; set; } = null!;
+        public DbSet<Phone> Phones { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
