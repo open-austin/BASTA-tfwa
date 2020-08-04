@@ -86,8 +86,9 @@ namespace TenantFile.Api
             // Add GraphQL Services
             services.AddGraphQL(
                 SchemaBuilder.New()
+                    // .EnableRelaySupport()
                     // enable for authorization support
-                    // .AddAuthorizeDirectiveType()
+                    .AddAuthorizeDirectiveType()
                     .AddQueryType<Models.Query>()
                     .AddMutationType<Mutation>().Create(), new QueryExecutionOptions { ForceSerialExecution = true });
 
