@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { TenantListQuery } from "./__generated__/TenantListQuery";
 import { Row, Col, Table, Collapse } from "reactstrap";
 import { useTable, Column } from "react-table";
+import axios from "axios";
+import { getToken } from "./firebase";
+import Image from "./image";
 
 const EXCHANGE_RATES = gql`
   query TenantListQuery {
     tenants(order_by: { name: ASC }) {
       nodes {
         name
-        images {
-          thumbnailName
-        }
         tenantPhones {
           phone {
             phoneNumber
+            images {
+              thumbnailName
+              name
+            }
           }
         }
       }
@@ -47,17 +51,53 @@ const TenantList: React.FC = () => {
   console.log(process.env.REACT_APP_API_URL);
   const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
 
+  const [userToken, setUserToken] = useState("");
+
+  useEffect(() => {
+    const func = async () => {
+      const token = await getToken();
+      if (token) {
+        setUserToken(token);
+      }
+    };
+    func();
+  }, []);
+
   const rowData =
     data?.tenants?.nodes?.reduce((acc, curr) => {
       if (curr?.name && curr?.tenantPhones[0].phone.phoneNumber) {
         acc.push({
           name: curr.name,
           phone: curr.tenantPhones[0].phone.phoneNumber,
-          images: curr.images.map((x) => x.thumbnailName),
+          images: curr.tenantPhones[0].phone.images.map((x) => x.thumbnailName),
         });
       }
       return acc;
     }, [] as TenantRow[]) || [];
+
+  useEffect(() => {
+    const func = async () => {
+      const token = await getToken();
+      const baseUrl =
+        process.env.NODE_ENV === "production"
+          ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
+          : "http://localhost:8080";
+
+      rowData.map((x) =>
+        x.images.map(async (y) => {
+          const imageResponse = await axios
+            .get(`${baseUrl}/api/image?name=${y}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((x) => x);
+          console.log("RESPONSE", imageResponse);
+        })
+      );
+    };
+    func();
+  }, [rowData]);
 
   const tableInstance = useTable<TenantRow>({
     columns,
@@ -111,9 +151,14 @@ const TenantList: React.FC = () => {
                       // Apply the cell props
                       return (
                         <td {...cell.getCellProps()}>
+                          {console.log(cell)}
                           {
                             // Render the cell contents
-                            cell.render("Cell")
+                            cell.column.Header === "Images"
+                              ? cell.value.map((i: string) => (
+                                  <Image name={i} />
+                                ))
+                              : cell.render("Cell")
                           }
                         </td>
                       );

@@ -20,11 +20,13 @@ namespace TenantFile.Api.Controllers
 
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
+        private readonly TenantContext _context;
 
-        public ImageController(ILogger<ImageController> logger, IWebHostEnvironment env)
+        public ImageController(ILogger<ImageController> logger, TenantContext context)
         {
             _logger = logger;
             _storageClient = StorageClient.Create();
+            _context = context;
         }
 
         [HttpGet("/api/images")]

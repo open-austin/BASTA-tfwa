@@ -14,6 +14,7 @@ namespace TenantFile.Api.Models
 
 
         public virtual ICollection<TenantPhone> TenantPhones { get; set; } = null!;
+        public virtual ICollection<Image> Images { get; set; } = null!;
 
     }
 }
