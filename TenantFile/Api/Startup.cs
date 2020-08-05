@@ -43,22 +43,31 @@ namespace TenantFile.Api
 
             services.AddDbContext<TenantContext>();
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
-
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                              builder =>
-                              {
-                                  builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
-                                                      "http://localhost:3000",
-                                                      "http://api.tfwa.jacobcasper.com",
-                                                      "http://tfwa.jacobcasper.com",
-                                                      "https://api.tfwa.jacobcasper.com",
-                                                      "https://tfwa.jacobcasper.com")
-                                                      .AllowAnyMethod()
-                                                      .AllowAnyHeader();
-                              });
-            });
+            services.AddCors();
+            // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
+            //    builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
+            //                                 "http://localhost:3000",
+            //                                 "http://api.tfwa.jacobcasper.com",
+            //                                 "http://tfwa.jacobcasper.com",
+            //                                 "https://api.tfwa.jacobcasper.com",
+            //                                 "https://tfwa.jacobcasper.com")
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader().AllowCredentials()));
+            // services.AddCors(options =>
+            // {
+            //     options.AddDefaultPolicy(
+            //         builder =>
+            //         {
+            //             builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
+            //                                 "http://localhost:3000",
+            //                                 "http://api.tfwa.jacobcasper.com",
+            //                                 "http://tfwa.jacobcasper.com",
+            //                                 "https://api.tfwa.jacobcasper.com",
+            //                                 "https://tfwa.jacobcasper.com")
+            //                                 .AllowAnyMethod()
+            //                                 .AllowAnyHeader();
+            //         });
+            // });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -98,12 +107,17 @@ namespace TenantFile.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             InitializeDatabase(app);
+
+            app.UseCors(
+               options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+            );
 
             app.UseAuthentication();
 
@@ -118,15 +132,15 @@ namespace TenantFile.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors();
+
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
-                    await context.Response.WriteAsync($"Hello {target}!\n");
-                });
+                // endpoints.MapGet("/", async context =>
+                // {
+                //     var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
+                //     await context.Response.WriteAsync($"Hello {target}!\n");
+                // });
                 endpoints.MapControllers();
             });
         }

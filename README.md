@@ -64,3 +64,6 @@ We're relatively new to legit web development, so we need help with...everything
 ## Database Migrations
 
 https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+
+`npx apollo schema:download --endpoint=http://localhost:8080 graphql-schema.json`
+`npx apollo client:codegen --localSchemaFile=graphql-schema.json --target=typescript --includes="src/**/*.ts*" --tagName=gql`
