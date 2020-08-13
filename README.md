@@ -1,4 +1,5 @@
 # BASTA-tfwa
+
 Web application to help tenants keep track of documents related to their rental unit
 
 ### What problem are you trying to solve?
@@ -11,7 +12,7 @@ That would be version 1.
 For later versions:
 Eventually, we'd also like to be able to auto-generate forms and complaints for repair requests and code complaints.
 Include nudges/to-do lists to let tenants and others know when to submit records or take other actions.
-Incorporate Appraisal District and Census datasets. 
+Incorporate Appraisal District and Census datasets.
 Display data publicly on a map / something visually appealing.
 
 Document types:
@@ -28,6 +29,7 @@ Receipts
 Checks
 
 ### Who will benefit (directly and indirectly) from your project?
+
 Tenant organizers and tenants facing gaslighting, neglect, or abuse by landlords.
 
 ### What other resources/tools are currently serving the same need? How does your project set itself apart?
@@ -51,3 +53,20 @@ We're relatively new to legit web development, so we need help with...everything
 ### How can we contact you outside of Github(list social media or places you're present)?
 
 @e_shackney on twitter
+
+## Connecting to the Google Cloud Dev Postgres instance
+
+1. Install the proxy according to your OS: https://cloud.google.com/sql/docs/postgres/connect-external-app#install
+1. Make sure you have properly set up your `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+1. Start the proxy with `./cloud_sql_proxy -instances=tenant-file-fc6de:us-central1:tx-tenant-dev=tcp:5432`
+1. You should be able to access the database at 12.0.0.1:5432 now
+
+## Database Migrations
+
+https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+
+dotnet ef migrations add \<MigrationName\>
+dotnet ef database update
+
+`npx apollo schema:download --endpoint=http://localhost:8080 graphql-schema.json`
+`npx apollo client:codegen --localSchemaFile=graphql-schema.json --target=typescript --includes="src/**/*.ts*" --tagName=gql`

@@ -9,6 +9,7 @@ import Layout from "./component/layout";
 import PrivateRoute from "./component/private-route";
 import DisplayImages from "./component/display-images";
 import Admin from "./component/admin";
+import Dashboard from "./component/dashboard";
 
 // import { Server } from "miragejs";
 
@@ -35,6 +36,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/admin">
           <Admin />
+        </PrivateRoute>
+        <PrivateRoute path="/dashboard">
+          <Dashboard />
         </PrivateRoute>
         <Route path="/login">
           <Login />
