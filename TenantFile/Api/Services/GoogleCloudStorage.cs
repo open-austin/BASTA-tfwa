@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
@@ -34,6 +35,11 @@ namespace TenantFile.Api.Services
             WebClient webClient = new WebClient();
             var stream = webClient.OpenRead(fileUrl);
 
+            await _storageClient.UploadObjectAsync(_bucketName, filePath, contentType, stream);
+        }
+
+        public async Task UploadStreamToStorageAsync(Stream stream, string filePath, string contentType)
+        {
             await _storageClient.UploadObjectAsync(_bucketName, filePath, contentType, stream);
         }
     }

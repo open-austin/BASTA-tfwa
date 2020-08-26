@@ -7,30 +7,38 @@ import { AppDispatch } from "../store/store";
 import { useHistory } from "react-router-dom";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB_r9GSDbaPbvrKb7tGSBB--Z37Z1LJJN4",
-  authDomain: "tenant-file-fc6de.firebaseapp.com",
-  databaseURL: "https://tenant-file-fc6de.firebaseio.com",
-  projectId: "tenant-file-fc6de",
-  storageBucket: "tenant-file-fc6de.appspot.com",
-  messagingSenderId: "457573947987",
-  appId: "1:457573947987:web:da3e4ae3fa7b535d4504a6",
-  measurementId: "G-L20GR057G8",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: `${process.env.REACT_APP_PROJECT_ID}.firebaseapp.com`,
+  databaseURL: `https://${process.env.REACT_APP_PROJECT_ID}.firebaseio.com`,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: `${process.env.REACT_APP_PROJECT_ID}.appspot.com`,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_GA_MEASUREMENT_ID,
 };
+
+console.log(firebaseConfig);
 
 // This must run before any other firebase functions
 firebase.initializeApp(firebaseConfig);
 
 export const useFirebaseAppInitialization = () => {
   const dispatch: AppDispatch = useDispatch();
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
+
+  firebase
+    .auth()
+    // .firebase.auth()
+    .onAuthStateChanged((user) => {
       if (user) {
-        dispatch(setSignedIn(true));
+        if (user) {
+          dispatch(setSignedIn(true));
+        }
+        console.log(user);
+      } else {
+        console.log("NO USER");
+        dispatch(setSignedIn(false));
       }
-    } else {
-      console.log("NO USER");
-    }
-  });
+    });
 };
 
 export const getToken = async () => {
