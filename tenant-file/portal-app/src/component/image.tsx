@@ -27,6 +27,7 @@ const Image: React.FC<ImageProps> = ({ name }) => {
     };
     func();
   }, [name]);
+  // eslint-disable-next-line jsx-a11y/alt-text
   return <img src={url} />;
 };
 
