@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql.EntityFrameworkCore;
+using System.Reflection;
 
 namespace TenantFile.Api.Models
 {
@@ -24,32 +25,35 @@ namespace TenantFile.Api.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tenant>()
-                .HasMany(t => t.ResidenceRecords)
-                .WithOne(t => t.Tenant)
-                .HasForeignKey(t => t.Id);
+            //modelBuilder.Entity<Tenant>()
+            //    .HasMany(t => t.ResidenceRecords)
+            //    .WithOne(t => t.Tenant)
+            //    .HasForeignKey(t => t.Id);
 
-            modelBuilder.Entity<Residence>()
-                .HasMany(r => r.ResidenceRecords)
-                .WithOne(rr => rr.Residence)
-                .HasForeignKey(rr => rr.Id);
+            //modelBuilder.Entity<Residence>()
+            //    .HasMany(r => r.ResidenceRecords)
+            //    .WithOne(rr => rr.Residence)
+            //    .HasForeignKey(rr => rr.Id);
 
-            modelBuilder.Entity<Property>()
-                .HasMany(p => p.Residences)
-                .WithOne(r => r.Property)
-                .HasForeignKey(p => p.Id);
+            //modelBuilder.Entity<Property>()
+            //    .HasMany(p => p.Residences)
+            //    .WithOne(r => r.Property)
+            //    .HasForeignKey(p => p.Id);
 
-            // Create a many to many mapping of Tenants to Phones
-            modelBuilder.Entity<TenantPhone>()
-                .HasKey(tp => new { tp.TenantId, tp.PhoneId });
-            modelBuilder.Entity<TenantPhone>()
-                .HasOne(tp => tp.Tenant)
-                .WithMany(t => t.TenantPhones)
-                .HasForeignKey(t => t.TenantId);
-            modelBuilder.Entity<TenantPhone>()
-                .HasOne(tp => tp.Phone)
-                .WithMany(p => p.TenantPhones)
-                .HasForeignKey(tp => tp.PhoneId);
+            //// Create a many to many mapping of Tenants to Phones
+            //modelBuilder.Entity<TenantPhone>()
+            //    .HasKey(tp => new { tp.TenantId, tp.PhoneId });
+            //modelBuilder.Entity<TenantPhone>()
+            //    .HasOne(tp => tp.Tenant)
+            //    .WithMany(t => t.TenantPhones)
+            //    .HasForeignKey(t => t.TenantId);
+            //modelBuilder.Entity<TenantPhone>()
+            //    .HasOne(tp => tp.Phone)
+            //    .WithMany(p => p.TenantPhones)
+            //    .HasForeignKey(tp => tp.PhoneId);
+
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
