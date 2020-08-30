@@ -29,6 +29,7 @@ const Layout: React.FC = (props) => {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               {signedInStatus === SignedInStatus.LoggedIn && (
+                <>
                 <NavItem>
                   <NavLink
                     exact
@@ -39,6 +40,17 @@ const Layout: React.FC = (props) => {
                     Admin
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink
+                    exact
+                    to="/add-tenant"
+                    className="nav-link"
+                    activeClassName="active"
+                  >
+                    Add Tenant
+                  </NavLink>
+                </NavItem>
+                </>
               )}
             </Nav>
           </Collapse>
