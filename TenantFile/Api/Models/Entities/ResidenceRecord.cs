@@ -1,3 +1,4 @@
+using NodaTime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,8 +10,9 @@ namespace TenantFile.Api.Models
     {
       
         public int Id { get; set; }
-        public DateTimeOffset MoveIn { get; set; }
-        public DateTimeOffset MoveOut { get; set; }
+        //NodaTime is the recommended way to interact with Postgres date/time types
+        public DateTime MoveIn { get; set; }
+        public DateTime MoveOut { get; set; }
 
 
         public virtual Tenant Tenant { get; set; } = null!;

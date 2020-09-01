@@ -8,6 +8,23 @@
     <UserSecretsId>2e183d23-5e31-4ab7-bd0d-d8ecef7a6760</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Migrations\20200828160717_ToTableTenant.cs" />
+    <Compile Remove="Migrations\20200828160717_ToTableTenant.Designer.cs" />
+    <Compile Remove="Migrations\20200901022502_lowers.cs" />
+    <Compile Remove="Migrations\20200901022502_lowers.Designer.cs" />
+    <Compile Remove="Migrations\20200901022911_low_address.cs" />
+    <Compile Remove="Migrations\20200901022911_low_address.Designer.cs" />
+    <Compile Remove="Migrations\20200901054722_all_lower.cs" />
+    <Compile Remove="Migrations\20200901054722_all_lower.Designer.cs" />
+    <Compile Remove="Migrations\20200901055432_all_lower.cs" />
+    <Compile Remove="Migrations\20200901055432_all_lower.Designer.cs" />
+    <Compile Remove="Migrations\20200901055905_all_lower.cs" />
+    <Compile Remove="Migrations\20200901055905_all_lower.Designer.cs" />
+    <Compile Remove="Migrations\20200901143924_new_convention.cs" />
+    <Compile Remove="Migrations\20200901143924_new_convention.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="1.1.0" />
     <PackageReference Include="FirebaseAdmin" Version="1.12.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.0.0-beta02" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.0.0-beta03" />
@@ -26,11 +43,16 @@
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.5.2" />
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.5.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="nodatime" Version="3.0.0" />
+    <PackageReference Include="Npgsql" Version="4.1.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="3.1.4" />
+    <PackageReference Include="Npgsql.NodaTime" Version="4.1.4" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0" />
     <PackageReference Include="System.Linq.Async" Version="4.1.1" />
     <PackageReference Include="Twilio" Version="5.39.0" />

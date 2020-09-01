@@ -13,9 +13,12 @@ namespace TenantFile.Api.Configurations
     {
         public void Configure(EntityTypeBuilder<Residence> builder)
         {
+            //for postges naming conventions. EF automatically creates tables in PascalCase, Pg folds to lowercase so quotes would be needed with EF conventions 
+            //builder.ToTable("residences");
+
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Id).HasColumnName("ResidenceIdId")
+            builder.Property(e => e.Id)
                      .IsRequired()
                      .ValueGeneratedOnAdd();
             builder

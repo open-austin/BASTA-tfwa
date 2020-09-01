@@ -58,10 +58,10 @@ namespace Api.UnitTests
                 .AddInMemoryCollection(myConfiguration)
                 .Build();
 
-            var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object, configuration)
-            {
-                ControllerContext = ctx
-            };
+            //var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object, configuration)
+            //{
+            //    ControllerContext = ctx
+            //};
 
             var smsRequest = new SmsRequest
             {
@@ -70,7 +70,7 @@ namespace Api.UnitTests
             };
 
             // ACT
-            await controller.SmsWebhook(smsRequest, 1);
+           // await controller.SmsWebhook(smsRequest, 1);
 
             // ASSERT
             cloudStorageMock.Verify(mock => mock.UploadToStorageAsync("http://test.test/image", "images/image.png", "image/png"));
