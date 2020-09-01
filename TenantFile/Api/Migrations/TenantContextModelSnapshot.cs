@@ -52,9 +52,9 @@ namespace TenantFile.Api.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id")
-                        .HasName("pk_address");
+                        .HasName("pk_addresses");
 
-                    b.ToTable("address");
+                    b.ToTable("addresses");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Image", b =>
@@ -80,12 +80,12 @@ namespace TenantFile.Api.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id")
-                        .HasName("pk_image");
+                        .HasName("pk_images");
 
                     b.HasIndex("PhoneId")
-                        .HasName("ix_image_phone_id");
+                        .HasName("ix_images_phone_id");
 
-                    b.ToTable("image");
+                    b.ToTable("images");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Phone", b =>
@@ -147,9 +147,9 @@ namespace TenantFile.Api.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id")
-                        .HasName("pk_residence");
+                        .HasName("pk_residences");
 
-                    b.ToTable("residence");
+                    b.ToTable("residences");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.ResidenceRecord", b =>
@@ -173,12 +173,12 @@ namespace TenantFile.Api.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id")
-                        .HasName("pk_residence_record");
+                        .HasName("pk_residence_records");
 
                     b.HasIndex("TenantId")
-                        .HasName("ix_residence_record_tenant_id");
+                        .HasName("ix_residence_records_tenant_id");
 
-                    b.ToTable("residence_record");
+                    b.ToTable("residence_records");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Tenant", b =>
@@ -224,7 +224,7 @@ namespace TenantFile.Api.Migrations
                     b.HasOne("TenantFile.Api.Models.Phone", null)
                         .WithMany("Images")
                         .HasForeignKey("PhoneId")
-                        .HasConstraintName("fk_image_phones_phone_id");
+                        .HasConstraintName("fk_images_phones_phone_id");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Property", b =>
@@ -232,7 +232,7 @@ namespace TenantFile.Api.Migrations
                     b.HasOne("TenantFile.Api.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
-                        .HasConstraintName("fk_properties_address_address_id")
+                        .HasConstraintName("fk_properties_addresses_address_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -242,7 +242,7 @@ namespace TenantFile.Api.Migrations
                     b.HasOne("TenantFile.Api.Models.Property", "Property")
                         .WithMany("Residences")
                         .HasForeignKey("Id")
-                        .HasConstraintName("fk_residence_properties_property_id")
+                        .HasConstraintName("fk_residences_properties_property_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -252,14 +252,14 @@ namespace TenantFile.Api.Migrations
                     b.HasOne("TenantFile.Api.Models.Residence", "Residence")
                         .WithMany("ResidenceRecords")
                         .HasForeignKey("Id")
-                        .HasConstraintName("fk_residence_record_residence_residence_id")
+                        .HasConstraintName("fk_residence_records_residences_residence_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TenantFile.Api.Models.Tenant", "Tenant")
                         .WithMany("ResidenceRecords")
                         .HasForeignKey("TenantId")
-                        .HasConstraintName("fk_residence_record_tenants_tenant_id")
+                        .HasConstraintName("fk_residence_records_tenants_tenant_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

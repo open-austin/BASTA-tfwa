@@ -11,16 +11,17 @@ namespace TenantFile.Api.Models
     // https://dev.to/michaelstaib/get-started-with-hot-chocolate-and-entity-framework-e9i
     public class TenantContext : DbContext
     {
-        //private string _connectionString;
-        public TenantContext(DbContextOptions<TenantContext> options):base(options)
-        {
-           //_connectionString = configuration.GetValue<string>("PostgresDBConection");
-        }
+        public TenantContext(DbContextOptions<TenantContext> options):base(options){}
 
         public DbSet<Tenant> Tenants { get; set; } = null!;
         public DbSet<Property> Properties { get; set; } = null!;
         public DbSet<Phone> Phones { get; set; } = null!;
+        public DbSet<Image> Images{ get; set; } = null!;
+        public DbSet<Address> Addresses { get; set; } = null!;
+        public DbSet<Residence> Residences{ get; set; } = null!;
+        public DbSet<ResidenceRecord> ResidenceRecords { get; set; } = null!;
 
+        //moved this to startup.cs but it could just as easily be here
         //protected override void OnConfiguring(DbContextOptionsBuilder options)
         //{
         //    options.UseNpgsql("Host=localhost;Port=5432;Database=tenant_file;Username=postgres;Password=TenantFile",
@@ -30,35 +31,6 @@ namespace TenantFile.Api.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            //modelBuilder.Entity<Tenant>()
-            //    .HasMany(t => t.ResidenceRecords)
-            //    .WithOne(t => t.Tenant)
-            //    .HasForeignKey(t => t.Id);
-
-            //modelBuilder.Entity<Residence>()
-            //    .HasMany(r => r.ResidenceRecords)
-            //    .WithOne(rr => rr.Residence)
-            //    .HasForeignKey(rr => rr.Id);
-
-            //modelBuilder.Entity<Property>()
-            //    .HasMany(p => p.Residences)
-            //    .WithOne(r => r.Property)
-            //    .HasForeignKey(p => p.Id);
-
-            //// Create a many to many mapping of Tenants to Phones
-            //modelBuilder.Entity<TenantPhone>()
-            //    .HasKey(tp => new { tp.TenantId, tp.PhoneId });
-            //modelBuilder.Entity<TenantPhone>()
-            //    .HasOne(tp => tp.Tenant)
-            //    .WithMany(t => t.TenantPhones)
-            //    .HasForeignKey(t => t.TenantId);
-            //modelBuilder.Entity<TenantPhone>()
-            //    .HasOne(tp => tp.Phone)
-            //    .WithMany(p => p.TenantPhones)
-            //    .HasForeignKey(tp => tp.PhoneId);
-
-
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

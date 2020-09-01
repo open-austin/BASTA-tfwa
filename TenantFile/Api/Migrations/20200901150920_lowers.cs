@@ -2,7 +2,7 @@
 
 namespace TenantFile.Api.Migrations
 {
-    public partial class new_convention : Migration
+    public partial class lowers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,24 +39,12 @@ namespace TenantFile.Api.Migrations
                 table: "Tenants");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_Residence",
-                table: "Residence");
-
-            migrationBuilder.DropPrimaryKey(
                 name: "PK_Properties",
                 table: "Properties");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Phones",
                 table: "Phones");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Image",
-                table: "Image");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Address",
-                table: "Address");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_TenantPhone",
@@ -66,13 +54,21 @@ namespace TenantFile.Api.Migrations
                 name: "PK_ResidenceRecord",
                 table: "ResidenceRecord");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Residence",
+                table: "Residence");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Image",
+                table: "Image");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Address",
+                table: "Address");
+
             migrationBuilder.RenameTable(
                 name: "Tenants",
                 newName: "tenants");
-
-            migrationBuilder.RenameTable(
-                name: "Residence",
-                newName: "residence");
 
             migrationBuilder.RenameTable(
                 name: "Properties",
@@ -83,20 +79,24 @@ namespace TenantFile.Api.Migrations
                 newName: "phones");
 
             migrationBuilder.RenameTable(
-                name: "Image",
-                newName: "image");
-
-            migrationBuilder.RenameTable(
-                name: "Address",
-                newName: "address");
-
-            migrationBuilder.RenameTable(
                 name: "TenantPhone",
                 newName: "tenant_phone");
 
             migrationBuilder.RenameTable(
                 name: "ResidenceRecord",
-                newName: "residence_record");
+                newName: "residence_records");
+
+            migrationBuilder.RenameTable(
+                name: "Residence",
+                newName: "residences");
+
+            migrationBuilder.RenameTable(
+                name: "Image",
+                newName: "images");
+
+            migrationBuilder.RenameTable(
+                name: "Address",
+                newName: "addresses");
 
             migrationBuilder.RenameColumn(
                 name: "TenantName",
@@ -106,16 +106,6 @@ namespace TenantFile.Api.Migrations
             migrationBuilder.RenameColumn(
                 name: "TenantId",
                 table: "tenants",
-                newName: "id");
-
-            migrationBuilder.RenameColumn(
-                name: "UnitIdentifier",
-                table: "residence",
-                newName: "unit_identifier");
-
-            migrationBuilder.RenameColumn(
-                name: "ResidenceIdId",
-                table: "residence",
                 newName: "id");
 
             migrationBuilder.RenameColumn(
@@ -149,61 +139,6 @@ namespace TenantFile.Api.Migrations
                 newName: "id");
 
             migrationBuilder.RenameColumn(
-                name: "Name",
-                table: "image",
-                newName: "name");
-
-            migrationBuilder.RenameColumn(
-                name: "ThumbnailName",
-                table: "image",
-                newName: "thumbnail_name");
-
-            migrationBuilder.RenameColumn(
-                name: "PhoneId",
-                table: "image",
-                newName: "phone_id");
-
-            migrationBuilder.RenameColumn(
-                name: "ImageId",
-                table: "image",
-                newName: "id");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Image_PhoneId",
-                table: "image",
-                newName: "ix_image_phone_id");
-
-            migrationBuilder.RenameColumn(
-                name: "Street",
-                table: "address",
-                newName: "street");
-
-            migrationBuilder.RenameColumn(
-                name: "State",
-                table: "address",
-                newName: "state");
-
-            migrationBuilder.RenameColumn(
-                name: "City",
-                table: "address",
-                newName: "city");
-
-            migrationBuilder.RenameColumn(
-                name: "StreetNumber",
-                table: "address",
-                newName: "street_number");
-
-            migrationBuilder.RenameColumn(
-                name: "PostalCode",
-                table: "address",
-                newName: "postal_code");
-
-            migrationBuilder.RenameColumn(
-                name: "AddressId",
-                table: "address",
-                newName: "id");
-
-            migrationBuilder.RenameColumn(
                 name: "PhoneId",
                 table: "tenant_phone",
                 newName: "phone_id");
@@ -220,37 +155,97 @@ namespace TenantFile.Api.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "TenantId",
-                table: "residence_record",
+                table: "residence_records",
                 newName: "tenant_id");
 
             migrationBuilder.RenameColumn(
                 name: "MoveOut",
-                table: "residence_record",
+                table: "residence_records",
                 newName: "move_out");
 
             migrationBuilder.RenameColumn(
                 name: "MoveIn",
-                table: "residence_record",
+                table: "residence_records",
                 newName: "move_in");
 
             migrationBuilder.RenameColumn(
                 name: "ResidenceRecordId",
-                table: "residence_record",
+                table: "residence_records",
                 newName: "id");
 
             migrationBuilder.RenameIndex(
                 name: "IX_ResidenceRecord_TenantId",
-                table: "residence_record",
-                newName: "ix_residence_record_tenant_id");
+                table: "residence_records",
+                newName: "ix_residence_records_tenant_id");
+
+            migrationBuilder.RenameColumn(
+                name: "UnitIdentifier",
+                table: "residences",
+                newName: "unit_identifier");
+
+            migrationBuilder.RenameColumn(
+                name: "ResidenceIdId",
+                table: "residences",
+                newName: "id");
+
+            migrationBuilder.RenameColumn(
+                name: "Name",
+                table: "images",
+                newName: "name");
+
+            migrationBuilder.RenameColumn(
+                name: "ThumbnailName",
+                table: "images",
+                newName: "thumbnail_name");
+
+            migrationBuilder.RenameColumn(
+                name: "PhoneId",
+                table: "images",
+                newName: "phone_id");
+
+            migrationBuilder.RenameColumn(
+                name: "ImageId",
+                table: "images",
+                newName: "id");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Image_PhoneId",
+                table: "images",
+                newName: "ix_images_phone_id");
+
+            migrationBuilder.RenameColumn(
+                name: "Street",
+                table: "addresses",
+                newName: "street");
+
+            migrationBuilder.RenameColumn(
+                name: "State",
+                table: "addresses",
+                newName: "state");
+
+            migrationBuilder.RenameColumn(
+                name: "City",
+                table: "addresses",
+                newName: "city");
+
+            migrationBuilder.RenameColumn(
+                name: "StreetNumber",
+                table: "addresses",
+                newName: "street_number");
+
+            migrationBuilder.RenameColumn(
+                name: "PostalCode",
+                table: "addresses",
+                newName: "postal_code");
+
+            migrationBuilder.RenameColumn(
+                name: "AddressId",
+                table: "addresses",
+                newName: "id");
 
             migrationBuilder.AddPrimaryKey(
                 name: "pk_tenants",
                 table: "tenants",
-                column: "id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "pk_residence",
-                table: "residence",
                 column: "id");
 
             migrationBuilder.AddPrimaryKey(
@@ -264,62 +259,67 @@ namespace TenantFile.Api.Migrations
                 column: "id");
 
             migrationBuilder.AddPrimaryKey(
-                name: "pk_image",
-                table: "image",
-                column: "id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "pk_address",
-                table: "address",
-                column: "id");
-
-            migrationBuilder.AddPrimaryKey(
                 name: "pk_tenant_phone",
                 table: "tenant_phone",
                 columns: new[] { "tenant_id", "phone_id" });
 
             migrationBuilder.AddPrimaryKey(
-                name: "pk_residence_record",
-                table: "residence_record",
+                name: "pk_residence_records",
+                table: "residence_records",
+                column: "id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "pk_residences",
+                table: "residences",
+                column: "id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "pk_images",
+                table: "images",
+                column: "id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "pk_addresses",
+                table: "addresses",
                 column: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "fk_image_phones_phone_id",
-                table: "image",
+                name: "fk_images_phones_phone_id",
+                table: "images",
                 column: "phone_id",
                 principalTable: "phones",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "fk_properties_address_address_id",
+                name: "fk_properties_addresses_address_id",
                 table: "properties",
                 column: "address_id",
-                principalTable: "address",
+                principalTable: "addresses",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "fk_residence_properties_property_id",
-                table: "residence",
+                name: "fk_residence_records_residences_residence_id",
+                table: "residence_records",
                 column: "id",
-                principalTable: "properties",
+                principalTable: "residences",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "fk_residence_record_residence_residence_id",
-                table: "residence_record",
-                column: "id",
-                principalTable: "residence",
-                principalColumn: "id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "fk_residence_record_tenants_tenant_id",
-                table: "residence_record",
+                name: "fk_residence_records_tenants_tenant_id",
+                table: "residence_records",
                 column: "tenant_id",
                 principalTable: "tenants",
+                principalColumn: "id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "fk_residences_properties_property_id",
+                table: "residences",
+                column: "id",
+                principalTable: "properties",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -343,24 +343,24 @@ namespace TenantFile.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "fk_image_phones_phone_id",
-                table: "image");
+                name: "fk_images_phones_phone_id",
+                table: "images");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_properties_address_address_id",
+                name: "fk_properties_addresses_address_id",
                 table: "properties");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_residence_properties_property_id",
-                table: "residence");
+                name: "fk_residence_records_residences_residence_id",
+                table: "residence_records");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_residence_record_residence_residence_id",
-                table: "residence_record");
+                name: "fk_residence_records_tenants_tenant_id",
+                table: "residence_records");
 
             migrationBuilder.DropForeignKey(
-                name: "fk_residence_record_tenants_tenant_id",
-                table: "residence_record");
+                name: "fk_residences_properties_property_id",
+                table: "residences");
 
             migrationBuilder.DropForeignKey(
                 name: "fk_tenant_phone_phones_phone_id",
@@ -375,10 +375,6 @@ namespace TenantFile.Api.Migrations
                 table: "tenants");
 
             migrationBuilder.DropPrimaryKey(
-                name: "pk_residence",
-                table: "residence");
-
-            migrationBuilder.DropPrimaryKey(
                 name: "pk_properties",
                 table: "properties");
 
@@ -387,28 +383,28 @@ namespace TenantFile.Api.Migrations
                 table: "phones");
 
             migrationBuilder.DropPrimaryKey(
-                name: "pk_image",
-                table: "image");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "pk_address",
-                table: "address");
-
-            migrationBuilder.DropPrimaryKey(
                 name: "pk_tenant_phone",
                 table: "tenant_phone");
 
             migrationBuilder.DropPrimaryKey(
-                name: "pk_residence_record",
-                table: "residence_record");
+                name: "pk_residences",
+                table: "residences");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "pk_residence_records",
+                table: "residence_records");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "pk_images",
+                table: "images");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "pk_addresses",
+                table: "addresses");
 
             migrationBuilder.RenameTable(
                 name: "tenants",
                 newName: "Tenants");
-
-            migrationBuilder.RenameTable(
-                name: "residence",
-                newName: "Residence");
 
             migrationBuilder.RenameTable(
                 name: "properties",
@@ -419,20 +415,24 @@ namespace TenantFile.Api.Migrations
                 newName: "Phones");
 
             migrationBuilder.RenameTable(
-                name: "image",
-                newName: "Image");
-
-            migrationBuilder.RenameTable(
-                name: "address",
-                newName: "Address");
-
-            migrationBuilder.RenameTable(
                 name: "tenant_phone",
                 newName: "TenantPhone");
 
             migrationBuilder.RenameTable(
-                name: "residence_record",
+                name: "residences",
+                newName: "Residence");
+
+            migrationBuilder.RenameTable(
+                name: "residence_records",
                 newName: "ResidenceRecord");
+
+            migrationBuilder.RenameTable(
+                name: "images",
+                newName: "Image");
+
+            migrationBuilder.RenameTable(
+                name: "addresses",
+                newName: "Address");
 
             migrationBuilder.RenameColumn(
                 name: "name",
@@ -443,16 +443,6 @@ namespace TenantFile.Api.Migrations
                 name: "id",
                 table: "Tenants",
                 newName: "TenantId");
-
-            migrationBuilder.RenameColumn(
-                name: "unit_identifier",
-                table: "Residence",
-                newName: "UnitIdentifier");
-
-            migrationBuilder.RenameColumn(
-                name: "id",
-                table: "Residence",
-                newName: "ResidenceIdId");
 
             migrationBuilder.RenameColumn(
                 name: "unit_identifier",
@@ -485,6 +475,56 @@ namespace TenantFile.Api.Migrations
                 newName: "PhoneId");
 
             migrationBuilder.RenameColumn(
+                name: "phone_id",
+                table: "TenantPhone",
+                newName: "PhoneId");
+
+            migrationBuilder.RenameColumn(
+                name: "tenant_id",
+                table: "TenantPhone",
+                newName: "TenantId");
+
+            migrationBuilder.RenameIndex(
+                name: "ix_tenant_phone_phone_id",
+                table: "TenantPhone",
+                newName: "IX_TenantPhone_PhoneId");
+
+            migrationBuilder.RenameColumn(
+                name: "unit_identifier",
+                table: "Residence",
+                newName: "UnitIdentifier");
+
+            migrationBuilder.RenameColumn(
+                name: "id",
+                table: "Residence",
+                newName: "ResidenceIdId");
+
+            migrationBuilder.RenameColumn(
+                name: "tenant_id",
+                table: "ResidenceRecord",
+                newName: "TenantId");
+
+            migrationBuilder.RenameColumn(
+                name: "move_out",
+                table: "ResidenceRecord",
+                newName: "MoveOut");
+
+            migrationBuilder.RenameColumn(
+                name: "move_in",
+                table: "ResidenceRecord",
+                newName: "MoveIn");
+
+            migrationBuilder.RenameColumn(
+                name: "id",
+                table: "ResidenceRecord",
+                newName: "ResidenceRecordId");
+
+            migrationBuilder.RenameIndex(
+                name: "ix_residence_records_tenant_id",
+                table: "ResidenceRecord",
+                newName: "IX_ResidenceRecord_TenantId");
+
+            migrationBuilder.RenameColumn(
                 name: "name",
                 table: "Image",
                 newName: "Name");
@@ -505,7 +545,7 @@ namespace TenantFile.Api.Migrations
                 newName: "ImageId");
 
             migrationBuilder.RenameIndex(
-                name: "ix_image_phone_id",
+                name: "ix_images_phone_id",
                 table: "Image",
                 newName: "IX_Image_PhoneId");
 
@@ -539,55 +579,10 @@ namespace TenantFile.Api.Migrations
                 table: "Address",
                 newName: "AddressId");
 
-            migrationBuilder.RenameColumn(
-                name: "phone_id",
-                table: "TenantPhone",
-                newName: "PhoneId");
-
-            migrationBuilder.RenameColumn(
-                name: "tenant_id",
-                table: "TenantPhone",
-                newName: "TenantId");
-
-            migrationBuilder.RenameIndex(
-                name: "ix_tenant_phone_phone_id",
-                table: "TenantPhone",
-                newName: "IX_TenantPhone_PhoneId");
-
-            migrationBuilder.RenameColumn(
-                name: "tenant_id",
-                table: "ResidenceRecord",
-                newName: "TenantId");
-
-            migrationBuilder.RenameColumn(
-                name: "move_out",
-                table: "ResidenceRecord",
-                newName: "MoveOut");
-
-            migrationBuilder.RenameColumn(
-                name: "move_in",
-                table: "ResidenceRecord",
-                newName: "MoveIn");
-
-            migrationBuilder.RenameColumn(
-                name: "id",
-                table: "ResidenceRecord",
-                newName: "ResidenceRecordId");
-
-            migrationBuilder.RenameIndex(
-                name: "ix_residence_record_tenant_id",
-                table: "ResidenceRecord",
-                newName: "IX_ResidenceRecord_TenantId");
-
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Tenants",
                 table: "Tenants",
                 column: "TenantId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Residence",
-                table: "Residence",
-                column: "ResidenceIdId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Properties",
@@ -600,6 +595,21 @@ namespace TenantFile.Api.Migrations
                 column: "PhoneId");
 
             migrationBuilder.AddPrimaryKey(
+                name: "PK_TenantPhone",
+                table: "TenantPhone",
+                columns: new[] { "TenantId", "PhoneId" });
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Residence",
+                table: "Residence",
+                column: "ResidenceIdId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_ResidenceRecord",
+                table: "ResidenceRecord",
+                column: "ResidenceRecordId");
+
+            migrationBuilder.AddPrimaryKey(
                 name: "PK_Image",
                 table: "Image",
                 column: "ImageId");
@@ -608,16 +618,6 @@ namespace TenantFile.Api.Migrations
                 name: "PK_Address",
                 table: "Address",
                 column: "AddressId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_TenantPhone",
-                table: "TenantPhone",
-                columns: new[] { "TenantId", "PhoneId" });
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ResidenceRecord",
-                table: "ResidenceRecord",
-                column: "ResidenceRecordId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Image_Phones_PhoneId",

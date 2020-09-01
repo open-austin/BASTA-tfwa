@@ -12,10 +12,7 @@ namespace TenantFile.Api.Configurations
     public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)
-        {
-            //for postges naming conventions. EF automatically creates tables in PascalCase, Pg folds to lowercase so quotes would be needed with EF conventions 
-            //builder.ToTable("addresses");
-
+        {           
             builder.HasKey(p => p.Id);
 
             builder.Property(e => e.Id)
@@ -31,9 +28,10 @@ namespace TenantFile.Api.Configurations
             builder.Property(a => a.StreetNumber)
                     .IsRequired();
 
+            //Might like to make an enumeration class for this property to constrain options to valid values
             builder.Property(a => a.State)
                     .IsRequired();
-            //.HasMaxLength(2);
+                  //.HasMaxLength(2);
         }
     }
 }

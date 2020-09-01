@@ -22,7 +22,7 @@ using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
 using HotChocolate.Execution.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
+
 
 namespace TenantFile.Api
 {
@@ -43,20 +43,11 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            NpgsqlConnection.GlobalTypeMapper.UseNodaTime();
+            //NpgsqlConnection.GlobalTypeMapper.UseNodaTime();
 
-            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresDBConection"),
-                       o=> o.UseNodaTime())
+            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresDBConection"))
                     .UseSnakeCaseNamingConvention());
 
-            //var connectionString = new NpgsqlConnectionStringBuilder(
-            //    Configuration["CloudSql:ConnectionString"])
-            //    {
-            //        // Connecting to a local proxy that does not support ssl.
-            //        SslMode = SslMode.Disable
-            //    };
-            //NpgsqlConnection connection = new NpgsqlConnection(connectionString.ConnectionString);
-           
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddCors();
             // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>

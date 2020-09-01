@@ -22,6 +22,8 @@
     <Compile Remove="Migrations\20200901055905_all_lower.Designer.cs" />
     <Compile Remove="Migrations\20200901143924_new_convention.cs" />
     <Compile Remove="Migrations\20200901143924_new_convention.Designer.cs" />
+    <Compile Remove="Migrations\20200901145601_new_convention.cs" />
+    <Compile Remove="Migrations\20200901145601_new_convention.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="1.1.0" />
@@ -48,11 +50,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="nodatime" Version="3.0.0" />
+    <!--<PackageReference Include="nodatime" Version="3.0.0" />-->
     <PackageReference Include="Npgsql" Version="4.1.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="3.1.4" />
-    <PackageReference Include="Npgsql.NodaTime" Version="4.1.4" />
+    <!--<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="3.1.4" />-->
+    <!--<PackageReference Include="Npgsql.NodaTime" Version="4.1.4" />-->
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0" />
     <PackageReference Include="System.Linq.Async" Version="4.1.1" />
     <PackageReference Include="Twilio" Version="5.39.0" />

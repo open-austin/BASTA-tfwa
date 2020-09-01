@@ -13,8 +13,6 @@ namespace TenantFile.Api.Configurations
     {
         public void Configure(EntityTypeBuilder<Image> builder)
         {
-            //for postges naming conventions. EF automatically creates tables in PascalCase, Pg folds to lowercase so quotes would be needed with EF conventions 
-            //builder.ToTable("images");
 
             builder.HasKey(p => p.Id);
 

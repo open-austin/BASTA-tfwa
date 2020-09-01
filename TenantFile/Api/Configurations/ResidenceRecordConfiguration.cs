@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,17 @@ namespace TenantFile.Api.Configurations
     {
         public void Configure(EntityTypeBuilder<ResidenceRecord> builder)
         {
-            //for postges naming conventions. EF automatically creates tables in PascalCase, Pg folds to lowercase so quotes would be needed with EF conventions 
-            //builder.ToTable("residence_records");
-
             builder.HasKey(p => p.Id);
+
+           // var localDateConverter =
+           //new ValueConverter<ZonedDateTime, DateTimeOffset>(v =>
+           //    v.ToDateTimeOffset(),
+           //    v => ZonedDateTime.FromDateTimeOffset(v));
+
+           // builder.Property(e => e.MoveIn)
+           //     .HasConversion(localDateConverter);
+           // builder.Property(e => e.MoveOut)
+           //     .HasConversion(localDateConverter);
 
             builder.Property(e => e.Id)
                    .IsRequired()
