@@ -38,7 +38,12 @@ jobs:
       run: npm run lint
       working-directory: ${{env.react-app-dir}}
 
-    # Execute the React tests
-    - name: Test the React App
-      run: npm run test
+    # Build the React app
+    - name: Build the React App
+      run: npm run build
       working-directory: ${{env.react-app-dir}}
+    
+    # Execute the React tests
+#     - name: Test the React App
+#       run: npm run test
+#       working-directory: ${{env.react-app-dir}}
