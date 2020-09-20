@@ -54,6 +54,21 @@ We're relatively new to legit web development, so we need help with...everything
 
 @e_shackney on twitter
 
+## Required and Recommended local tools
+
+Most team members use the following tools. Required tools are noted.
+
+- dotnet: Required to compile and run the API. Download [here](https://dotnet.microsoft.com/download)
+- nvm: A highly recommended version manager for node. Download [here](https://github.com/nvm-sh/nvm)
+  - If you don't use nvm, then acquiring node directly is required. Download [here](https://nodejs.org/en/download/)
+- gcloud: A recommended tool to interact with the google cloud platform. Instruction to install are [here](https://cloud.google.com/sdk/docs#install_the_latest_cloud_tools_version_cloudsdk_current_version)
+
+## Google Cloud Account
+
+You will need a Google Cloud account to interact with several services that we use (primarily the database). 
+
+Once you have a Google Cloud account, follow the instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set up local application credentials. This is currently necessary to run the API.
+
 ## Connecting to the Google Cloud Dev Postgres instance
 
 1. Install the proxy according to your OS: https://cloud.google.com/sql/docs/postgres/connect-external-app#install
