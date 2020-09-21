@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { TenantListQuery } from "./__generated__/TenantListQuery";
-import { Row, Col, Table, Collapse } from "reactstrap";
+import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import axios from "axios";
 import { getToken } from "./firebase";
@@ -51,7 +51,7 @@ const TenantList: React.FC = () => {
   console.log(process.env.REACT_APP_API_URL);
   const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
 
-  const [userToken, setUserToken] = useState("");
+  const [, setUserToken] = useState("");
 
   useEffect(() => {
     const func = async () => {
