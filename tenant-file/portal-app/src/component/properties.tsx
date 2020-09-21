@@ -1,6 +1,5 @@
 import React from 'react';
 import PropertyForm from './property-form';
-import { useMutation, gql } from '@apollo/client';
 import { Container, Row, Col } from 'reactstrap';
 
 // TODO: Mutation to be implemented
