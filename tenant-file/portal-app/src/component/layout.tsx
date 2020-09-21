@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavbarToggler,
-  Collapse,
-  Nav,
-} from "reactstrap";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { RootState } from "../store/store";
-import { SignedInStatus } from "../store/auth";
-import Navigation from "./nav";
-import SideBar from "./sidebar";
-import theme from "./styles/themes";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { RootState } from '../store/store';
+import { SignedInStatus } from '../store/auth';
+import Navigation from './nav';
+import SideBar from './sidebar';
+import theme from './styles/themes';
 
 const Layout: React.FC = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -55,7 +47,7 @@ const Layout: React.FC = (props) => {
         <p>
           {signedInStatus === SignedInStatus.LoggedIn
             ? `You are signed in as: ${userEmail}`
-            : "You need to sign in"}
+            : 'You need to sign in'}
         </p>
       </footer>
     </ThemeProvider>

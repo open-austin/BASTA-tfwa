@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import StyledSideBar from "./styles/SidebarStyles";
-import AppLogoAndTitle from "./app-logo-and-title";
+import React from 'react';
+import StyledSideBar from './styles/SidebarStyles';
+import AppLogoAndTitle from './app-logo-and-title';
 
 type Props = {
   isSidebarOpen: boolean;
@@ -24,10 +24,10 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen, renderLinks }: Props) => {
       <StyledSideBar>
         {/* Dark overlay added to entire page */}
         <div
-          className={`sidebar_outer ${isSidebarOpen ? "" : "hide"}`}
+          className={`sidebar_outer ${isSidebarOpen ? '' : 'hide'}`}
           onClick={handleOuterSidebarClick}
         >
-          <section className={`sidebar ${isSidebarOpen ? "" : "hide"}`}>
+          <section className={`sidebar ${isSidebarOpen ? '' : 'hide'}`}>
             <div className="heading">
               <span className="close_button" onClick={closeSideBar}>
                 &times;
