@@ -7,22 +7,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.layout_container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  flex-shrink: 0;
-}
-
 main {
-  flex: 1;
+  flex: 1 1;
+  overflow: scroll;
+  /* Accounts for Footer height */
+  margin-bottom: 50px;
 }
 
 footer {
-  flex-shrink: 0;
+  position: fixed;
+  bottom: 0;
 }
 
 code {
