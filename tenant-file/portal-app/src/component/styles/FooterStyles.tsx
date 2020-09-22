@@ -17,6 +17,7 @@ const StyledFooter = styled.footer`
     color: ${(props) => props.theme.primary};
     display: flex;
     flex-direction: column;
+    transition: color 0.4s ease;
 
     span {
       font-size: 0.5em;
