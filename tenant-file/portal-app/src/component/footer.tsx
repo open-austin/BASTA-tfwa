@@ -6,15 +6,15 @@ const Footer: React.FC = () => {
 
   return (
     <StyledFooter>
-      <NavLink to="#">
+      <NavLink to="#" tabIndex={0}>
         <i className="las la-file-alt"></i>
         <span>Create Account</span>
       </NavLink>
-      <NavLink to="#">
+      <NavLink to="#" tabIndex={0}>
         <i className="las la-home"></i>
         <span>Home</span>
       </NavLink>
-      <NavLink to="#">
+      <NavLink to="#" tabIndex={0}>
         <i className="las la-cog"></i>
         <span>Settings</span>
       </NavLink>
