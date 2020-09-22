@@ -4,7 +4,22 @@ import StyledFooter from './styles/FooterStyles';
 const Footer: React.FC = () => {
   // Links to be displayed in main nav or mobile sidebar based on screen size
 
-  return <StyledFooter>Footer</StyledFooter>;
+  return (
+    <StyledFooter>
+      <NavLink to="#">
+        <i className="las la-file-alt"></i>
+        <span>Create Account</span>
+      </NavLink>
+      <NavLink to="#">
+        <i className="las la-home"></i>
+        <span>Home</span>
+      </NavLink>
+      <NavLink to="#">
+        <i className="las la-cog"></i>
+        <span>Settings</span>
+      </NavLink>
+    </StyledFooter>
+  );
 };
 
 export default Footer;
