@@ -6,6 +6,7 @@ import { RootState } from '../store/store';
 import { SignedInStatus } from '../store/auth';
 import Navigation from './nav';
 import SideBar from './sidebar';
+import ExportToolbar from './export-toolbar';
 import theme from './styles/themes';
 
 const Layout: React.FC = (props) => {
@@ -40,6 +41,7 @@ const Layout: React.FC = (props) => {
           setIsSidebarOpen={setIsSidebarOpen}
           renderLinks={renderLinks}
         />
+        <ExportToolbar />
       </header>
       <main>{props.children}</main>
       <footer>

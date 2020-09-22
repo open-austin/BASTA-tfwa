@@ -1,5 +1,6 @@
 import React, { MouseEvent } from 'react';
 import { NavLink } from 'react-router-dom';
+import StyledExportToolbar from './styles/ExportToolbarStyles';
 
 // type Props = {
 //   setIsSidebarOpen: (active: boolean) => void;
@@ -13,7 +14,14 @@ const ExportToolbar = () => {
   //   setIsSidebarOpen(true);
   // };
 
-  return <div className="export">Exporting your stuff!</div>;
+  return (
+    <StyledExportToolbar>
+      Exporting your stuff!
+      <span>&#8594; CSV</span>
+      <span>&#8594; ZIP</span>
+      <span>&#8594; MAP</span>
+    </StyledExportToolbar>
+  );
 };
 
 export default ExportToolbar;
