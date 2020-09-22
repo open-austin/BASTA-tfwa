@@ -6,6 +6,7 @@ import { RootState } from '../store/store';
 import { SignedInStatus } from '../store/auth';
 import Navigation from './nav';
 import SideBar from './sidebar';
+import Footer from './footer';
 import theme from './styles/themes';
 
 const Layout: React.FC = (props) => {
@@ -30,26 +31,29 @@ const Layout: React.FC = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <header className="App-header">
-        <SideBar
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-          renderLinks={renderLinks}
-        />
-        <Navigation
-          setIsSidebarOpen={setIsSidebarOpen}
-          renderLinks={renderLinks}
-        />
-      </header>
-      <main>{props.children}</main>
-      <footer>
+      <div className="layout_container">
+        <header className="App-header">
+          <SideBar
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            renderLinks={renderLinks}
+          />
+          <Navigation
+            setIsSidebarOpen={setIsSidebarOpen}
+            renderLinks={renderLinks}
+          />
+        </header>
+        <main>{props.children}</main>
+        <Footer />
+        {/* <footer>
         Footer
         <p>
           {signedInStatus === SignedInStatus.LoggedIn
             ? `You are signed in as: ${userEmail}`
             : 'You need to sign in'}
         </p>
-      </footer>
+      </footer> */}
+      </div>
     </ThemeProvider>
   );
 };
