@@ -5,8 +5,8 @@ const StyledExportToolbar = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: ${(props) => props.theme.accent};
-  color: #fefad4;
+  background-color: ${(props) => props.theme.backdrop};
+  color: ${(props) => props.theme.primary};
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
   z-index: 2;
 `;

@@ -11,6 +11,7 @@ import theme from './styles/themes';
 
 const Layout: React.FC = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExportToolsOpen, setIsExportToolsOpen] = useState(false);
 
   const signedInStatus = useSelector(
     (state: RootState) => state.auth.signedInStatus
