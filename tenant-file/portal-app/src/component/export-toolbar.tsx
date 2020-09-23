@@ -2,14 +2,11 @@ import React, { MouseEvent } from 'react';
 import { NavLink } from 'react-router-dom';
 import StyledExportToolbar from './styles/ExportToolbarStyles';
 
-// type Props = {
-//   setIsSidebarOpen: (active: boolean) => void;
-//   renderLinks: () => React.ReactNode;
-// };
+type Props = {
+  isExportToolsOpen: Boolean;
+};
 
-const ExportToolbar = () => {
-  // Links to be displayed in main nav or mobile sidebar based on screen size
-
+const ExportToolbar = ({ isExportToolsOpen }: Props) => {
   // const openSideBar = (e: React.MouseEvent) => {
   //   setIsSidebarOpen(true);
   // };
