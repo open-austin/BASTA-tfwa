@@ -7,6 +7,10 @@ name: Build and Deploy Master
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Testing Deployment'  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
