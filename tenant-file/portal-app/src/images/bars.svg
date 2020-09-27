@@ -1,5 +1,4 @@
 <svg
-      onClick={onClick}
       aria-hidden="true"
       focusable="false"
       data-prefix="fas"
