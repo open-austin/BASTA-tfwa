@@ -132,7 +132,6 @@ namespace TenantFile.Api.Controllers
                 
                 using var image = SixLabors.ImageSharp.Image.Load(inputStream);
                 image.Mutate(x => x
-                     //.DetectEdges()                
                      .Resize(new ResizeOptions()
                         { 
                            Mode = ResizeMode.Crop,
@@ -142,7 +141,7 @@ namespace TenantFile.Api.Controllers
                 
                 var outputStream = new MemoryStream();
                 image.Save(outputStream, encoder: new PngEncoder() { CompressionLevel = PngCompressionLevel.BestSpeed });
-                image.Dispose();
+               
                 var thumbnailName = Path.Combine("thumbnails", GetMediaFileName(mediaUrl, contentType));
                 await _storageClient.UploadStreamToStorageAsync(outputStream, thumbnailName, "image/png");
 
