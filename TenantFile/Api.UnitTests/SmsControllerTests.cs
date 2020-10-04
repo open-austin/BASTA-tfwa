@@ -59,6 +59,10 @@ namespace Api.UnitTests
         //         .AddInMemoryCollection(myConfiguration)
         //         .Build();
 
+        //var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object, configuration)
+        //{
+        //    ControllerContext = ctx
+        //};
         //     var mockContext = new Mock<TenantContext>(configuration);
 
         //     var controller = new SmsController(Mock.Of<ILogger<SmsController>>(), cloudStorageMock.Object, configuration, mockContext.Object)

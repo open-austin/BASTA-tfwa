@@ -9,9 +9,8 @@ namespace TenantFile.Api.Models
     {
         public int TenantId { get; set; }
         public int PhoneId { get; set; }
+        
         public Phone Phone { get; set; } = null!;
-
-
         public virtual Tenant Tenant { get; set; } = null!;
 
     }
