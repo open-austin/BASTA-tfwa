@@ -46,7 +46,7 @@ jobs:
       env:
         REACT_APP_API_URL: https://api.dev.tenantfile.org
         REACT_APP_PROJECT_ID: tenant-file-fc6de
-        REACT_APP_FIREBASE_API_KEY: ${{ secrests.REACT_APP_FIREBASE_API_KEY }}
+        REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
         REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
         REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
         REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
