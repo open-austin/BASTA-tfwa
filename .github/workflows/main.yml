@@ -7,6 +7,10 @@ name: Build and Deploy Master
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Testing Deployment'  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -16,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       react-app-dir: ./tenant-file/portal-app
+      api-dir: ./TenantFile/Api
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,6 +43,14 @@ jobs:
     - name: Build the React App
       run: npm run build
       working-directory: ${{env.react-app-dir}}
+      
+    - name: Submit API to build
+      run: gcloud builds submit --tag gcr.io/tenant-file-fc6de/tenant-file-api
+      working-directory: ${{env.api-dir}}
+    
+    - name: Deploy API
+      run: gcloud run deploy tenant-file-api --image gcr.io/tenant-file-fc6de/tenant-file-api --platform managed --region=us-central1
+      working-directory: ${{env.api-dir}}
 
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master

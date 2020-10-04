@@ -1,58 +1,45 @@
-import React, { useState } from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavbarToggler,
-  Collapse,
-  Nav,
-} from "reactstrap";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { RootState } from "../store/store";
-import { SignedInStatus } from "../store/auth";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { RootState } from '../store/store';
+import { SignedInStatus } from '../store/auth';
+import Navigation from './nav';
+import SideBar from './sidebar';
+import theme from './styles/themes';
 
 const Layout: React.FC = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const signedInStatus = useSelector(
     (state: RootState) => state.auth.signedInStatus
   );
+
   const userEmail = useSelector((state: RootState) => state.auth.user.email);
-  const toggle = () => setIsOpen(!isOpen);
+
+  // For dual display in sidebar and main nav
+  const renderLinks = () => {
+    return (
+      <li>
+        <NavLink exact to="/admin" activeClassName="active">
+          Admin
+        </NavLink>
+      </li>
+    );
+  };
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <header className="App-header">
-        <Navbar color="light" light expand="md">
-          <NavbarBrand>TFWA</NavbarBrand>
-          <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              {signedInStatus === SignedInStatus.LoggedIn && (
-                <NavItem>
-                  <NavLink
-                    exact
-                    to="/admin"
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    Admin
-                  </NavLink>
-                </NavItem>
-              )}
-            </Nav>
-          </Collapse>
-          <NavItem className="navbar">
-            <NavLink
-              exact
-              to="/login"
-              className="nav-link"
-              activeClassName="active"
-            >
-              Login
-            </NavLink>
-          </NavItem>
-        </Navbar>
+        <SideBar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+          renderLinks={renderLinks}
+        />
+        <Navigation
+          setIsSidebarOpen={setIsSidebarOpen}
+          renderLinks={renderLinks}
+        />
       </header>
       <main>{props.children}</main>
       <footer>
@@ -60,10 +47,10 @@ const Layout: React.FC = (props) => {
         <p>
           {signedInStatus === SignedInStatus.LoggedIn
             ? `You are signed in as: ${userEmail}`
-            : "You need to sign in"}
+            : 'You need to sign in'}
         </p>
       </footer>
-    </>
+    </ThemeProvider>
   );
 };
 

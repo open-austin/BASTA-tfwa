@@ -15,7 +15,7 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 
 interface UserRecord {
   uid: string;
@@ -24,12 +24,12 @@ interface UserRecord {
   displayName: string;
 }
 
-const Admin: React.FC = () => {
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
-      : "http://localhost:8080";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
+    : "http://localhost:8080";
 
+const Admin: React.FC = () => {
   let [users, setUsers] = useState<UserRecord[]>([]);
 
   const [modal, setModal] = useState(false);
@@ -96,10 +96,10 @@ const Admin: React.FC = () => {
                   uid: userBeingModified?.uid,
                   email: values.emailField,
                   displayName: values.displayName,
-                  claims: values.claims.reduce(
-                    (map, obj) => ((map[obj] = true), map),
-                    {} as Record<string, boolean>
-                  ),
+                  claims: values.claims.reduce((map, obj) => {
+                    map[obj] = true;
+                    return map;
+                  }, {} as Record<string, boolean>),
                 },
                 {
                   headers: {
