@@ -17,19 +17,9 @@ namespace TenantFile.Api.Configurations
         {
             builder.HasKey(p => p.Id);
 
-           // var localDateConverter =
-           //new ValueConverter<ZonedDateTime, DateTimeOffset>(v =>
-           //    v.ToDateTimeOffset(),
-           //    v => ZonedDateTime.FromDateTimeOffset(v));
-
-           // builder.Property(e => e.MoveIn)
-           //     .HasConversion(localDateConverter);
-           // builder.Property(e => e.MoveOut)
-           //     .HasConversion(localDateConverter);
-
             builder.Property(e => e.Id)
-                   .IsRequired()
-                  .ValueGeneratedOnAdd();
+                .IsRequired()
+                .ValueGeneratedOnAdd();
         }
     }
 }

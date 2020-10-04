@@ -16,8 +16,9 @@ namespace TenantFile.Api.Configurations
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
-                     .IsRequired()
-                     .ValueGeneratedOnAdd();
+                .IsRequired()
+                .ValueGeneratedOnAdd();
+
             builder
                .HasMany(r => r.ResidenceRecords)
                .WithOne(rr => rr.Residence)

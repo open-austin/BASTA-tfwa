@@ -16,10 +16,6 @@ namespace TenantFile.Api.Configurations
             builder
                 .HasKey(tp => new { tp.TenantId, tp.PhoneId });
 
-            builder.Property(p => p.PhoneId).HasColumnName("phone_id");
-            
-            builder.Property(t => t.TenantId).HasColumnName("tenant_id");
-
             builder
                 .HasOne(tp => tp.Tenant)
                 .WithMany(t => t.TenantPhones)

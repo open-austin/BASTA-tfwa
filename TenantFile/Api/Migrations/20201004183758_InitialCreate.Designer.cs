@@ -10,8 +10,8 @@ using TenantFile.Api.Models;
 namespace TenantFile.Api.Migrations
 {
     [DbContext(typeof(TenantContext))]
-    [Migration("20200901150920_lowers")]
-    partial class lowers
+    [Migration("20201004183758_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

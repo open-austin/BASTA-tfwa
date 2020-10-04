@@ -43,9 +43,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            //NpgsqlConnection.GlobalTypeMapper.UseNodaTime();
-
-            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgresDBConection"))
+            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetValue<string>("DbUrl"))
                     .UseSnakeCaseNamingConvention());
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
@@ -125,8 +123,6 @@ namespace TenantFile.Api
                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );
 
-
-            // app.UseHttpsRedirection();
 
             app.UseRouting()
                .UseWebSockets()
