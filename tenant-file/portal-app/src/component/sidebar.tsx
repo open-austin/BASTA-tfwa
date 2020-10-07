@@ -34,7 +34,7 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen, renderLinks }: Props) => {
               </span>
               <AppLogoAndTitle />
             </div>
-            <ul className="links">{renderLinks()}</ul>
+            {renderLinks()}
           </section>
         </div>
       </StyledSideBar>

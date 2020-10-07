@@ -15,10 +15,12 @@ const StyledNav = styled.nav`
     margin: 1rem 0.5rem;
   }
 
-  a {
+  a,
+  button {
     color: ${(props) => props.theme.secondary};
     text-decoration: none;
     transition: color 0.4s ease;
+    cursor: pointer;
 
     &:hover {
       color: ${(props) => props.theme.darkSecondary};
@@ -42,6 +44,11 @@ const StyledNav = styled.nav`
     @media (max-width: 760px) {
       display: none;
     }
+    display: flex;
+
+    & > li {
+      padding-right: 1rem;
+    }
   }
 
   .hamburger {
@@ -56,6 +63,11 @@ const StyledNav = styled.nav`
     @media (max-width: 760px) {
       display: block;
     }
+  }
+
+  button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
   }
 `;
 

@@ -22,9 +22,7 @@ const Nav = ({ setIsSidebarOpen, renderLinks }: Props) => {
         <BarsIcon onClick={openSideBar} />
       </div>
       <AppLogoAndTitle />
-      <div className="center">
-        <ul className="links">{renderLinks()}</ul>
-      </div>
+      <div className="center">{renderLinks()}</div>
       <div className="user">
         <NavLink exact to="/login" activeClassName="active">
           Login

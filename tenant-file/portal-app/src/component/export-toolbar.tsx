@@ -7,10 +7,6 @@ type Props = {
 };
 
 const ExportToolbar = ({ isExportToolsOpen }: Props) => {
-  // const openSideBar = (e: React.MouseEvent) => {
-  //   setIsSidebarOpen(true);
-  // };
-
   return (
     <StyledExportToolbar className={isExportToolsOpen ? '' : 'hide'}>
       <span tabIndex={0}>

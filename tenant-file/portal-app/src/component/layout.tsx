@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import Footer from './footer';
@@ -19,12 +19,21 @@ const Layout: React.FC = (props) => {
 
   // For dual display in sidebar and main nav
   const renderLinks = () => {
+    const buttonClick = (event: MouseEvent) => {
+      setIsExportToolsOpen(!isExportToolsOpen);
+    };
+
     return (
-      <li>
-        <NavLink exact to="/admin" activeClassName="active">
-          Admin
-        </NavLink>
-      </li>
+      <ul className="links">
+        <li>
+          <NavLink exact to="/admin" activeClassName="active">
+            Admin
+          </NavLink>
+        </li>
+        <li>
+          <a onClick={buttonClick}>Export</a>
+        </li>
+      </ul>
     );
   };
 
