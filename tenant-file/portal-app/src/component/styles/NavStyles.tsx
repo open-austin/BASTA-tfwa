@@ -15,8 +15,7 @@ const StyledNav = styled.nav`
     margin: 1rem 0.5rem;
   }
 
-  a,
-  button {
+  a {
     color: ${(props) => props.theme.secondary};
     text-decoration: none;
     transition: color 0.4s ease;
