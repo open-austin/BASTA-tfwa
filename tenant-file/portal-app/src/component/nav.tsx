@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-import React, { MouseEvent } from "react";
-import StyledNav from "./styles/NavStyles";
-import AppLogoAndTitle from "./app-logo-and-title";
-import BarsIcon from "./bars-svg";
-import { NavLink } from "react-router-dom";
-=======
 import React, { MouseEvent } from 'react';
 import StyledNav from './styles/NavStyles';
 import AppLogoAndTitle from './app-logo-and-title';
 import { ReactComponent as BarsIcon } from '../images/bars.svg';
 import { NavLink } from 'react-router-dom';
->>>>>>> dc58887ad9606939ba2046bf7d77dd274992a39f
 
 type Props = {
   setIsSidebarOpen: (active: boolean) => void;
