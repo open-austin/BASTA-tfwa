@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 const StyledExportToolbar = styled.div`
+  &.hide {
+    transform: translateY(-100%);
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,6 +18,8 @@ const StyledExportToolbar = styled.div`
   font-size: 1.2rem;
   padding: 0.5rem 1rem;
   font-weight: 700;
+  transition: transform 0.2s ease;
+  transform: translateY(0);
 
   span {
     flex: 1;

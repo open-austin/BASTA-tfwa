@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -8,7 +8,8 @@ const StyledNav = styled.nav`
   background-color: ${(props) => props.theme.backdrop};
   color: #fefad4;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
-  z-index: 2;
+  position: relative;
+  z-index: 3;
 
   & > * {
     margin: 1rem 0.5rem;

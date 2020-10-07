@@ -41,9 +41,7 @@ const Layout: React.FC = (props) => {
             setIsSidebarOpen={setIsSidebarOpen}
             renderLinks={renderLinks}
           />
-          {isExportToolsOpen && (
-            <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
-          )}
+          <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
         </header>
         <main>{props.children}</main>
         <Footer />

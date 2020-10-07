@@ -12,7 +12,7 @@ const ExportToolbar = ({ isExportToolsOpen }: Props) => {
   // };
 
   return (
-    <StyledExportToolbar>
+    <StyledExportToolbar className={isExportToolsOpen ? '' : 'hide'}>
       <span tabIndex={0}>
         <i className="fas fa-file-csv"></i> &#8594; CSV
       </span>
