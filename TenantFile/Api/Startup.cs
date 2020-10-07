@@ -21,6 +21,8 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
 using HotChocolate.Execution.Configuration;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace TenantFile.Api
 {
@@ -41,7 +43,9 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            services.AddDbContext<TenantContext>();
+            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetValue<string>("DbUrl"))
+                    .UseSnakeCaseNamingConvention());
+
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddCors();
             // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
@@ -119,9 +123,6 @@ namespace TenantFile.Api
                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );
 
-            app.UseAuthentication();
-
-            // app.UseHttpsRedirection();
 
             app.UseRouting()
                .UseWebSockets()
