@@ -78,10 +78,19 @@ const StyledSideBar = styled.div`
       padding: 1rem 1.5rem;
       border-bottom: 1px solid ${({ theme }) => theme.secondary};
     }
-    a {
+    a,
+    button {
       text-decoration: none;
       color: ${({ theme }) => theme.secondary};
       cursor: pointer;
+    }
+
+    button {
+      border: none;
+      background-color: rgba(0, 0, 0, 0);
+      font-size: inherit;
+      font-weight: inherit;
+      padding: 0;
     }
   }
 `;

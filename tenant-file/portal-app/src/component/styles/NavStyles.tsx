@@ -15,7 +15,8 @@ const StyledNav = styled.nav`
     margin: 1rem 0.5rem;
   }
 
-  a {
+  a,
+  button {
     color: ${(props) => props.theme.secondary};
     text-decoration: none;
     transition: color 0.4s ease;
@@ -67,6 +68,9 @@ const StyledNav = styled.nav`
   button {
     border: none;
     background-color: rgba(0, 0, 0, 0);
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
   }
 `;
 

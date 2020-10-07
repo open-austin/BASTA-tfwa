@@ -1,5 +1,4 @@
-import React, { MouseEvent } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import StyledExportToolbar from './styles/ExportToolbarStyles';
 
 type Props = {

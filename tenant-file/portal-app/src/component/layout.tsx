@@ -31,7 +31,7 @@ const Layout: React.FC = (props) => {
           </NavLink>
         </li>
         <li>
-          <a onClick={buttonClick}>Export</a>
+          <button onClick={buttonClick}>Export</button>
         </li>
       </ul>
     );
