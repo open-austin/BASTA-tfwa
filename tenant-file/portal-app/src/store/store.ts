@@ -1,13 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { firebaseReducer } from "react-redux-firebase";
 
 import authReducer from "./auth";
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  firebase: firebaseReducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
+  reducer: rootReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
