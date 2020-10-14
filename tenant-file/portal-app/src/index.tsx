@@ -8,6 +8,8 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./store/store";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import { rrfProps } from "./component/firebase";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
@@ -18,9 +20,11 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ReactReduxFirebaseProvider>
       </Provider>
     </ApolloProvider>
   </React.StrictMode>,

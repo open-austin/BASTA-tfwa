@@ -3,8 +3,12 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
 import { setSignedIn, setUserInfo } from "../store/auth";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { AppDispatch, store } from "../store/store";
 import { useHistory } from "react-router-dom";
+import {
+  ReactReduxFirebaseConfig,
+  ReactReduxFirebaseProviderProps,
+} from "react-redux-firebase";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,29 +20,17 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_GA_MEASUREMENT_ID,
 };
-
-console.log(firebaseConfig);
-
-// This must run before any other firebase functions
 firebase.initializeApp(firebaseConfig);
 
-export const useFirebaseAppInitialization = () => {
-  const dispatch: AppDispatch = useDispatch();
+const rrfConfig: Partial<ReactReduxFirebaseConfig> = {
+  userProfile: "users",
+  enableClaims: true,
+};
 
-  firebase
-    .auth()
-    // .firebase.auth()
-    .onAuthStateChanged((user) => {
-      if (user) {
-        if (user) {
-          dispatch(setSignedIn(true));
-        }
-        console.log(user);
-      } else {
-        console.log("NO USER");
-        dispatch(setSignedIn(false));
-      }
-    });
+export const rrfProps: ReactReduxFirebaseProviderProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
 };
 
 export const getToken = async () => {
@@ -77,7 +69,7 @@ const FirebaseAuth = () => {
 
         console.log("signInSuccessWithAuthResult", authResult, redirectUrl);
 
-        history.push("/signed-in");
+        history.push("/dashboard");
         // I don't want to redirect because that causes a hard refresh
         return false;
       },
