@@ -12,9 +12,7 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer: React.FC = () => {
-  const signedInStatus = useSelector(
-    (state: RootState) => state.auth.signedInStatus
-  );
+  const profile = useSelector((state: RootState) => state.firebase.profile);
 
   const userEmail = useSelector((state: RootState) => state.auth.user.email);
 
@@ -22,8 +20,8 @@ const Footer: React.FC = () => {
     <StyledFooter>
       Footer
       <p>
-        {signedInStatus === SignedInStatus.LoggedIn
-          ? `You are signed in as: ${userEmail}`
+        {!profile.isEmpty
+          ? `You are signed in as: ${profile.token.claims.email}`
           : "You need to sign in"}
       </p>
     </StyledFooter>
