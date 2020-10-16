@@ -4,7 +4,6 @@ import firebase from "firebase";
 import { setSignedIn, setUserInfo } from "../store/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch, store } from "../store/store";
-import { useHistory } from "react-router-dom";
 import {
   ReactReduxFirebaseConfig,
   ReactReduxFirebaseProviderProps,
@@ -41,11 +40,10 @@ export const getToken = async () => {
 // It does everything else on its own
 const FirebaseAuth = () => {
   const dispatch: AppDispatch = useDispatch();
-  let history = useHistory();
 
   // This is our firebaseui configuration object
   const uiConfig: firebaseui.auth.Config = {
-    signInSuccessUrl: "/signed-in",
+    signInSuccessUrl: "/dashboard",
     signInFlow: "redirect",
     credentialHelper: "none",
     signInOptions: [
@@ -68,10 +66,7 @@ const FirebaseAuth = () => {
         }
 
         console.log("signInSuccessWithAuthResult", authResult, redirectUrl);
-
-        history.push("/dashboard");
-        // I don't want to redirect because that causes a hard refresh
-        return false;
+        return true;
       },
     },
   };
