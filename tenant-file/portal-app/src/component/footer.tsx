@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../store/store";
-import { SignedInStatus } from "../store/auth";
 
 const StyledFooter = styled.footer`
   box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.3);
@@ -12,18 +11,14 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer: React.FC = () => {
-  const signedInStatus = useSelector(
-    (state: RootState) => state.auth.signedInStatus
-  );
-
-  const userEmail = useSelector((state: RootState) => state.auth.user.email);
+  const profile = useSelector((state: RootState) => state.firebase.profile);
 
   return (
     <StyledFooter>
       Footer
       <p>
-        {signedInStatus === SignedInStatus.LoggedIn
-          ? `You are signed in as: ${userEmail}`
+        {!profile.isEmpty
+          ? `You are signed in as: ${profile.token.claims.email}`
           : "You need to sign in"}
       </p>
     </StyledFooter>
