@@ -15,7 +15,11 @@ const PageLayout = styled.div`
   grid-template-rows: auto 1fr auto;
 `;
 
-const Links: React.FC = () => {
+type Props = {
+  buttonClick: (event: React.MouseEvent) => void;
+};
+
+const Links = ({ buttonClick }: Props) => {
   const isLoaded = useSelector(
     (state: RootState) => state.firebase.profile.isLoaded
   );
@@ -39,6 +43,9 @@ const Links: React.FC = () => {
           </NavLink>
         )}
       </li>
+      <li>
+        <button onClick={buttonClick}>Export</button>
+      </li>
     </>
   );
 };
@@ -47,7 +54,7 @@ const Layout: React.FC = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExportToolsOpen, setIsExportToolsOpen] = useState(false);
 
-  const buttonClick = (event: MouseEvent) => {
+  const buttonClick = (event: React.MouseEvent) => {
     setIsExportToolsOpen(!isExportToolsOpen);
   };
 
@@ -59,10 +66,10 @@ const Layout: React.FC = (props) => {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
           >
-            <Links />
+            <Links buttonClick={buttonClick} />
           </SideBar>
           <Navigation setIsSidebarOpen={setIsSidebarOpen}>
-            <Links />
+            <Links buttonClick={buttonClick} />
           </Navigation>
           <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
         </header>
