@@ -21,10 +21,13 @@ const StyledExportToolbar = styled.div`
   transition: transform 0.2s ease;
   transform: translateY(0);
 
-  span {
+  button {
     flex: 1;
     text-align: center;
     transition: color 0.4s ease;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: inherit;
 
     &:hover {
       color: ${({ theme }) => theme.accent};
