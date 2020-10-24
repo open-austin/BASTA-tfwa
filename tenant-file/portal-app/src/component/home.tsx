@@ -1,6 +1,6 @@
 import React from "react";
 import bastaaustin from "../images/bastaaustin.png";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledHeader = styled.div`
   font-size: 100px;
@@ -11,7 +11,7 @@ const StyledHeader = styled.div`
   .main-header {
     align-text: center;
     vertical-align: top;
-  }  
+  }
 
   .main-image {
     width: 50%;
@@ -19,14 +19,10 @@ const StyledHeader = styled.div`
 `;
 
 const Home: React.FC = () => (
-    // App logo and title
-    // <AppLogoAndTitle />
-    <StyledHeader>
-      <img className="main-image" src={bastaaustin} alt="basta logo" />
-      <span className="main-header">Home</span>
-    </StyledHeader>
-    // Home
-  );
-  
-  export default Home;
-  
+  <StyledHeader>
+    <img className="main-image" src={bastaaustin} alt="basta logo" />
+    <span className="main-header">Home</span>
+  </StyledHeader>
+);
+
+export default Home;
