@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledSideBar = styled.div`
   .sidebar_outer {
@@ -8,7 +8,7 @@ const StyledSideBar = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 10;
     transition: background-color 0.2s ease;
 
     &.hide {
@@ -78,9 +78,19 @@ const StyledSideBar = styled.div`
       padding: 1rem 1.5rem;
       border-bottom: 1px solid ${({ theme }) => theme.secondary};
     }
-    a {
+    a,
+    button {
       text-decoration: none;
       color: ${({ theme }) => theme.secondary};
+      cursor: pointer;
+    }
+
+    button {
+      border: none;
+      background-color: rgba(0, 0, 0, 0);
+      font-size: inherit;
+      font-weight: inherit;
+      padding: 0;
     }
   }
 `;

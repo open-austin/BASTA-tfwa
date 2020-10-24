@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
-import Footer from "./footer";
-import Navigation from "./nav";
-import SideBar from "./sidebar";
-import theme from "./styles/themes";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
+import Footer from './footer';
+import Navigation from './nav';
+import SideBar from './sidebar';
+import ExportToolbar from './export-toolbar';
+import theme from './styles/themes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const PageLayout = styled.div`
   min-height: 100%;
@@ -14,7 +15,11 @@ const PageLayout = styled.div`
   grid-template-rows: auto 1fr auto;
 `;
 
-const Links: React.FC = () => {
+type Props = {
+  buttonClick: (event: React.MouseEvent) => void;
+};
+
+const Links = ({ buttonClick }: Props) => {
   const isLoaded = useSelector(
     (state: RootState) => state.firebase.profile.isLoaded
   );
@@ -38,14 +43,20 @@ const Links: React.FC = () => {
           </NavLink>
         )}
       </li>
+      <li>
+        <button onClick={buttonClick}>Export</button>
+      </li>
     </>
   );
 };
 
 const Layout: React.FC = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExportToolsOpen, setIsExportToolsOpen] = useState(false);
 
-  // For dual display in sidebar and main nav
+  const buttonClick = (event: React.MouseEvent) => {
+    setIsExportToolsOpen(!isExportToolsOpen);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,11 +66,12 @@ const Layout: React.FC = (props) => {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
           >
-            <Links />
+            <Links buttonClick={buttonClick} />
           </SideBar>
           <Navigation setIsSidebarOpen={setIsSidebarOpen}>
-            <Links />
+            <Links buttonClick={buttonClick} />
           </Navigation>
+          <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
         </header>
         <main>{props.children}</main>
         <Footer />

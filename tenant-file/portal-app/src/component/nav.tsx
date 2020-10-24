@@ -1,11 +1,11 @@
-import React from "react";
-import StyledNav from "./styles/NavStyles";
-import AppLogoAndTitle from "./app-logo-and-title";
-import { ReactComponent as BarsIcon } from "../images/bars.svg";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { useFirebase } from "react-redux-firebase";
+import React from 'react';
+import StyledNav from './styles/NavStyles';
+import AppLogoAndTitle from './app-logo-and-title';
+import { ReactComponent as BarsIcon } from '../images/bars.svg';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { useFirebase } from 'react-redux-firebase';
 
 type Props = {
   setIsSidebarOpen: (active: boolean) => void;

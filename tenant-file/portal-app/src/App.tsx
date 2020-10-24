@@ -1,6 +1,7 @@
 import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./component/login";
 import Layout from "./component/layout";
@@ -9,8 +10,7 @@ import DisplayImages from "./component/display-images";
 import Admin from "./component/admin";
 import Dashboard from "./component/dashboard";
 import Properties from "./component/properties";
-import Home from "./component/home"
-
+import Home from "./component/home";
 
 function App() {
   return (
