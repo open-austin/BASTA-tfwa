@@ -30,52 +30,24 @@ namespace TenantFile.Api.Controllers
     {
         private readonly ILogger<SmsController> _logger;
         private readonly ICloudStorage _storageClient;
-        private readonly FirestoreDb _db;
-        private readonly TenantContext _context;
+        private readonly TenantFileContext _context;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantContext context)
+        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context)
         {
             _logger = logger;
             _storageClient = storageClient;
 
-            _db = FirestoreDb.Create(configuration.GetValue<string>("GoogleProjectId"));
+            //rip document database
+            //_db = FirestoreDb.Create(configuration.GetValue<string>("GoogleProjectId"));
             _context = context;
         }
 
-        [HttpPost("/api/sms")]
+        //Twilio can use the graphql endpoint
+        //[HttpPost("/api/sms")]
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia)
         {
-            // Is this number in our database?
-
-            var accountsRef = _db.Collection("accounts");
-            var query = accountsRef.WhereEqualTo("PhoneNumber", request.From);
-            var querySnapshot = await query.GetSnapshotAsync();
-            DocumentSnapshot? document;
-            if (querySnapshot.Count == 0)
-            {
-                await accountsRef.Document(Guid.NewGuid().ToString())
-                        .SetAsync(new Dictionary<string, object>(){
-                            { "PhoneNumber", request.From }
-                        });
-                var snapshot = await query.GetSnapshotAsync();
-                document = snapshot.Documents[0];
-            }
-            else
-            {
-                document = querySnapshot.Documents[0];
-            }
-
-            // Save the message body if there is one
-            if (request.Body != null)
-            {
-                await document.Reference.UpdateAsync("Messages", FieldValue.ArrayUnion(new Dictionary<string, object>()
-                {
-                    {"Text", request.Body},
-                    {"Timestamp", Timestamp.GetCurrentTimestamp()}
-                }));
-            }
-
-
+            
+          
             var filenames = await SaveMedia(numMedia);
 
 
@@ -117,7 +89,7 @@ namespace TenantFile.Api.Controllers
         {
             var filenames = new List<(string, string)>();
             for (var i = 0; i < numMedia; i++)
-            {
+            {               
                 var mediaUrl = Request.Form[$"MediaUrl{i}"];
                 _logger.LogInformation(mediaUrl);
                 var contentType = Request.Form[$"MediaContentType{i}"];
@@ -143,6 +115,7 @@ namespace TenantFile.Api.Controllers
                 image.Save(outputStream, encoder: new PngEncoder() { CompressionLevel = PngCompressionLevel.BestSpeed });
                
                 var thumbnailName = Path.Combine("thumbnails", GetMediaFileName(mediaUrl, contentType));
+                
                 await _storageClient.UploadStreamToStorageAsync(outputStream, thumbnailName, "image/png");
 
                 filenames.Add((filePath, thumbnailName));

@@ -21,8 +21,13 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
 using HotChocolate.Execution.Configuration;
+using HotChocolate.Data.Sorting;
 using Microsoft.EntityFrameworkCore;
-
+using Npgsql;
+using TenantFile.Api.Middleware;
+using TenantFile.Api.Models.Tenants;
+using TenantFile.Api.DataLoader;
+using TenantFile.Api.Tenants;
 
 namespace TenantFile.Api
 {
@@ -31,7 +36,18 @@ namespace TenantFile.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var connectionString = 
+                new NpgsqlConnectionStringBuilder(
+                    Configuration["CloudSql:ConnectionString"])
+                          {
+                        // Connecting to a local proxy that does not support ssl.
+                        SslMode = SslMode.Disable
+                        };
+            NpgsqlConnection connection =
+                new NpgsqlConnection(connectionString.ConnectionString);
         }
+
 
         public IConfiguration Configuration { get; }
 
@@ -43,11 +59,26 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            services.AddDbContext<TenantContext>(options => options.UseNpgsql(Configuration.GetValue<string>("DbUrl"))
-                    .UseSnakeCaseNamingConvention());
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["CloudSql:ConnectionString"]))
+            .AddGraphQLServer()
+                .AddMutationType(d => d.Name("Mutation"))
+                        .AddType<TenantMutations>()
+                    // .EnableRelaySupport()
+                    // enable for authorization support
+                    .AddQueryType(d => d.Name("Query"))
+                        .AddType<TenantQueries>()
+                    .AddDataLoader<TenantByIdDataLoader>()
+                    //.AddAuthorization()
+                    //.AddFiltering()
+                    .AddSorting();
+                    //.EnableRelaySupport();
+                    /*.UseSnakeCaseNamingConvention()*/
+
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddCors();
+
+          #region old commentted code  
             // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
             //    builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
             //                                 "http://localhost:3000",
@@ -72,7 +103,8 @@ namespace TenantFile.Api
             //                                 .AllowAnyHeader();
             //         });
             // });
-
+            #endregion
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -94,16 +126,13 @@ namespace TenantFile.Api
             });
 
             // this enables you to use DataLoader in your resolvers.
-            services.AddDataLoaderRegistry();
+            //services.AddDataLoaderRegistry();
 
             // Add GraphQL Services
-            services.AddGraphQL(
-                SchemaBuilder.New()
-                    // .EnableRelaySupport()
-                    // enable for authorization support
-                    .AddAuthorizeDirectiveType()
-                    .AddQueryType<Models.Query>()
-                    .AddMutationType<Mutation>().Create(), new QueryExecutionOptions { ForceSerialExecution = true });
+        
+
+           
+            //, new QueryExecutionOptions { ForceSerialExecution = true } )// pooled dbContext is the solution replacing this;
 
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -123,16 +152,15 @@ namespace TenantFile.Api
                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );
 
-
             app.UseRouting()
                .UseWebSockets()
-               .UseGraphQL()
+               //.UseGraphQL()//obsolete
                .UsePlayground()
                .UseVoyager();
 
+            //app.UseTwilioToStorage();
             app.UseAuthentication();
             app.UseAuthorization();
-
 
 
             app.UseEndpoints(endpoints =>
@@ -142,18 +170,28 @@ namespace TenantFile.Api
                 //     var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
                 //     await context.Response.WriteAsync($"Hello {target}!\n");
                 // });
+
+                endpoints.MapGraphQL(); //replaces app.UseGraphQL()
+
+                endpoints.MapGet("/", context =>
+                {
+                    // context.Response.Redirect("/playground");
+                    return Task.CompletedTask;
+                });
                 endpoints.MapControllers();
             });
         }
         private static void InitializeDatabase(IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            using IServiceScope? serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()!.CreateScope();
 
-            var context = serviceScope.ServiceProvider.GetRequiredService<TenantContext>();
-            if (context.Database.EnsureCreated())
+            var factory = serviceScope.ServiceProvider.GetRequiredService<IDbContextFactory<TenantFileContext>>();
+            using TenantFileContext dbContext = factory.CreateDbContext();
+
+            if (dbContext.Database.EnsureCreated())
             {
 
-                context.SaveChangesAsync();
+                dbContext.SaveChangesAsync();
             }
         }
     }

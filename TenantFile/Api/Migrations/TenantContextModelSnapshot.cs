@@ -8,7 +8,7 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.Migrations
 {
-    [DbContext(typeof(TenantContext))]
+    [DbContext(typeof(TenantFileContext))]
     partial class TenantContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -88,6 +88,42 @@ namespace TenantFile.Api.Migrations
                     b.ToTable("images");
                 });
 
+            modelBuilder.Entity("TenantFile.Api.Models.Organizer", b =>
+                {
+                    b.Property<string>("Uid")
+                        .HasColumnName("uid")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Uid")
+                        .HasName("pk_organizers");
+
+                    b.ToTable("organizers");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.OrganizerPhone", b =>
+                {
+                    b.Property<string>("OrganizerId")
+                        .HasColumnName("organizer_id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PhoneId")
+                        .HasColumnName("phone_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrganizerId", "PhoneId")
+                        .HasName("pk_organizer_phone");
+
+                    b.HasIndex("PhoneId")
+                        .HasName("ix_organizer_phone_phone_id");
+
+                    b.ToTable("organizer_phone");
+                });
+
             modelBuilder.Entity("TenantFile.Api.Models.Phone", b =>
                 {
                     b.Property<int>("Id")
@@ -119,6 +155,10 @@ namespace TenantFile.Api.Migrations
                         .HasColumnName("address_id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("OrganizerUid")
+                        .HasColumnName("organizer_uid")
+                        .HasColumnType("text");
+
                     b.Property<string>("UnitIdentifier")
                         .IsRequired()
                         .HasColumnName("unit_identifier")
@@ -129,6 +169,9 @@ namespace TenantFile.Api.Migrations
 
                     b.HasIndex("AddressId")
                         .HasName("ix_properties_address_id");
+
+                    b.HasIndex("OrganizerUid")
+                        .HasName("ix_properties_organizer_uid");
 
                     b.ToTable("properties");
                 });
@@ -227,6 +270,23 @@ namespace TenantFile.Api.Migrations
                         .HasConstraintName("fk_images_phones_phone_id");
                 });
 
+            modelBuilder.Entity("TenantFile.Api.Models.OrganizerPhone", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Organizer", "Organizer")
+                        .WithMany("OrganizerPhones")
+                        .HasForeignKey("OrganizerId")
+                        .HasConstraintName("fk_organizer_phone_organizers_organizer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Phone", "Phone")
+                        .WithMany("OrganizerPhones")
+                        .HasForeignKey("PhoneId")
+                        .HasConstraintName("fk_organizer_phone_phones_phone_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TenantFile.Api.Models.Property", b =>
                 {
                     b.HasOne("TenantFile.Api.Models.Address", "Address")
@@ -235,6 +295,11 @@ namespace TenantFile.Api.Migrations
                         .HasConstraintName("fk_properties_addresses_address_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Organizer", null)
+                        .WithMany("Properties")
+                        .HasForeignKey("OrganizerUid")
+                        .HasConstraintName("fk_properties_organizers_organizer_uid");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Residence", b =>

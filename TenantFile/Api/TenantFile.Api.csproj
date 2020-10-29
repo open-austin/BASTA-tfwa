@@ -1,43 +1,47 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>TenantFile.Api</RootNamespace>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UserSecretsId>2e183d23-5e31-4ab7-bd0d-d8ecef7a6760</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="EFCore.NamingConventions" Version="1.1.0" />
+    <PackageReference Include="EFCore.NamingConventions" Version="5.0.0-rc1" />
     <PackageReference Include="FirebaseAdmin" Version="1.12.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.0.0-beta02" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.0.0-beta03" />
+    <PackageReference Include="HotChocolate.Data" Version="11.0.0-preview.169" />
     <PackageReference Include="MediaTypeMap.Core" Version="2.3.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.Types" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.Types.Filters" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.Types.Selections" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.5.2" />
-    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.5.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="11.0.0-preview.138" />
+    <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="11.0.0-preview.138" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.Types" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.Types.Selections" Version="11.0.0-preview.138" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="11.0.0-preview.169" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0-rc.2.20475.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.2.20475.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Npgsql" Version="4.1.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+    <PackageReference Include="Npgsql" Version="5.0.0-preview1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0-rc2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0" />
     <PackageReference Include="System.Linq.Async" Version="4.1.1" />
-    <PackageReference Include="Twilio" Version="5.39.0" />
+    <PackageReference Include="Twilio" Version="5.48.0" />
     <PackageReference Include="Twilio.AspNet.Core" Version="5.33.1" />
+    <PackageReference Include="HotChocolate" Version="11.0.0-preview.169" />
+    <PackageReference Include="HotChocolate.Subscriptions" Version="11.0.0-preview.169" />
   </ItemGroup>
 </Project>

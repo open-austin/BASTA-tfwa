@@ -20,9 +20,9 @@ namespace TenantFile.Api.Controllers
 
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
-        private readonly TenantContext _context;
+        private readonly TenantFileContext _context;
 
-        public ImageController(ILogger<ImageController> logger, TenantContext context)
+        public ImageController(ILogger<ImageController> logger, TenantFileContext context)
         {
             _logger = logger;
             _storageClient = StorageClient.Create();
@@ -55,7 +55,8 @@ namespace TenantFile.Api.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+				Console.WriteLine(ex);
+                return new BadRequestResult();
             }
         }
     }

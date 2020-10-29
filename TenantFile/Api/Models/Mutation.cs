@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Types;
+using Twilio.AspNet.Common;
+using Twilio.AspNet.Core;
+using Twilio.TwiML;
+using Microsoft.AspNetCore.Mvc;
+using Twilio.Http;
+using TenantFile.Api.Models.Tenants;
 
 namespace TenantFile.Api.Models
 {
     public class Mutation
     {
-        private readonly TenantContext _context;
-        public Mutation(TenantContext context)
+        private readonly TenantFileContext _context;
+        public Mutation([Service] TenantFileContext context)
         {
             _context = context;
         }
@@ -40,11 +47,7 @@ namespace TenantFile.Api.Models
             _context.SaveChanges();
             return tenantEntry.Entity;
         }
+
     }
 
-    public class CreateTenantInput
-    {
-        public string Name { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-    }
 }

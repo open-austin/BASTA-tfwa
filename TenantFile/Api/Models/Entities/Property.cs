@@ -8,7 +8,9 @@ namespace TenantFile.Api.Models
     public class Property
     {      
         public int Id { get; set; }
-        public string UnitIdentifier { get; set; } = null!;
+        public string? Name { get; set; }
+        //this is already in Residence
+        //public string? UnitIdentifier { get; set; } 
         public Address Address { get; set; } = null!;
 
         public virtual ICollection<Residence> Residences { get; set; } = null!;

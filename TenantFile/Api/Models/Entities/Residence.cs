@@ -10,7 +10,8 @@ namespace TenantFile.Api.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string UnitIdentifier { get; set; } = null!;
+        //this could be null if there is no apt number, etc.
+        public string? UnitIdentifier { get; set; } 
 
 
         public virtual ICollection<ResidenceRecord> ResidenceRecords { get; set; } = null!;
