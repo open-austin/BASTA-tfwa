@@ -39,7 +39,7 @@ namespace TenantFile.Api
 
             var connectionString = 
                 new NpgsqlConnectionStringBuilder(
-                    Configuration["CloudSql:ConnectionString"])
+                    Configuration["LocalSql:ConnectionString"])
                           {
                         // Connecting to a local proxy that does not support ssl.
                         SslMode = SslMode.Disable
@@ -59,7 +59,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["CloudSql:ConnectionString"]))
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSql:ConnectionString"]).UseSnakeCaseNamingConvention())
             .AddGraphQLServer()
                 .AddMutationType(d => d.Name("Mutation"))
                         .AddType<TenantMutations>()
@@ -72,7 +72,7 @@ namespace TenantFile.Api
                     //.AddFiltering()
                     .AddSorting();
                     //.EnableRelaySupport();
-                    /*.UseSnakeCaseNamingConvention()*/
+                    
 
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
@@ -158,7 +158,7 @@ namespace TenantFile.Api
                .UsePlayground()
                .UseVoyager();
 
-            //app.UseTwilioToStorage();
+            app.UseTwilioToStorage();
             app.UseAuthentication();
             app.UseAuthorization();
 

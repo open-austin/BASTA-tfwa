@@ -10,7 +10,9 @@
     <PackageReference Include="EFCore.NamingConventions" Version="5.0.0-rc1" />
     <PackageReference Include="FirebaseAdmin" Version="1.12.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.0.0-beta02" />
+    <PackageReference Include="Google.Cloud.Language.V1" Version="2.1.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.0.0-beta03" />
+    <PackageReference Include="Google.Cloud.Vision.V1" Version="2.0.0" />
     <PackageReference Include="HotChocolate.Data" Version="11.0.0-preview.169" />
     <PackageReference Include="MediaTypeMap.Core" Version="2.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.0-rc.2.20475.17" />

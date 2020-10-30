@@ -1,6 +1,8 @@
-﻿using HotChocolate;
+﻿using Google.Cloud.Language.V1;
+using Google.Cloud.Vision.V1;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using MimeTypes;
@@ -11,9 +13,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TenantFile.Api.Extensions;
+using TenantFile.Api.Migrations;
 using TenantFile.Api.Models;
+using TenantFile.Api.Models.Entities;
 using TenantFile.Api.Services;
 
 namespace TenantFile.Api.Middleware
@@ -23,18 +29,21 @@ namespace TenantFile.Api.Middleware
         private readonly ILogger<TwilioToStorageMiddleware> logger;
         private readonly RequestDelegate _next;
         //private readonly TenantFileContext dbContext;
+        private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
         private readonly ICloudStorage storageClient;
 
-        
-        public TwilioToStorageMiddleware(ILogger<TwilioToStorageMiddleware> logger, RequestDelegate next, ICloudStorage storageClient)
+
+        public TwilioToStorageMiddleware(IDbContextFactory<TenantFileContext> dbContextFactory, ILogger<TwilioToStorageMiddleware> logger, RequestDelegate next, ICloudStorage storageClient)
         {
+            this.dbContextFactory = dbContextFactory;
             this.logger = logger;
             _next = next;
             //this.dbContext = dbContext;
             this.storageClient = storageClient;
+
         }
-        [UseTenantFileContext]
-        public async Task Invoke(HttpContext httpContext, [ScopedService] TenantFileContext dbContext)
+
+        public async Task Invoke(HttpContext httpContext)
         {
             httpContext.Request.Query.TryGetValue("From", out StringValues twilioFrom);
 
@@ -56,6 +65,7 @@ namespace TenantFile.Api.Middleware
                     {
                         var filenames = await SaveMedia(numMedia);
 
+                        await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
                         var phone = dbContext.Phones.FirstOrDefault(x => x.PhoneNumber == twilioFrom.First());
 
                         if (phone == null)
@@ -68,7 +78,7 @@ namespace TenantFile.Api.Middleware
                             dbContext.Phones.Add(phone);
                         }
 
-                        foreach (var (image, thumbnail) in filenames)
+                        foreach (var (image, thumbnail, lab) in filenames)
                         {
                             if (phone.Images == null)
                             {
@@ -77,7 +87,9 @@ namespace TenantFile.Api.Middleware
                             phone.Images.Add(new Models.Image
                             {
                                 Name = image,
-                                ThumbnailName = thumbnail
+                                ThumbnailName = thumbnail,
+                                Labels = lab
+
                             });
                         }
 
@@ -96,29 +108,31 @@ namespace TenantFile.Api.Middleware
                 //response.Message(body: messageBody);
 
                 /*return */ //no need for returning here... we want the HTTP request to respond and not go further into the pipeline at this point
-               // new TwiMLResult(response);
-                //When a delegate doesn't pass a request to the next delegate, it's called short-circuiting the request pipeline.Short - circuiting is often desirable because it avoids unnecessary work.For example, Static File Middleware can act as a terminal middleware by processing a request for a static file and short-circuiting the rest of the pipeline.
+                            // new TwiMLResult(response);
+                            //When a delegate doesn't pass a request to the next delegate, it's called short-circuiting the request pipeline.Short - circuiting is often desirable because it avoids unnecessary work.For example, Static File Middleware can act as a terminal middleware by processing a request for a static file and short-circuiting the rest of the pipeline.
 
                 //await httpContext.Response.WriteAsJsonAsync(response);
                 await httpContext.Response.WriteAsync($"<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n<Response>\n<Message>{messageBody}</Message>\n</Response>");
                 #region local function SaveMedia
 
-                async Task<IEnumerable<(string image, string thumbnail)>> SaveMedia(int numMedia)
+                async Task<IEnumerable<(string image, string thumbnail, ImageLabel[] labels)>> SaveMedia(int numMedia)
                 {
+
                     var httpClient = new HttpClient();
 
-                    var filenames = new List<(string, string)>();
+                    var filenames = new List<(string, string, ImageLabel[])>();
 
                     for (var i = 0; i < numMedia; i++)
                     {
                         var mediaUrl = httpContext.Request.Query[$"MediaUrl{i}"];
+
+                        var imageLabel = await GetLabelsAsync(mediaUrl);
+
                         logger.LogInformation(mediaUrl);
+
                         var contentType = httpContext.Request.Query[$"MediaContentType{i}"];
 
-                       
-                        //var filePath = Path.Combine("images", GetMediaFileName(mediaUrl, contentType)).Replace("\\", "/");
-                        
-                        var imagePath = $"images/{mediaUrl}{GetMediaFileName(mediaUrl, contentType)}";
+                        var imagePath = $"images/{GetMediaFileName(mediaUrl, contentType)}";
                         await storageClient.UploadToStorageAsync(mediaUrl, imagePath, contentType);
 
                         var response = await httpClient.GetAsync(mediaUrl);
@@ -135,13 +149,11 @@ namespace TenantFile.Api.Middleware
 
                         var outputStream = new MemoryStream();
                         image.Save(outputStream, encoder: new PngEncoder() { CompressionLevel = PngCompressionLevel.BestSpeed });
-                                                
-                        //var thumbnailName = Path.Combine("thumbnails", GetMediaFileName(mediaUrl, contentType)).Replace("\\", "/");
 
-                        var thumbPath = $"thumbnails/{mediaUrl}{GetMediaFileName(mediaUrl, contentType)}";
+                        var thumbPath = $"thumbnails/{GetMediaFileName(mediaUrl, contentType)}";
                         await storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
 
-                        filenames.Add((imagePath, thumbPath));
+                        filenames.Add((imagePath, thumbPath, imageLabel.ToArray()));
                     }
 
                     return filenames;
@@ -155,7 +167,22 @@ namespace TenantFile.Api.Middleware
             }
         }
 
+        async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
+        {
+            var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
+            var client = ImageAnnotatorClient.Create();
+            var response = await client.DetectLabelsAsync(image);
+            var imageLables = new List<ImageLabel>();
 
+            foreach (var annotation in response)
+            {
+                if (annotation.Description != null)
+                {
+                    imageLables.Add(new ImageLabel(annotation.Description, annotation.Score));
+                }
+            }
+            return imageLables;
+        }
 
         private string GetMediaFileName(string mediaUrl,
             string contentType)

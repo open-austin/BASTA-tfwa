@@ -17,8 +17,11 @@ namespace TenantFile.Api.Configurations
             builder.HasKey(p => p.Id);
 
             builder.Property(e => e.Id)
-                  .IsRequired()
-                  .ValueGeneratedOnAdd();
+                  . IsRequired()
+                  . ValueGeneratedOnAdd();
+
+            builder.Property(i => i.Labels)
+                   .HasColumnType("jsonb");
         }
     }
 }
