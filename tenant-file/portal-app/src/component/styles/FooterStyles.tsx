@@ -9,6 +9,7 @@ const StyledFooter = styled.footer`
   align-items: center;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
+  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.3);
 
   a {
     flex: 1;
