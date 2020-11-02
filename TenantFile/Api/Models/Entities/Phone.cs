@@ -7,8 +7,7 @@ namespace TenantFile.Api.Models
 {
     public class Phone
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
         public int Id { get; set; }
         public string PhoneNumber { get; set; } = null!;
 

@@ -5,10 +5,13 @@ import AppLogoAndTitle from './app-logo-and-title';
 type Props = {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (active: boolean) => void;
-  renderLinks: () => React.ReactNode;
 };
 
-const SideBar = ({ isSidebarOpen, setIsSidebarOpen, renderLinks }: Props) => {
+const SideBar: React.FC<Props> = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+  children,
+}) => {
   const closeSideBar = () => {
     setIsSidebarOpen(false);
   };
@@ -34,7 +37,7 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen, renderLinks }: Props) => {
               </span>
               <AppLogoAndTitle />
             </div>
-            <ul className="links">{renderLinks()}</ul>
+            <ul className="links">{children}</ul>
           </section>
         </div>
       </StyledSideBar>

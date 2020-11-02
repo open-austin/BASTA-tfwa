@@ -7,6 +7,10 @@ name: Build and Deploy Master
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Testing Deployment'  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,6 +43,13 @@ jobs:
     - name: Build the React App
       run: npm run build
       working-directory: ${{env.react-app-dir}}
+      env:
+        REACT_APP_API_URL: https://api.dev.tenantfile.org
+        REACT_APP_PROJECT_ID: tenant-file-fc6de
+        REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+        REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+        REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+        REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
       
     - name: Submit API to build
       run: gcloud builds submit --tag gcr.io/tenant-file-fc6de/tenant-file-api

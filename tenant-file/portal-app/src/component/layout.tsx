@@ -1,59 +1,81 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { RootState } from '../store/store';
-import { SignedInStatus } from '../store/auth';
+import styled, { ThemeProvider } from 'styled-components';
+import Footer from './footer';
 import Navigation from './nav';
 import SideBar from './sidebar';
-import Footer from './footer';
+import ExportToolbar from './export-toolbar';
 import theme from './styles/themes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+
+const PageLayout = styled.div`
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+`;
+
+type Props = {
+  buttonClick: (event: React.MouseEvent) => void;
+};
+
+const Links = ({ buttonClick }: Props) => {
+  const isLoaded = useSelector(
+    (state: RootState) => state.firebase.profile.isLoaded
+  );
+  const claims = useSelector(
+    (state: RootState) => state.firebase.profile?.token?.claims
+  );
+
+  return (
+    <>
+      <li>
+        {isLoaded && (claims?.organizer || claims?.admin) && (
+          <NavLink exact to="/dashboard" activeClassName="active">
+            Dashboard
+          </NavLink>
+        )}
+      </li>
+      <li>
+        {isLoaded && claims?.admin && (
+          <NavLink exact to="/admin" activeClassName="active">
+            Admin
+          </NavLink>
+        )}
+      </li>
+      <li>
+        <button onClick={buttonClick}>Export</button>
+      </li>
+    </>
+  );
+};
 
 const Layout: React.FC = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExportToolsOpen, setIsExportToolsOpen] = useState(false);
 
-  const signedInStatus = useSelector(
-    (state: RootState) => state.auth.signedInStatus
-  );
-
-  const userEmail = useSelector((state: RootState) => state.auth.user.email);
-
-  // For dual display in sidebar and main nav
-  const renderLinks = () => {
-    return (
-      <li>
-        <NavLink exact to="/admin" activeClassName="active">
-          Admin
-        </NavLink>
-      </li>
-    );
+  const buttonClick = (event: React.MouseEvent) => {
+    setIsExportToolsOpen(!isExportToolsOpen);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="layout_container">
+      <PageLayout>
         <header className="App-header">
           <SideBar
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
-            renderLinks={renderLinks}
-          />
-          <Navigation
-            setIsSidebarOpen={setIsSidebarOpen}
-            renderLinks={renderLinks}
-          />
+          >
+            <Links buttonClick={buttonClick} />
+          </SideBar>
+          <Navigation setIsSidebarOpen={setIsSidebarOpen}>
+            <Links buttonClick={buttonClick} />
+          </Navigation>
+          <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
         </header>
         <main>{props.children}</main>
         <Footer />
-        {/* <footer>
-        Footer
-        <p>
-          {signedInStatus === SignedInStatus.LoggedIn
-            ? `You are signed in as: ${userEmail}`
-            : 'You need to sign in'}
-        </p>
-      </footer> */}
-      </div>
+      </PageLayout>
     </ThemeProvider>
   );
 };

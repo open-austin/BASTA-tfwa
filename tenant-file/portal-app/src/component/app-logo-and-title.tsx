@@ -1,7 +1,7 @@
-import React from "react";
-import ToolLogo from "./logo-svg";
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { ReactComponent as ToolLogo } from '../images/tools-logo.svg';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 const StyledLogo = styled.div`
   font-size: 1.5rem;

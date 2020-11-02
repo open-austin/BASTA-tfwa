@@ -129,12 +129,19 @@ namespace TenantFile.Api.Controllers
                 var httpClient = new HttpClient();
                 var response = await httpClient.GetAsync(mediaUrl);
                 var inputStream = await response.Content.ReadAsStreamAsync();
+                
                 using var image = SixLabors.ImageSharp.Image.Load(inputStream);
                 image.Mutate(x => x
-                     .Resize(0, 100));
+                     .Resize(new ResizeOptions()
+                        { 
+                           Mode = ResizeMode.Crop,
+                           Size = new Size(125, 100)
+                           
+                        }));
+                
                 var outputStream = new MemoryStream();
-                image.Save(outputStream, new PngEncoder());
-
+                image.Save(outputStream, encoder: new PngEncoder() { CompressionLevel = PngCompressionLevel.BestSpeed });
+               
                 var thumbnailName = Path.Combine("thumbnails", GetMediaFileName(mediaUrl, contentType));
                 await _storageClient.UploadStreamToStorageAsync(outputStream, thumbnailName, "image/png");
 

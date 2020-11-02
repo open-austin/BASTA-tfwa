@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -8,16 +8,19 @@ const StyledNav = styled.nav`
   background-color: ${(props) => props.theme.backdrop};
   color: #fefad4;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
-  z-index: 2;
+  position: relative;
+  z-index: 3;
 
   & > * {
     margin: 1rem 0.5rem;
   }
 
-  a {
+  a,
+  button {
     color: ${(props) => props.theme.secondary};
     text-decoration: none;
     transition: color 0.4s ease;
+    cursor: pointer;
 
     &:hover {
       color: ${(props) => props.theme.darkSecondary};
@@ -41,6 +44,11 @@ const StyledNav = styled.nav`
     @media (max-width: 760px) {
       display: none;
     }
+    display: flex;
+
+    & > li {
+      padding-right: 1rem;
+    }
   }
 
   .hamburger {
@@ -55,6 +63,14 @@ const StyledNav = styled.nav`
     @media (max-width: 760px) {
       display: block;
     }
+  }
+
+  button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
   }
 `;
 
