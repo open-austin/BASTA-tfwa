@@ -1,5 +1,7 @@
 ﻿using Google.Cloud.Language.V1;
 using Google.Cloud.Vision.V1;
+using HotChocolate;
+using HotChocolate.Subscriptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,7 @@ using TenantFile.Api.Extensions;
 using TenantFile.Api.Migrations;
 using TenantFile.Api.Models;
 using TenantFile.Api.Models.Entities;
+using TenantFile.Api.Models.Phones;
 using TenantFile.Api.Services;
 
 namespace TenantFile.Api.Middleware
@@ -43,7 +46,7 @@ namespace TenantFile.Api.Middleware
 
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext, [Service] ITopicEventSender eventSender)
         {
             httpContext.Request.Query.TryGetValue("From", out StringValues twilioFrom);
 
@@ -93,7 +96,10 @@ namespace TenantFile.Api.Middleware
                             });
                         }
 
-                        dbContext.SaveChanges();
+                        await dbContext.SaveChangesAsync();
+                        await eventSender.SendAsync(
+       nameof(PhoneSubscriptions.OnNewPhoneReceivedAsync),
+       phone.Id);//TODO: Does this id exist yet in memory? It is generated on creation... could alter this to generate guid in ctor
 
 
                         messageBody = $"Thanks for sending us {numMedia} file(s)!";

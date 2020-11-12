@@ -28,6 +28,7 @@ using TenantFile.Api.Middleware;
 using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Tenants;
+using TenantFile.Api.Models.Phones;
 
 namespace TenantFile.Api
 {
@@ -37,13 +38,13 @@ namespace TenantFile.Api
         {
             Configuration = configuration;
 
-            var connectionString = 
+            var connectionString =
                 new NpgsqlConnectionStringBuilder(
                     Configuration["LocalSql:ConnectionString"])
-                          {
-                        // Connecting to a local proxy that does not support ssl.
-                        SslMode = SslMode.Disable
-                        };
+                {
+                    // Connecting to a local proxy that does not support ssl.
+                    SslMode = SslMode.Disable
+                };
             NpgsqlConnection connection =
                 new NpgsqlConnection(connectionString.ConnectionString);
         }
@@ -59,7 +60,9 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
 
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSql:ConnectionString"]).UseSnakeCaseNamingConvention())
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSql:ConnectionString"])
+            .UseSnakeCaseNamingConvention()
+            .LogTo(Console.WriteLine, LogLevel.Information))
             .AddGraphQLServer()
                 .AddMutationType(d => d.Name("Mutation"))
                         .AddType<TenantMutations>()
@@ -67,18 +70,21 @@ namespace TenantFile.Api
                     // enable for authorization support
                     .AddQueryType(d => d.Name("Query"))
                         .AddType<TenantQueries>()
+                    .AddSubscriptionType(d => d.Name("Subscription"))
+                        .AddTypeExtension<PhoneSubscriptions>()
+                    .AddInMemorySubscriptions()
                     .AddDataLoader<TenantByIdDataLoader>()
                     //.AddAuthorization()
                     //.AddFiltering()
                     .AddSorting();
-                    //.EnableRelaySupport();
-                    
+            //.EnableRelaySupport();
+
 
 
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddCors();
 
-          #region old commentted code  
+            #region old commentted code  
             // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
             //    builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
             //                                 "http://localhost:3000",
@@ -104,7 +110,7 @@ namespace TenantFile.Api
             //         });
             // });
             #endregion
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -129,9 +135,9 @@ namespace TenantFile.Api
             //services.AddDataLoaderRegistry();
 
             // Add GraphQL Services
-        
 
-           
+
+
             //, new QueryExecutionOptions { ForceSerialExecution = true } )// pooled dbContext is the solution replacing this;
 
             services.AddControllers().AddNewtonsoftJson();

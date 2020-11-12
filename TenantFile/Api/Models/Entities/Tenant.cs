@@ -13,6 +13,6 @@ namespace TenantFile.Api.Models
 
 
         public virtual ICollection<ResidenceRecord> ResidenceRecords { get; set; } = null!;
-        public virtual ICollection<TenantPhone> TenantPhones { get; set; } = null!;
+        public virtual ICollection<Phone> Phones { get; set; } = null!;
     }
 }

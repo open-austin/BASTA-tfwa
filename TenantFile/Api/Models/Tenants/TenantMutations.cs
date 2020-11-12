@@ -33,10 +33,11 @@ namespace TenantFile.Api.Models.Tenants
             var tenant = new Tenant
             {
                 Name = inputTenant.Name,
-                TenantPhones = new List<TenantPhone>{
-                    new TenantPhone {
-                        Phone = phone
+                Phones = new List<Phone>{
+                    new Phone {
+                        PhoneNumber = phone.PhoneNumber
                     }
+
                 }
             };
 
