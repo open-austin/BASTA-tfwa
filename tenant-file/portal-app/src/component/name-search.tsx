@@ -11,8 +11,7 @@ const NameSearch = () => {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(searchValue);
-    history.push(`/${searchValue}`);
+    history.push(`/dashboard?q=${searchValue}`);
   }
 
   return (
