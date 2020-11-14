@@ -9,8 +9,8 @@ import { getToken } from './firebase';
 import Image from './image';
 
 const EXCHANGE_RATES = gql`
-  query TenantListQuery {
-    tenants(order_by: { name: ASC }) {
+  query TenantListQuery($name: String = "") {
+    tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
       nodes {
         name
         tenantPhones {
@@ -51,13 +51,19 @@ type TenantRow = {
 const TenantList: React.FC = () => {
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
-
+  const nameQuery = searchParams.get('q') || '';
   console.log(searchParams.get('q'), 'location');
+
+  const queryVariables = {
+    name: nameQuery,
+  };
 
   // TODO: Bring in GraphQL Query and set the query to only grab tenant names based on what you have
 
   console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
+  const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES, {
+    variables: queryVariables,
+  });
 
   const [, setUserToken] = useState('');
 
