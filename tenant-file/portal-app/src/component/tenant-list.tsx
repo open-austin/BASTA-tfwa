@@ -54,6 +54,8 @@ const TenantList: React.FC = () => {
 
   console.log(searchParams.get('q'), 'location');
 
+  // TODO: Bring in GraphQL Query and set the query to only grab tenant names based on what you have
+
   console.log(process.env.REACT_APP_API_URL);
   const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
 
