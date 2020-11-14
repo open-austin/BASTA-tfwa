@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const NameSearch = () => {
-  const [searchValue, setSearchValue] = useState('');
+  const paramsString = useLocation().search;
+  const searchParams = new URLSearchParams(paramsString);
+  const nameQuery = searchParams.get('q');
+  const [searchValue, setSearchValue] = useState(nameQuery || '');
   const history = useHistory();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
