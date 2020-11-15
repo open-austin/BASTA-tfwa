@@ -96,10 +96,7 @@ const NameSearch = () => {
       <button className="submit" type="submit">
         Search
       </button>
-      <button
-        className={isInputEmpty() ? 'hide' : 'clear'}
-        onClick={clearSearch}
-      >
+      <button className="clear" onClick={clearSearch}>
         &times;
       </button>
     </StyledNameSearch>
