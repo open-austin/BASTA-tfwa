@@ -8,28 +8,50 @@ const StyledNameSearch = styled.form`
   /* border: 1px solid ${(props) => props.theme.backdrop}; */
   border-radius: 10px;
   margin: 1rem 0;
+  position: relative;
 
   input {
     flex: 1;
     border: none;
     border: 1px solid ${(props) => props.theme.backdrop};
+    border-right: none;
     border-radius: 10px 0 0 10px;
     padding: 0.2rem 0.6rem;
-    transition: border 0.4s ease;
+    transition: border 0.2s ease;
+  }
+
+  button {
+    border: none;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .clear {
+    position: absolute;
+    top: -0.1rem;
+    right: 5rem;
+    font-size: 1.3rem;
+    cursor: pointer;
   }
 
   input:focus {
     border: 1px solid ${(props) => props.theme.secondary};
+    border-radius: 10px 0 0 10px;
+    border-right: none;
     outline: none;
   }
 
-  button {
-    background-color: ${(props) => props.theme.backdrop};
+  button.submit {
     border: none;
+    box-shadow: none;
+    background-color: ${(props) => props.theme.backdrop};
     color: ${(props) => props.theme.primary};
     border-radius: 0 8px 8px 0;
     padding: 0 0.6rem;
-    box-shadow: none;
+  }
+
+  .hide {
+    display: none;
   }
 
   button:focus {
@@ -55,6 +77,14 @@ const NameSearch = () => {
     history.push(`/dashboard?q=${searchValue}`);
   }
 
+  function clearSearch(e: React.FormEvent) {
+    setSearchValue('');
+  }
+
+  function isInputEmpty() {
+    return searchValue.length === 0;
+  }
+
   return (
     <StyledNameSearch onSubmit={handleSubmit}>
       <input
@@ -63,7 +93,15 @@ const NameSearch = () => {
         value={searchValue}
         onChange={handleChange}
       />
-      <button type="submit">Search</button>
+      <button className="submit" type="submit">
+        Search
+      </button>
+      <button
+        className={isInputEmpty() ? 'hide' : 'clear'}
+        onClick={clearSearch}
+      >
+        &times;
+      </button>
     </StyledNameSearch>
   );
 };
