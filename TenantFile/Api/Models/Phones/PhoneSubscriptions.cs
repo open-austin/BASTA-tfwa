@@ -1,4 +1,5 @@
 ﻿using HotChocolate;
+using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,16 @@ namespace TenantFile.Api.Models.Phones
     [ExtendObjectType(Name = "Subscription")]
     public class PhoneSubscriptions
     {
-        [Subscribe]
+        [Subscribe/*(With = nameof(SubscribeToOnNewPhoneReceivedAsync))*/]
         [Topic]
-        public Task<Phone> OnNewPhoneReceivedAsync(
+        public Task<Phone> OnNewPhoneReceived(
             [EventMessage] int phoneId,
             PhoneByIdDataLoader phoineById,
             CancellationToken cancellationToken) =>
             phoineById.LoadAsync(phoneId, cancellationToken);
+
+        public async ValueTask<IAsyncEnumerable<int>> SubscribeToOnNewPhoneReceivedAsync(int phoneId,
+            [Service] ITopicEventReceiver eventReceiver, CancellationToken cancellationToken) =>
+             (await eventReceiver.SubscribeAsync<string, int>("OnNewPhoneReceived_" + phoneId, cancellationToken)).ReadEventsAsync();
     }
 }

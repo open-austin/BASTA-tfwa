@@ -25,13 +25,12 @@ namespace TenantFile.Api.Models.Phones
         public IQueryable<Phone> GetPhones([ScopedService] TenantFileContext tenantContext) => tenantContext.Phones.AsQueryable();
 
         [UseTenantFileContext]
-        public async Task<IEnumerable<Phone>> GetTenantlessPhonesAsync(
+        public async Task<List<Phone>> GetTenantlessPhonesAsync(
             [ScopedService] TenantFileContext tenantContext) =>
                     await tenantContext.Phones
                          .AsQueryable()
-                         .Where(p => p.Tenants == null || p.Tenants.Count == 0)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+                         .Where(p => p.Tenants.Count == 0)//default for int is 0 so if Tenants==null, it should still return 0. Evaluating null Tenant list throws implementation exception
+                         .ToListAsync();
                 
 
 

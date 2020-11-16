@@ -20,7 +20,7 @@ namespace TenantFile.Api.Models.Tenants
             CancellationToken cancellationToken)
         {
             // See if the phone number exists already
-            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == inputTenant.PhoneNumber);
+            Phone? phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == inputTenant.PhoneNumber);
 
             // If it doesn't exist, create a new phone number
             if (phone == null)

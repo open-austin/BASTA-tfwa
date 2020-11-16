@@ -29,6 +29,7 @@ using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Tenants;
 using TenantFile.Api.Models.Phones;
+using StackExchange.Redis;
 
 namespace TenantFile.Api
 {
@@ -59,25 +60,31 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-
+           
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSql:ConnectionString"])
             .UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
+              
             .AddGraphQLServer()
-                .AddMutationType(d => d.Name("Mutation"))
+                     .AddMutationType(d => d.Name("Mutation"))
                         .AddType<TenantMutations>()
-                    // .EnableRelaySupport()
-                    // enable for authorization support
+                        .AddType<PhoneMutations>()
                     .AddQueryType(d => d.Name("Query"))
                         .AddType<TenantQueries>()
+                        .AddType<PhoneQueries>()
                     .AddSubscriptionType(d => d.Name("Subscription"))
-                        .AddTypeExtension<PhoneSubscriptions>()
+                        .AddType<PhoneSubscriptions>()
+                    .AddType<PhoneType>()
+                    .AddType<TenantType>()
+                    .EnableRelaySupport()
                     .AddInMemorySubscriptions()
+                    
                     .AddDataLoader<TenantByIdDataLoader>()
+                    .AddDataLoader<PhoneByIdDataLoader>()
                     //.AddAuthorization()
-                    //.AddFiltering()
+                    .AddFiltering()
                     .AddSorting();
-            //.EnableRelaySupport();
+
 
 
 
@@ -111,34 +118,29 @@ namespace TenantFile.Api
             // });
             #endregion
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Audience = Configuration["GoogleProjectId"];
-                options.Authority = $"https://securetoken.google.com/{Configuration["GoogleProjectId"]}";
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    RoleClaimType = ClaimTypes.Role
-                };
-            });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //.AddJwtBearer(options =>
+            //{
+            //    options.Audience = Configuration["GoogleProjectId"];
+            //    options.Authority = $"https://securetoken.google.com/{Configuration["GoogleProjectId"]}";
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        RoleClaimType = ClaimTypes.Role
+            //    };
+            //});
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
+            //});
 
             // this enables you to use DataLoader in your resolvers.
             //services.AddDataLoaderRegistry();
 
-            // Add GraphQL Services
-
-
-
-            //, new QueryExecutionOptions { ForceSerialExecution = true } )// pooled dbContext is the solution replacing this;
 
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -155,18 +157,20 @@ namespace TenantFile.Api
             InitializeDatabase(app);
 
             app.UseCors(
-               options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+               options => options.SetIsOriginAllowed(x => _ = true)
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials()
             );
 
-            app.UseRouting()
-               .UseWebSockets()
-               //.UseGraphQL()//obsolete
+            //app.UseTwilioToStorage();
+            app.UseWebSockets()
+               .UseRouting()
                .UsePlayground()
                .UseVoyager();
-
-            app.UseTwilioToStorage();
-            app.UseAuthentication();
-            app.UseAuthorization();
+               
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>
@@ -179,9 +183,11 @@ namespace TenantFile.Api
 
                 endpoints.MapGraphQL(); //replaces app.UseGraphQL()
 
-                endpoints.MapGet("/", context =>
+                endpoints.MapGet("/",  context =>
                 {
-                    // context.Response.Redirect("/playground");
+
+                    //await context.WebSockets.AcceptWebSocketAsync();  
+                    //context.Response.Redirect("/playground");
                     return Task.CompletedTask;
                 });
                 endpoints.MapControllers();

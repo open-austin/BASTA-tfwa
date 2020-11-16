@@ -74,7 +74,7 @@ Once you have a Google Cloud account, follow the instructions [here](https://clo
 1. Install the proxy according to your OS: https://cloud.google.com/sql/docs/postgres/connect-external-app#install
 1. Make sure you have properly set up your `GOOGLE_APPLICATION_CREDENTIALS` environment variable
 1. Start the proxy with `./cloud_sql_proxy -instances=tenant-file-fc6de:us-central1:tx-tenant-dev=tcp:5432`
-1. You should be able to access the database at 12.0.0.1:5432 now
+1. You should be able to access the database at 127.0.0.1:5432 now
 
 ## Database Migrations
 
