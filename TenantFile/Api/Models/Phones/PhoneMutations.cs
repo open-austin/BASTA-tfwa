@@ -7,6 +7,7 @@ using HotChocolate;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using TenantFile.Api.Extensions;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Phones
 {

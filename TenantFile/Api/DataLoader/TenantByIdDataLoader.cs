@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using GreenDonut;
 using HotChocolate.DataLoader;
 using TenantFile.Api.Models;
-
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.DataLoader
 {

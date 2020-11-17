@@ -67,7 +67,7 @@ namespace TenantFile.Api.Controllers
                 phone = new Phone
                 {
                     PhoneNumber = request.From,
-                    Images = new List<Models.Image>()
+                    Images = new List<Models.Entities.Image>()
                 };
                 dbContext.Phones.Add(phone);
             }
@@ -76,9 +76,9 @@ namespace TenantFile.Api.Controllers
             {
                 if (phone.Images == null)
                 {
-                    phone.Images = new List<Models.Image>();
+                    phone.Images = new List<Models.Entities.Image>();
                 }
-                phone.Images.Add(new Models.Image
+                phone.Images.Add(new Models.Entities.Image
                 {
                     Name = image,
                     ThumbnailName = thumbnail,

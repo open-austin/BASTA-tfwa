@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 using TenantFile.Api.Common;
 using TenantFile.Api.Models.Entities;
 
-namespace TenantFile.Api.Models.Phones
+namespace TenantFile.Api.Models.Residences
 {
-    public class CreatePhonePayload : TPayload<Phone>
+    public class CreateResidencePayload : TPayload<Residence>
     {
-        public CreatePhonePayload(Phone phone) : base(phone)
+        public CreateResidencePayload (Residence residence) : base(residence)
         {
 
         }
-        public CreatePhonePayload(UserError error)
+        public CreateResidencePayload(UserError error)
             : base(new[] { error })
         {
         }
     }
-
 }

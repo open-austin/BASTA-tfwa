@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TenantFile.Api.Common;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Tenants
 {

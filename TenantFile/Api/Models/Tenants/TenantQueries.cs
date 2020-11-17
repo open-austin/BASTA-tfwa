@@ -12,6 +12,7 @@ using TenantFile.Api.Extensions;
 using TenantFile.Api.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Tenants
 {

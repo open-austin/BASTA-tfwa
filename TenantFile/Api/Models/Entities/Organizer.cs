@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TenantFile.Api.Models
+namespace TenantFile.Api.Models.Entities
 {
     public class Organizer
     {

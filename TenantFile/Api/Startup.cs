@@ -29,7 +29,8 @@ using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Tenants;
 using TenantFile.Api.Models.Phones;
-using StackExchange.Redis;
+using TenantFile.Api.Models.Properties;
+using TenantFile.Api.Models.Residences;
 
 namespace TenantFile.Api
 {
@@ -69,6 +70,8 @@ namespace TenantFile.Api
                      .AddMutationType(d => d.Name("Mutation"))
                         .AddType<TenantMutations>()
                         .AddType<PhoneMutations>()
+                        .AddType<PropertyMutations>()
+                        .AddType<ResidenceMutations>()
                     .AddQueryType(d => d.Name("Query"))
                         .AddType<TenantQueries>()
                         .AddType<PhoneQueries>()
@@ -76,6 +79,8 @@ namespace TenantFile.Api
                         .AddType<PhoneSubscriptions>()
                     .AddType<PhoneType>()
                     .AddType<TenantType>()
+                    .AddType<PropertyType>()
+                    .AddType<ResidenceType>()
                     .EnableRelaySupport()
                     .AddInMemorySubscriptions()
                     

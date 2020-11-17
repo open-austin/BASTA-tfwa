@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TenantFile.Api.Models;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Configurations
 {
@@ -23,6 +24,11 @@ namespace TenantFile.Api.Configurations
                .HasMany(r => r.ResidenceRecords)
                .WithOne(rr => rr.Residence)
                .HasForeignKey(rr => rr.Id);
+
+            //builder
+            //  .HasOne(r => r.Property)
+            //  .WithMany(p => p.Residences)
+            //  .HasForeignKey(p => p.PropertyId);
         }
     }
 }

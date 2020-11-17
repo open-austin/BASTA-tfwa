@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TenantFile.Api.Models.Entities;
 
-namespace TenantFile.Api.Models
+namespace TenantFile.Api.Models.Entities
 {
     public class Image
     {

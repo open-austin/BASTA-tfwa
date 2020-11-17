@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TenantFile.Api.Models
+namespace TenantFile.Api.Models.Entities
 {
     public class Tenant
     {

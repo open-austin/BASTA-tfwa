@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TenantFile.Api.Models;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.DataLoader
 {

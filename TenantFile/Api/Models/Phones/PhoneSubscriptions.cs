@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TenantFile.Api.DataLoader;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Phones
 {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TenantFile.Api.Models;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Configurations
 {
