@@ -21,7 +21,7 @@ namespace TenantFile.Api.Configurations
                 .ValueGeneratedOnAdd();
 
             builder
-               .HasMany(r => r.ResidenceRecords)
+               .HasMany(r => r.TenantEvents)
                .WithOne(rr => rr.Residence)
                .HasForeignKey(rr => rr.Id);
 

@@ -1,7 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using Google.Cloud.Firestore;
-using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Twilio.AspNet.Common;
@@ -9,42 +6,37 @@ using Twilio.AspNet.Core;
 using Twilio.TwiML;
 using MimeTypes;
 using System.IO;
-using Microsoft.Extensions.Primitives;
-using System.Net;
-using Newtonsoft.Json;
 using TenantFile.Api.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using TenantFile.Api.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Png;
 using System.Net.Http;
 using System.Linq;
-using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate.Subscriptions;
 using HotChocolate;
 using TenantFile.Api.Models.Phones;
 using TenantFile.Api.Models.Entities;
 using Google.Cloud.Vision.V1;
+using System;
 
 namespace TenantFile.Api.Controllers
 {
     public class SmsController : TwilioController
     {
         private readonly ITopicEventSender eventSender;
-        private readonly ILogger<SmsController> _logger;
+        private readonly ILogger<SmsController> logger;
         private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
         private readonly ICloudStorage storageClient;
 
         public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, IDbContextFactory<TenantFileContext> dbContextFactory, [Service] ITopicEventSender eventSender)
         {
             this.eventSender = eventSender;
-            _logger = logger;
+            this.logger = logger;
             this.storageClient = storageClient;
-
             this.dbContextFactory = dbContextFactory;
         }
 
@@ -54,11 +46,12 @@ namespace TenantFile.Api.Controllers
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia/*, [Service] ITopicEventSender eventSender*/)
         {
 
-
+            DateTime timeStamp = DateTime.Now;
             var filenames = await SaveMedia(numMedia);
 
             await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
             var phone = dbContext.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
+
             bool newPhone = false;
 
             if (phone == null)
@@ -71,6 +64,7 @@ namespace TenantFile.Api.Controllers
                 };
                 dbContext.Phones.Add(phone);
             }
+            var tenantEvent = CreateTenantEventAsync(dbContext, phone, timeStamp);
 
             foreach (var (image, thumbnail, labels) in filenames)
             {
@@ -86,6 +80,7 @@ namespace TenantFile.Api.Controllers
 
                 });
             }
+            dbContext.TenantEvents.Add(await tenantEvent);
 
             await dbContext.SaveChangesAsync();
             if (newPhone == true)
@@ -106,7 +101,7 @@ namespace TenantFile.Api.Controllers
             {
                 var mediaUrl = Request.Form[$"MediaUrl{i}"];
                 var imageLabel = GetLabelsAsync(mediaUrl);
-                _logger.LogInformation(mediaUrl);
+                logger.LogInformation(mediaUrl);
                 var contentType = Request.Form[$"MediaContentType{i}"];
 
                 var imagePath = $"images/{GetMediaFileName(mediaUrl, contentType)}";
@@ -139,6 +134,22 @@ namespace TenantFile.Api.Controllers
             return filenames;
         }
 
+        async Task<TenantEvent> CreateTenantEventAsync(TenantFileContext dbContext, Phone phone, DateTime time)
+        {
+            var tenant = await dbContext.Tenants.AsAsyncEnumerable()
+                                                .Where(t => t.Phones.Select(p => p.PhoneNumber)
+                                                .Contains(phone.PhoneNumber))
+                                                .FirstOrDefaultAsync();
+            return new TenantEvent()
+            {
+                DateOccurred = time,
+                Tenant = tenant,
+                EventType = TenantEventType.SendEvidence,
+                PhoneId = phone.Id//Make sure this is already assigned. This is used to track events that happen before a Tenant is assigned to the Phone
+                //Residence = tenant.CurrentResidence ?? null
+            };
+        }
+
         async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
         {
             var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
@@ -169,11 +180,11 @@ namespace TenantFile.Api.Controllers
                 else if (completedTask == safeResponse)
                 {
 
-                    imageLables.Add(new ImageLabel("SS Adult", safeResponse.Result.Adult.ToString()));
-                    imageLables.Add(new ImageLabel("SS Violence", safeResponse.Result.Violence.ToString()));
-                    imageLables.Add(new ImageLabel("SS Spoof", safeResponse.Result.Spoof.ToString()));
-                    imageLables.Add(new ImageLabel("SS Racy", safeResponse.Result.Racy.ToString()));
-                    imageLables.Add(new ImageLabel("SS Medical", safeResponse.Result.Medical.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Adult", safeResponse.Result.Adult.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Violence", safeResponse.Result.Violence.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Spoof", safeResponse.Result.Spoof.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Racy", safeResponse.Result.Racy.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Medical", safeResponse.Result.Medical.ToString()));
                 }
                 visionTasks.Remove(completedTask);
             }

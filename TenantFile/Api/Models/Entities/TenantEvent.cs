@@ -8,11 +8,17 @@ namespace TenantFile.Api.Models.Entities
 {
     public class TenantEvent
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public TenantEventType EventType { get; set; }
-        public DateTime Occured { get; set; }
-        public virtual Tenant Tenant { get; set; } = null!;
-        public virtual Residence Residence { get; set; } = null!;
+        public DateTime DateOccurred { get; set; }
+
+        public int? TenantId { get; set; } 
+        public int? PhoneId { get; set; } 
+        //virtual means LazyLoading and changetracking 
+        public virtual Tenant? Tenant { get; set; } = null!;
+
+        //Residence can be infered from other events i.e. move-in. The Residence does not have to be known at the time of the TenantEvent..Phone needs a Collection of Unassigned TenantEvents that can be assigned like 
+        //public virtual Residence Residence { get; set; } = null!;
 
 
     }

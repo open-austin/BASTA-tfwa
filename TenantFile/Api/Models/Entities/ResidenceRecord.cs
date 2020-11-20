@@ -7,6 +7,7 @@ using TenantFile.Api.Models.Entities;
 namespace TenantFile.Api.Models.Entities
 {   
     /// <summary>
+    /// Depricated
     /// This class is trying to capture the state of a Residence at a point in time. In theory, a new Record would be created any time a change occurs in the state of the Residence, e.g. a Tenant moves in or out, but that having a move in and move out makes this class mutible while trying to be immutable and could hold incomplete information about other Tenants/roommates
     /// 
     /// Instead, this can be reprsented as a table of "TenantEvents" or actions where thses objects are appended only
@@ -24,4 +25,6 @@ namespace TenantFile.Api.Models.Entities
         public virtual Residence Residence { get; set; } = null!;
 
     }
+
+
 }

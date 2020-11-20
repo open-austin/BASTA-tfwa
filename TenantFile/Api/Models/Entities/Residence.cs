@@ -9,10 +9,14 @@ namespace TenantFile.Api.Models.Entities
     {
         
         public int Id { get; set; }
-        public string? UnitIdentifier { get; set; } 
+        //public string? UnitIdentifier { get; set; }
+        
+        public int? PropertyId { get; set; }
+        public virtual Property? Property { get; set; } 
 
-        public ICollection<ResidenceRecord> ResidenceRecords { get; set; } = null!;
-        public int PropertyId { get; set; }
-        //public Property Property { get; set; } = null!;
+        public int AddressId { get; set; }
+        public virtual Address Address { get; set; } = null!;
+        
+        public ICollection<TenantEvent> TenantEvents { get; set; } = null!;
     }
 }

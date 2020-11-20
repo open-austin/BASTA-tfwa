@@ -1,9 +1,11 @@
-﻿namespace TenantFile.Api.Models.Residences
+﻿using TenantFile.Api.Models.Addresses;
+
+namespace TenantFile.Api.Models.Residences
 {
     public record CreateResidenceInput
     (
-         int PropertyId,
-         string UnitIdentifier
-       
+         CreateAddressInput AddressInput,
+         int? PropertyId
+
     );
 }

@@ -11,7 +11,9 @@ using MimeTypes;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -76,7 +78,7 @@ namespace TenantFile.Api.Middleware
                             phone = new Phone
                             {
                                 PhoneNumber = twilioFrom.First(),
-                                Images = new List<Models.Image>()
+                                Images = new List<Models.Entities.Image>()
                             };
                             dbContext.Phones.Add(phone);
                         }
@@ -85,9 +87,9 @@ namespace TenantFile.Api.Middleware
                         {
                             if (phone.Images == null)
                             {
-                                phone.Images = new List<Models.Image>();
+                                phone.Images = new List<Models.Entities.Image>();
                             }
-                            phone.Images.Add(new Models.Image
+                            phone.Images.Add(new Models.Entities.Image
                             {
                                 Name = image,
                                 ThumbnailName = thumbnail,
@@ -97,9 +99,10 @@ namespace TenantFile.Api.Middleware
                         }
 
                         await dbContext.SaveChangesAsync();
-                        await eventSender.SendAsync(
-       nameof(PhoneSubscriptions.OnNewPhoneReceivedAsync),
-       phone.Id);//TODO: Does this id exist yet in memory? It is generated on creation... could alter this to generate guid in ctor
+                        Console.WriteLine($"Phone ID: {phone.Id}");
+                        //TODO: Does this id exist yet in memory? It is generated on creation... could alter this to generate guid in ctor
+                        await eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);
+                    
 
 
                         messageBody = $"Thanks for sending us {numMedia} file(s)!";
@@ -116,7 +119,7 @@ namespace TenantFile.Api.Middleware
                 /*return */ //no need for returning here... we want the HTTP request to respond and not go further into the pipeline at this point
                             // new TwiMLResult(response);
                             //When a delegate doesn't pass a request to the next delegate, it's called short-circuiting the request pipeline.Short - circuiting is often desirable because it avoids unnecessary work.For example, Static File Middleware can act as a terminal middleware by processing a request for a static file and short-circuiting the rest of the pipeline.
-
+            //    await _next(httpContext);
                 //await httpContext.Response.WriteAsJsonAsync(response);
                 await httpContext.Response.WriteAsync($"<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n<Response>\n<Message>{messageBody}</Message>\n</Response>");
                 #region local function SaveMedia
@@ -132,7 +135,7 @@ namespace TenantFile.Api.Middleware
                     {
                         var mediaUrl = httpContext.Request.Query[$"MediaUrl{i}"];
 
-                        var imageLabel = await GetLabelsAsync(mediaUrl);
+                        var imageLabel = GetLabelsAsync(mediaUrl);
 
                         logger.LogInformation(mediaUrl);
 
@@ -159,11 +162,13 @@ namespace TenantFile.Api.Middleware
                         var thumbPath = $"thumbnails/{GetMediaFileName(mediaUrl, contentType)}";
                         await storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
 
-                        filenames.Add((imagePath, thumbPath, imageLabel.ToArray()));
+                        filenames.Add((imagePath, thumbPath, (await imageLabel).ToArray()));
                     }
 
                     return filenames;
+
                 }
+               
                 #endregion
             }
 
@@ -177,15 +182,39 @@ namespace TenantFile.Api.Middleware
         {
             var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
             var client = ImageAnnotatorClient.Create();
-            var response = await client.DetectLabelsAsync(image);
             var imageLables = new List<ImageLabel>();
+            var response = client.DetectLabelsAsync(image);
 
-            foreach (var annotation in response)
+            //definitions for safe-search
+            //https://cloud.google.com/vision/docs/reference/rpc/google.cloud.vision.v1?hl=it#google.cloud.vision.v1.SafeSearchAnnotation 
+            var safeResponse = client.DetectSafeSearchAsync(image);
+
+            var visionTasks = new List<Task> { response, safeResponse };
+            
+            while (visionTasks.Count > 0)
             {
-                if (annotation.Description != null)
+              var completedTask = await Task.WhenAny(visionTasks);
+
+                if (completedTask == response)
                 {
-                    imageLables.Add(new ImageLabel(annotation.Description, annotation.Score));
+                    foreach (var annotation in response.Result)
+                    {
+                        if (annotation.Description != null)
+                        {
+                            imageLables.Add(new ImageLabel("GCPImageAnnotator", annotation.Description, annotation.Score));
+                        }
+                    }
                 }
+                else if (completedTask == safeResponse)
+                {
+
+                    imageLables.Add(new ImageLabel("SS Adult", safeResponse.Result.Adult.ToString()));
+                    imageLables.Add(new ImageLabel("SS Violence", safeResponse.Result.Violence.ToString()));
+                    imageLables.Add(new ImageLabel("SS Spoof", safeResponse.Result.Spoof.ToString()));
+                    imageLables.Add(new ImageLabel("SS Racy", safeResponse.Result.Racy.ToString()));
+                    imageLables.Add(new ImageLabel("SS Medical", safeResponse.Result.Medical.ToString()));
+                }
+                visionTasks.Remove(completedTask);
             }
             return imageLables;
         }

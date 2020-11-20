@@ -20,12 +20,22 @@ namespace TenantFile.Api.Models.Residences
                 [ScopedService] TenantFileContext context, CancellationToken cancellationToken)
 
         {
-          var residence = new Residence
+            var residence = new Residence
             {
-                UnitIdentifier = input.UnitIdentifier,
-                PropertyId = input.PropertyId
+                PropertyId = input.PropertyId,
+
+                Address = new Address()
+                {
+                    City = input.AddressInput.City,
+                    PostalCode = input.AddressInput.PostalCode,
+                    State = input.AddressInput.State,
+                    Line1 = input.AddressInput.Line1,
+                    Line2 = input.AddressInput.Line2,
+                    Line3 = input.AddressInput.Line3,
+                    Line4 = input.AddressInput.Line4
+                }
             };
-          
+
             context.Residences.Add(residence);
             await context.SaveChangesAsync(cancellationToken);
 

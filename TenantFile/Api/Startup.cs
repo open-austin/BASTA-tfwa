@@ -31,6 +31,8 @@ using TenantFile.Api.Tenants;
 using TenantFile.Api.Models.Phones;
 using TenantFile.Api.Models.Properties;
 using TenantFile.Api.Models.Residences;
+using TenantFile.Api.Models.Images;
+using TenantFile.Api.Models.Addresses;
 
 namespace TenantFile.Api
 {
@@ -74,25 +76,37 @@ namespace TenantFile.Api
                         .AddType<ResidenceMutations>()
                     .AddQueryType(d => d.Name("Query"))
                         .AddType<TenantQueries>()
+                        .AddType<PropertyQueries>()
+                        .AddType<ResidenceQueries>()
                         .AddType<PhoneQueries>()
-                    .AddSubscriptionType(d => d.Name("Subscription"))
-                        .AddType<PhoneSubscriptions>()
+                        .AddType<ImageQueries>()
+                        .AddType<AddressQueries>()
                     .AddType<PhoneType>()
                     .AddType<TenantType>()
+                    .AddType<AddressType>()
+                    .AddType<ImageType>()
                     .AddType<PropertyType>()
                     .AddType<ResidenceType>()
                     .EnableRelaySupport()
                     .AddInMemorySubscriptions()
-                    
+                    .AddSubscriptionType(d => d.Name("Subscription"))
+                        .AddType<PhoneSubscriptions>()
                     .AddDataLoader<TenantByIdDataLoader>()
                     .AddDataLoader<PhoneByIdDataLoader>()
-                    //.AddAuthorization()
+                    .AddDataLoader<PropertyByIdDataLoader>()
+                    .AddDataLoader<ResidenceByIdDataLoader>()
+                    .AddDataLoader<ResidenceByPropertyDataLoader>()
+                    .AddDataLoader<ImageByIdDataLoader>()
+                    .AddDataLoader<AddressByIdDataLoader>()
+                    .AddAuthorization()
                     .AddFiltering()
-                    .AddSorting();
+                    .AddSorting()
+                    .AddProjections()
+                    ;
 
 
 
-
+            services.AddSingleton<IAddressVerificationService>(s => new AddressVerificationService(Configuration["USPSUserName"]));
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddCors();
 
@@ -123,29 +137,25 @@ namespace TenantFile.Api
             // });
             #endregion
 
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer(options =>
-            //{
-            //    options.Audience = Configuration["GoogleProjectId"];
-            //    options.Authority = $"https://securetoken.google.com/{Configuration["GoogleProjectId"]}";
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        RoleClaimType = ClaimTypes.Role
-            //    };
-            //});
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Audience = Configuration["GoogleProjectId"];
+                options.Authority = $"https://securetoken.google.com/{Configuration["GoogleProjectId"]}";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    RoleClaimType = ClaimTypes.Role
+                };
+            });
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
-            //});
-
-            // this enables you to use DataLoader in your resolvers.
-            //services.AddDataLoaderRegistry();
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("admin"));
+            });
 
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -173,9 +183,9 @@ namespace TenantFile.Api
                .UseRouting()
                .UsePlayground()
                .UseVoyager();
-               
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>

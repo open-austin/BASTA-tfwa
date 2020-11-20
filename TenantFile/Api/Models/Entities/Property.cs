@@ -12,7 +12,8 @@ namespace TenantFile.Api.Models.Entities
         public string? Name { get; set; }
         //this is already in Residence
         //public string? UnitIdentifier { get; set; }
-        public Address Address { get; set; } = null!;
+        public int AddressId { get; set; } 
+        public virtual Address Address { get; set; } = null!;
 
         public virtual ICollection<Residence> Residences { get; set; } = null!;
         public virtual Complex Complex { get; set; } = null!;

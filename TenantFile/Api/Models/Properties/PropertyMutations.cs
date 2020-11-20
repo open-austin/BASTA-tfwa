@@ -8,6 +8,7 @@ using HotChocolate.Subscriptions;
 using HotChocolate.Types;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models.Entities;
+using TenantFile.Api.Services;
 
 namespace TenantFile.Api.Models.Properties
 {
@@ -25,16 +26,24 @@ namespace TenantFile.Api.Models.Properties
             ,
                 Address = new Address()
                 {
-                    City = input.City,
-                    PostalCode = input.PostalCode,
-                    State = input.State,
-                    Street = input.Street
+                    City = input.AddressInput.City,
+                    PostalCode = input.AddressInput.PostalCode,
+                    State = input.AddressInput.State,
+                    Line1 = input.AddressInput.Line1,
+                    Line2 = input.AddressInput.Line2,
+                    Line3 = input.AddressInput.Line3,
+                    Line4 = input.AddressInput.Line4
                 }
             };
             context.Properties.Add(property);
             await context.SaveChangesAsync();
 
             return new CreatePropertyPayload(property);
+        }
+
+        public Task<Address?> VerifyAddress([Service]IAddressVerificationService service, Address address)
+        {
+            return service.VerifyAddressAsync(address);
         }
     }
 }

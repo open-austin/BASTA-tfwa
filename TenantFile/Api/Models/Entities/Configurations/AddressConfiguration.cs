@@ -23,9 +23,11 @@ namespace TenantFile.Api.Configurations
             builder.Property(a => a.City)
                     .IsRequired();
             
-            builder.Property(a => a.Street)
+            builder.Property(a => a.Line1)
                     .IsRequired();
-            
+
+            builder.Ignore(a => a.ValidationMessage);
+
             //builder.Property(a => a.StreetNumber)
             //        .IsRequired();
 

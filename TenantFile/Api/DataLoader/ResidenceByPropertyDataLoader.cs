@@ -12,6 +12,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.DataLoader
 {
+    //This is identical to the Residence By ID Loader
     public class ResidenceByPropertyDataLoader : BatchDataLoader<int, Residence>
     {
         private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
@@ -31,6 +32,7 @@ namespace TenantFile.Api.DataLoader
         {
             await using TenantFileContext dbContext =
                 dbContextFactory.CreateDbContext();
+
             return await dbContext.Residences.AsAsyncEnumerable()//or as qureyable?
                .Where(s => keys.Contains(s.Id))
                 .ToDictionaryAsync(t => t.Id, cancellationToken);
