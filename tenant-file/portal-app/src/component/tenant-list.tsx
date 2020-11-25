@@ -7,7 +7,7 @@ import axios from "axios";
 import { getToken } from "./firebase";
 import Image from "./image";
 
-const EXCHANGE_RATES = gql`
+const TENANT_INFO = gql`
   query TenantListQuery {
     tenants(order_by: { name: ASC }) {
       nodes {
@@ -49,7 +49,7 @@ type TenantRow = {
 
 const TenantList: React.FC = () => {
   console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
+  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_INFO);
 
   const [, setUserToken] = useState("");
 
