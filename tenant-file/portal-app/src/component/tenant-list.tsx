@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import { TenantListQuery } from "./__generated__/TenantListQuery";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
+import {useHistory} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "./firebase";
 import Image from "./image";
@@ -48,6 +49,7 @@ type TenantRow = {
 };
 
 const TenantList: React.FC = () => {
+  let history = useHistory();
   console.log(process.env.REACT_APP_API_URL);
   const { loading, error, data } = useQuery<TenantListQuery>(TENANT_INFO);
 
@@ -114,12 +116,15 @@ const TenantList: React.FC = () => {
     rows,
     prepareRow,
   } = tableInstance;
-  // will be replaced by actual userId as dataset in each row
-  const mockUserIdNumber = '1234';
 
+  // (RG) will be replaced by actual userId as dataset in each row
+  const mockUserIdNumber = '1234';
   const onHandleRowClick = (event: React.MouseEvent) => {
+
     if (event.target instanceof Element) {
       console.log('clicked', event.target.parentElement?.dataset.userId);
+      const userId = event.target.parentElement?.dataset.userId;
+      history.push(`/dashboard/tenant/${userId}`);
     }
   }
 

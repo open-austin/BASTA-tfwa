@@ -1,9 +1,14 @@
 import React from 'react'
+import {RouteComponentProps} from 'react-router-dom';
 
-const TenantDetails: React.FC = () => {
+type TParams = {
+  id: string;
+}
+
+const TenantDetails = ({ match }: RouteComponentProps<TParams>) => {
   return (
     <div>
-      <h4>Tenant Details - placeholder </h4>
+      <h4>Tenant Details - Mock ID from dashboard: {match.params.id} </h4>
     </div>
   )
 }
