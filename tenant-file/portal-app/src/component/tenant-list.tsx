@@ -114,9 +114,17 @@ const TenantList: React.FC = () => {
     rows,
     prepareRow,
   } = tableInstance;
+  // will be replaced by actual userId as dataset in each row
+  const mockUserIdNumber = '1234';
+
+  const onHandleRowClick = (event: React.MouseEvent) => {
+    if (event.target instanceof Element) {
+      console.log('clicked', event.target.parentElement?.dataset.userId);
+    }
+  }
 
   return (
-    <Table {...getTableProps()}>
+    <Table hover {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -131,7 +139,7 @@ const TenantList: React.FC = () => {
           prepareRow(row);
           return (
             <>
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} onClick={onHandleRowClick} data-user-id={mockUserIdNumber}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>
