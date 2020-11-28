@@ -1,81 +1,82 @@
-import React, { useState } from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavbarToggler,
-  Collapse,
-  Nav,
-} from "reactstrap";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { RootState } from "../store/store";
-import { SignedInStatus } from "../store/auth";
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
+import Footer from './footer';
+import Navigation from './nav';
+import SideBar from './sidebar';
+import ExportToolbar from './export-toolbar';
+import theme from './styles/themes';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
-const Layout: React.FC = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const PageLayout = styled.div`
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+`;
 
-  const signedInStatus = useSelector(
-    (state: RootState) => state.auth.signedInStatus
+type Props = {
+  buttonClick: (event: React.MouseEvent) => void;
+};
+
+const Links = ({ buttonClick }: Props) => {
+  const isLoaded = useSelector(
+    (state: RootState) => state.firebase.profile.isLoaded
   );
-  const userEmail = useSelector((state: RootState) => state.auth.user.email);
-  const toggle = () => setIsOpen(!isOpen);
+  const claims = useSelector(
+    (state: RootState) => state.firebase.profile?.token?.claims
+  );
+
   return (
     <>
-      <header className="App-header">
-        <Navbar color="light" light expand="md">
-          <NavbarBrand>TFWA</NavbarBrand>
-          <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              {signedInStatus === SignedInStatus.LoggedIn && (
-                <>
-                <NavItem>
-                  <NavLink
-                    exact
-                    to="/admin"
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    Admin
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    exact
-                    to="/add-tenant"
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    Add Tenant
-                  </NavLink>
-                </NavItem>
-                </>
-              )}
-            </Nav>
-          </Collapse>
-          <NavItem className="navbar">
-            <NavLink
-              exact
-              to="/login"
-              className="nav-link"
-              activeClassName="active"
-            >
-              Login
-            </NavLink>
-          </NavItem>
-        </Navbar>
-      </header>
-      <main>{props.children}</main>
-      <footer>
-        Footer
-        <p>
-          {signedInStatus === SignedInStatus.LoggedIn
-            ? `You are signed in as: ${userEmail}`
-            : "You need to sign in"}
-        </p>
-      </footer>
+      <li>
+        {isLoaded && (claims?.organizer || claims?.admin) && (
+          <NavLink exact to="/dashboard" activeClassName="active">
+            Dashboard
+          </NavLink>
+        )}
+      </li>
+      <li>
+        {isLoaded && claims?.admin && (
+          <NavLink exact to="/admin" activeClassName="active">
+            Admin
+          </NavLink>
+        )}
+      </li>
+      <li>
+        <button onClick={buttonClick}>Export</button>
+      </li>
     </>
+  );
+};
+
+const Layout: React.FC = (props) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExportToolsOpen, setIsExportToolsOpen] = useState(false);
+
+  const buttonClick = (event: React.MouseEvent) => {
+    setIsExportToolsOpen(!isExportToolsOpen);
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <PageLayout>
+        <header className="App-header">
+          <SideBar
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+          >
+            <Links buttonClick={buttonClick} />
+          </SideBar>
+          <Navigation setIsSidebarOpen={setIsSidebarOpen}>
+            <Links buttonClick={buttonClick} />
+          </Navigation>
+          <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
+        </header>
+        <main>{props.children}</main>
+        <Footer />
+      </PageLayout>
+    </ThemeProvider>
   );
 };
 

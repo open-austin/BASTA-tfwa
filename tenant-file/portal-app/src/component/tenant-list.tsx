@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { TenantListQuery } from "./__generated__/TenantListQuery";
-import { Row, Col, Table, Collapse } from "reactstrap";
+import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import axios from "axios";
 import { getToken } from "./firebase";
@@ -51,7 +51,7 @@ const TenantList: React.FC = () => {
   console.log(process.env.REACT_APP_API_URL);
   const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES);
 
-  const [userToken, setUserToken] = useState("");
+  const [, setUserToken] = useState("");
 
   useEffect(() => {
     const func = async () => {
@@ -120,61 +120,38 @@ const TenantList: React.FC = () => {
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
-            {
-              // Loop over the headers in each row
-              headerGroup.headers.map((column) => (
-                // Apply the header cell props
-                <th {...column.getHeaderProps()}>
-                  {
-                    // Render the header
-                    column.render("Header")
-                  }
-                </th>
-              ))
-            }
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
           </tr>
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {
-          // Loop over the table rows
-          rows.map((row) => {
-            // Prepare the row for display
-            prepareRow(row);
-            return (
-              // Apply the row props
-              <>
-                <tr {...row.getRowProps()}>
-                  {
-                    // Loop over the rows cells
-                    row.cells.map((cell) => {
-                      // Apply the cell props
-                      return (
-                        <td {...cell.getCellProps()}>
-                          {console.log(cell)}
-                          {
-                            // Render the cell contents
-                            cell.column.Header === "Images"
-                              ? cell.value.map((i: string) => (
-                                  <Image name={i} />
-                                ))
-                              : cell.render("Cell")
-                          }
-                        </td>
-                      );
-                    })
-                  }
-                </tr>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <>
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {console.log(cell)}
+                      {cell.column.Header === "Images"
+                        ? cell.value.map((i: string) => <Image name={i} />)
+                        : cell.render("Cell")}
+                    </td>
+                  );
+                })}
+              </tr>
 
-                {/* <tr>
+              {/* <tr>
                   <td colSpan={2} className="text-center">
                     <Collapse>I'm Spanning Yo</Collapse>
                   </td>
                 </tr> */}
-              </>
-            );
-          })
-        }
+            </>
+          );
+        })}
       </tbody>
     </Table>
   );

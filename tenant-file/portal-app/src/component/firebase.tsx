@@ -3,8 +3,11 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
 import { setSignedIn, setUserInfo } from "../store/auth";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { useHistory } from "react-router-dom";
+import { AppDispatch, store } from "../store/store";
+import {
+  ReactReduxFirebaseConfig,
+  ReactReduxFirebaseProviderProps,
+} from "react-redux-firebase";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,29 +19,17 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_GA_MEASUREMENT_ID,
 };
-
-console.log(firebaseConfig);
-
-// This must run before any other firebase functions
 firebase.initializeApp(firebaseConfig);
 
-export const useFirebaseAppInitialization = () => {
-  const dispatch: AppDispatch = useDispatch();
+const rrfConfig: Partial<ReactReduxFirebaseConfig> = {
+  userProfile: "users",
+  enableClaims: true,
+};
 
-  firebase
-    .auth()
-    // .firebase.auth()
-    .onAuthStateChanged((user) => {
-      if (user) {
-        if (user) {
-          dispatch(setSignedIn(true));
-        }
-        console.log(user);
-      } else {
-        console.log("NO USER");
-        dispatch(setSignedIn(false));
-      }
-    });
+export const rrfProps: ReactReduxFirebaseProviderProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
 };
 
 export const getToken = async () => {
@@ -49,11 +40,10 @@ export const getToken = async () => {
 // It does everything else on its own
 const FirebaseAuth = () => {
   const dispatch: AppDispatch = useDispatch();
-  let history = useHistory();
 
   // This is our firebaseui configuration object
   const uiConfig: firebaseui.auth.Config = {
-    signInSuccessUrl: "/signed-in",
+    signInSuccessUrl: "/dashboard",
     signInFlow: "redirect",
     credentialHelper: "none",
     signInOptions: [
@@ -76,10 +66,7 @@ const FirebaseAuth = () => {
         }
 
         console.log("signInSuccessWithAuthResult", authResult, redirectUrl);
-
-        history.push("/signed-in");
-        // I don't want to redirect because that causes a hard refresh
-        return false;
+        return true;
       },
     },
   };

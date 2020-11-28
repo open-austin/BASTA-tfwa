@@ -7,9 +7,9 @@ namespace TenantFile.Api.Models
 {
     public class Address
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
         public int Id { get; set; }
+        public int HouseNumber { get; set; } = -1;
         public string Street { get; set; } = null!;
         public string City { get; set; } = null!;
         public string State { get; set; } = null!;
