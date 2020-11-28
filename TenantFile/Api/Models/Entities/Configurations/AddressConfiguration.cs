@@ -25,7 +25,7 @@ namespace TenantFile.Api.Configurations
             builder.Property(a => a.Street)
                     .IsRequired();
             
-            builder.Property(a => a.HouseNumber)
+            builder.Property(a => a.StreetNumber)
                     .IsRequired();
 
             //Might like to make an enumeration class for this property to constrain options to valid values
