@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FirebaseAdmin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,11 +15,8 @@ using TenantFile.Api.Services;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
-using HotChocolate.Execution.Configuration;
-using HotChocolate.Data.Sorting;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using TenantFile.Api.Middleware;
 using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Tenants;
@@ -33,6 +25,8 @@ using TenantFile.Api.Models.Properties;
 using TenantFile.Api.Models.Residences;
 using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Addresses;
+using HotChocolate.Execution.Options;
+//using TenantFile.Api.Models.ImageLabels;
 
 namespace TenantFile.Api
 {
@@ -44,7 +38,7 @@ namespace TenantFile.Api
 
             var connectionString =
                 new NpgsqlConnectionStringBuilder(
-                    Configuration["LocalSql:ConnectionString"])
+                    Configuration["CloudSQL:ConnectionString"])
                 {
                     // Connecting to a local proxy that does not support ssl.
                     SslMode = SslMode.Disable
@@ -64,12 +58,14 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
            
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSql:ConnectionString"])
-            .UseSnakeCaseNamingConvention()
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["CloudSQL:ConnectionString"])
+            //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
               
             .AddGraphQLServer()
+                    .AddApolloTracing(TracingPreference.Always)
                      .AddMutationType(d => d.Name("Mutation"))
+                        .AddType<ImageMutations>()
                         .AddType<TenantMutations>()
                         .AddType<PhoneMutations>()
                         .AddType<PropertyMutations>()
@@ -80,6 +76,7 @@ namespace TenantFile.Api
                         .AddType<ResidenceQueries>()
                         .AddType<PhoneQueries>()
                         .AddType<ImageQueries>()
+                        //.AddType<ImageLabelQueries>()
                         .AddType<AddressQueries>()
                     .AddType<PhoneType>()
                     .AddType<TenantType>()
@@ -87,6 +84,7 @@ namespace TenantFile.Api
                     .AddType<ImageType>()
                     .AddType<PropertyType>()
                     .AddType<ResidenceType>()
+                    //.AddType<ImageLabelType>()
                     .EnableRelaySupport()
                     .AddInMemorySubscriptions()
                     .AddSubscriptionType(d => d.Name("Subscription"))
@@ -95,14 +93,12 @@ namespace TenantFile.Api
                     .AddDataLoader<PhoneByIdDataLoader>()
                     .AddDataLoader<PropertyByIdDataLoader>()
                     .AddDataLoader<ResidenceByIdDataLoader>()
-                    .AddDataLoader<ResidenceByPropertyDataLoader>()
                     .AddDataLoader<ImageByIdDataLoader>()
                     .AddDataLoader<AddressByIdDataLoader>()
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
-                    .AddProjections()
-                    ;
+                    .AddProjections();
 
 
 

@@ -20,10 +20,10 @@ namespace TenantFile.Api.Configurations
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
-            builder
-               .HasMany(r => r.TenantEvents)
-               .WithOne(rr => rr.Residence)
-               .HasForeignKey(rr => rr.Id);
+            //builder
+            //   .HasMany(r => r.TenantEvents)
+            //   .WithOne(rr => rr.Residence)
+            //   .HasForeignKey(rr => rr.Id);
 
             //builder
             //  .HasOne(r => r.Property)

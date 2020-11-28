@@ -8,7 +8,7 @@ namespace TenantFile.Api.Models.Images
         protected override void Configure(IFilterInputTypeDescriptor<Image> descriptor)
         {
             descriptor.Ignore(t => t.Id);
-            //descriptor.Ignore(t => t. ); // todo : fix nullability issue with the descriptor.
+            
         }
     }
 }

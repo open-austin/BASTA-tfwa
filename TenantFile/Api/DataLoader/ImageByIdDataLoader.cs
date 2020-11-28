@@ -32,7 +32,7 @@ namespace TenantFile.Api.DataLoader
             await using TenantFileContext dbContext =
                 dbContextFactory.CreateDbContext();
 
-            return await dbContext.Images.AsAsyncEnumerable()
+            return await dbContext.Images.AsNoTracking()//no change tracking...appropriate when entity will not change
                .Where(s => keys.Contains(s.Id))
                 .ToDictionaryAsync(t => t.Id, cancellationToken);
         }

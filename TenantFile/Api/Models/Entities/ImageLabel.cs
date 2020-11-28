@@ -8,7 +8,7 @@
         ///
         string Label,
         ///optional
-        ///Used by GPCImageAnnotator
+        ///Used by GPCImageAnnotator, OCR
         float? Confidence = null       
         );
 }

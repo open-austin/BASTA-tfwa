@@ -18,6 +18,10 @@ namespace TenantFile.Api.Models.Addresses
                 .ImplementsNode()
                 .IdField(t => t.Id)
                 .ResolveNode((ctx, id) => ctx.DataLoader<AddressByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //descriptor.Field(one => one.Line1);
+            //descriptor.Field(two => two.Line2);
+            //descriptor.Field(three => three.Line3);
+            //descriptor.Field(four => four.Line4);
 
             //        descriptor
             //                .Field(p => p.Residences)

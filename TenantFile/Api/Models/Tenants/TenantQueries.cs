@@ -1,5 +1,6 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
+using HotChocolate.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,8 +20,8 @@ namespace TenantFile.Api.Tenants
         [UseTenantFileContext]
         [UsePaging]
         //[UseSelection]
-        [UseFiltering (FilterType =  typeof(TenantFilterInputType))]
-        [UseSorting]
+        [HotChocolate.Data.UseFiltering(typeof(TenantFilterInputType))]
+        [HotChocolate.Data.UseSorting]
         public IQueryable<Tenant> GetTenants([ScopedService] TenantFileContext tenantContext) => tenantContext.Tenants.AsQueryable();
 
         public Task<Tenant> GetTenantAsync(int id, TenantByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);

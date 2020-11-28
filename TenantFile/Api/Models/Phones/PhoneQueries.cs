@@ -1,5 +1,6 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
+using HotChocolate.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace TenantFile.Api.Models.Phones
         [UseTenantFileContext]
         [UsePaging]
         //[UseSelection]
-        [UseFiltering(FilterType = typeof(PhoneFilterInputType))]
-        [UseSorting]
+        [HotChocolate.Data.UseFiltering(typeof(PhoneFilterInputType))]
+        [HotChocolate.Data.UseSorting]
         public IQueryable<Phone> GetPhones([ScopedService] TenantFileContext tenantContext) => tenantContext.Phones.AsQueryable();
 
         [UseTenantFileContext]

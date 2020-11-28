@@ -44,15 +44,15 @@ namespace TenantFile.Api.Models.Properties
         public async Task<IEnumerable<Residence>> GetResidencesAsync(
             Property property,
             [ScopedService] TenantFileContext context,
-            ResidenceByPropertyDataLoader dataLoader,
+            ResidenceByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            var residenceIds = await context.Properties.AsAsyncEnumerable()
+            var residenceIds = context.Properties.AsQueryable()
                .Where(p => p.Id == property.Id)
                .Select(r => r.Id)
                .ToArrayAsync();
 
-            return (IEnumerable<Residence>)dataLoader.LoadAsync(cancellationToken, residenceIds);
+            return await dataLoader.LoadAsync(cancellationToken, await residenceIds);
 
         }
         public Task<Address> GetAddressAsync(

@@ -40,14 +40,14 @@ namespace TenantFile.Api.Controllers
             this.dbContextFactory = dbContextFactory;
         }
 
-        //Twilio can use the graphql endpoint
+        //Twilio can use the graphql endpoint with middleware but it would effect every call to API...
         //CANNOT inject ITopicEventSending in this method
         [HttpPost("/api/sms")]
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia/*, [Service] ITopicEventSender eventSender*/)
         {
 
             DateTime timeStamp = DateTime.Now;
-            var filenames = await SaveMedia(numMedia);
+            var filenames = await SaveMediaAsync(numMedia);
 
             await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
             var phone = dbContext.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
@@ -63,6 +63,7 @@ namespace TenantFile.Api.Controllers
                     Images = new List<Models.Entities.Image>()
                 };
                 dbContext.Phones.Add(phone);
+            //await dbContext.SaveChangesAsync();//This call is needed to generate the Id for the phone so it is available to the TenantEvent...but, if the TenantEvent has a navigation property to the Phone, the Id would be added when its saved later...the reference should be enough to establish the relationship
             }
             var tenantEvent = CreateTenantEventAsync(dbContext, phone, timeStamp);
 
@@ -81,8 +82,8 @@ namespace TenantFile.Api.Controllers
                 });
             }
             dbContext.TenantEvents.Add(await tenantEvent);
-
             await dbContext.SaveChangesAsync();
+
             if (newPhone == true)
             {
                 await eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);//ConfigureAwait?
@@ -94,7 +95,9 @@ namespace TenantFile.Api.Controllers
             return TwiML(response);
         }
 
-        async Task<IEnumerable<(string image, string thumbnail, ImageLabel[] labels)>> SaveMedia(int numMedia)
+
+
+        async Task<IEnumerable<(string image, string thumbnail, ImageLabel[] labels)>> SaveMediaAsync(int numMedia)
         {
             var filenames = new List<(string, string, ImageLabel[])>();
             for (var i = 0; i < numMedia; i++)
@@ -142,11 +145,10 @@ namespace TenantFile.Api.Controllers
                                                 .FirstOrDefaultAsync();
             return new TenantEvent()
             {
-                DateOccurred = time,
+                TimeOccurred = time,
                 Tenant = tenant,
-                EventType = TenantEventType.SendEvidence,
-                PhoneId = phone.Id//Make sure this is already assigned. This is used to track events that happen before a Tenant is assigned to the Phone
-                //Residence = tenant.CurrentResidence ?? null
+                EventType = TenantEventType.SentEvidence,
+                Phone = phone
             };
         }
 
@@ -191,8 +193,35 @@ namespace TenantFile.Api.Controllers
             return imageLables;
         }
 
-        private string GetMediaFileName(string mediaUrl,
-            string contentType)
+        //TODO: Recheck performance with long list of keywords and make Async if performance is poor
+        /// <summary>
+        /// Uses the return type TextAnnotation from Google's OCR search for a set of words and return the confidence that the reading was correct.
+        /// Confidence is the highest found confidence for the specific term
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="terms"></param>
+        /// <returns></returns>
+        IEnumerable<ImageLabel> FindWordsFromOCR(TextAnnotation text, IEnumerable<string> terms)
+        {
+            var list = new List<ImageLabel>();
+            foreach (var term in terms)
+            {
+
+                list.AddRange(text.Pages
+                              .SelectMany(p => p.Blocks
+                              .SelectMany(b => b.Paragraphs
+                              .SelectMany(p => p.Words
+                              .Select(w => (Text: string.Join("", w.Symbols.Select(s => s.Text)), Confidence: w.Confidence))
+                              ))).Where(str => str.Text.ToLower() == term.ToLower())
+                              .GroupBy(x => x.Text)
+                              .Select(g => new ImageLabel( Label : g.Key, Confidence: g.Select(p => p.Confidence).Max(), Source: "GoogleOCR"))
+                              );
+            }
+          
+            return list;
+
+        }
+        string GetMediaFileName(string mediaUrl, string contentType)
         {
             return System.IO.Path.GetFileName(mediaUrl) + MimeTypeMap.GetExtension(contentType);
         }

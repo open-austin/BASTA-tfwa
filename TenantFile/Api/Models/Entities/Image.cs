@@ -12,6 +12,6 @@ namespace TenantFile.Api.Models.Entities
         public string Name { get; set; } = null!;
         public string ThumbnailName { get; set; } = null!;
         //public DateTime TimeReceived { get; set; }
-        public ImageLabel[]? Labels { get; set; }
+        public IEnumerable<ImageLabel>? Labels { get; set; }
     }
 }

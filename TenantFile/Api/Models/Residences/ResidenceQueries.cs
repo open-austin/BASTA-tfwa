@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HotChocolate;
+using HotChocolate.Data;
 using HotChocolate.Types;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
@@ -18,8 +19,8 @@ namespace TenantFile.Api.Models.Residences
         [UseTenantFileContext]
         [UsePaging]
         //[UseSelection]
-        [UseFiltering(FilterType = typeof(ResidenceFilterInputType))]
-        [UseSorting]
+        [HotChocolate.Data.UseFiltering(typeof(ResidenceFilterInputType))]
+        [HotChocolate.Data.UseSorting]
         public IQueryable<Residence> GetResidences([ScopedService] TenantFileContext tenantContext) => tenantContext.Residences.AsQueryable();
 
         public Task<Residence> GetResidenceAsync(int id, ResidenceByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TenantFile.Api.Models;
 using TenantFile.Api.Models.Entities;
 
@@ -13,24 +14,25 @@ namespace TenantFile.Api.Controllers
     [Authorize(Policy = "AdminOnly")]
     public class OrganizerController : ControllerBase
     {
-        private readonly TenantFileContext context;
+        private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
 
-        public OrganizerController(TenantFileContext context)
+        public OrganizerController(IDbContextFactory<TenantFileContext> dbContextFactory)
         {
-            this.context = context;
+            this.dbContextFactory = dbContextFactory;
         }
 
        // [HttpGet("/Organizer/{UserName}")]
         // public IActionResult GetOrganizer(){}
 
-        [HttpPost("/Organizer/create")]
+        [HttpPost("/organizer/create")]
         public async Task<IActionResult> CreateOrganizerAsync([FromQuery] string userUid)
         {
-          context.Organizers.Add(new Organizer() {Uid = userUid});
+            await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
+            dbContext.Organizers.Add(new Organizer() {Uid = userUid});
 
-          await context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
 
-          return StatusCode(201);
+                return StatusCode(201);
           //return CreatedAtAction("organizer", new { id = userUid}, userUid );
         }
     }

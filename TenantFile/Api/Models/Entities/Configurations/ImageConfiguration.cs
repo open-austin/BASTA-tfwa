@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TenantFile.Api.Models.Entities;
 
@@ -17,11 +19,11 @@ namespace TenantFile.Api.Configurations
             builder.HasKey(p => p.Id);
 
             builder.Property(e => e.Id)
-                  . IsRequired()
-                  . ValueGeneratedOnAdd();
+                  .IsRequired()
+                  .ValueGeneratedOnAdd();
 
-            builder.Property(i => i.Labels)
-                   .HasColumnType("jsonb");
+            builder.OwnsMany(i => i.Labels);
+                 
         }
     }
-}
+  }
