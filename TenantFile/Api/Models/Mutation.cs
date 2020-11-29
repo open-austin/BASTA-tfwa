@@ -6,6 +6,7 @@ using HotChocolate.Types;
 
 
 
+
 namespace TenantFile.Api.Models
 {
     public class Mutation
