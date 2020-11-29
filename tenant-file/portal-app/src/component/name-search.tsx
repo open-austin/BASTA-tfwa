@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -60,13 +60,18 @@ const StyledNameSearch = styled.form`
 `;
 
 const NameSearch = () => {
-  // TODO: ADD CLEAR BUTTON
-
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
   const nameQuery = searchParams.get('q');
   const [searchValue, setSearchValue] = useState(nameQuery || '');
   const history = useHistory();
+
+  // If field is empty, clear filter
+  useEffect(() => {
+    if (searchValue.length === 0) {
+      history.push(`/dashboard`);
+    }
+  }, [searchValue]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchValue(e.currentTarget.value);
@@ -78,11 +83,8 @@ const NameSearch = () => {
   }
 
   function clearSearch(e: React.FormEvent) {
+    e.preventDefault();
     setSearchValue('');
-  }
-
-  function isInputEmpty() {
-    return searchValue.length === 0;
   }
 
   return (

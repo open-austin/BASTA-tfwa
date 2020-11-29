@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "reactstrap";
-import axios from "axios";
-import { getToken } from "./firebase";
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import { getToken } from './firebase';
 
 const DisplayImages = () => {
   let [images, setImages] = useState([]);
@@ -10,9 +10,9 @@ const DisplayImages = () => {
     const func = async () => {
       const token = await getToken();
       const baseUrl =
-        process.env.NODE_ENV === "production"
-          ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
-          : "http://localhost:8080";
+        process.env.NODE_ENV === 'production'
+          ? 'https://tenant-file-api-zmzadnnc3q-uc.a.run.app'
+          : 'http://localhost:8080';
       const imageResponse = await axios
         .get(`${baseUrl}/api/images?token=${token}`, {
           headers: {
@@ -20,7 +20,7 @@ const DisplayImages = () => {
           },
         })
         .then((x) => x.data);
-      console.log("RESPONSE", imageResponse);
+      console.log('RESPONSE', imageResponse);
       const images = imageResponse.images;
       setImages(images);
     };
