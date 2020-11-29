@@ -71,7 +71,7 @@ const NameSearch = () => {
     if (searchValue.length === 0) {
       history.push(`/dashboard`);
     }
-  }, [searchValue]);
+  }, [searchValue, history]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchValue(e.currentTarget.value);
@@ -95,11 +95,11 @@ const NameSearch = () => {
         value={searchValue}
         onChange={handleChange}
       />
-      <button className="submit" type="submit">
-        Search
-      </button>
       <button className="clear" onClick={clearSearch}>
         &times;
+      </button>
+      <button className="submit" type="submit">
+        Search
       </button>
     </StyledNameSearch>
   );
