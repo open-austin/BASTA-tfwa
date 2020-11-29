@@ -28,15 +28,46 @@ namespace TenantFile.Api.Models
                 };
             }
 
+
+
+            var tenant = new Tenant {}; // This is a hacky workaround.  Ask Ryan how to make the "Tenant" attribute of the "ResidenceRecord" refer to the actual Tenant you're adding.
+            var residence_records = new List<ResidenceRecord> {};
+            var residences = new List<Residence> {};
+
+
             var tenantEntry = _context.Tenants.Add(new Tenant
             {
                 Name = inputTenant.Name,
+                ResidenceRecords = new List<ResidenceRecord>{
+                    new ResidenceRecord {
+                        MoveIn = new DateTime(2020, 11, 28),
+                        Tenant = tenant,
+                        Residence = new Residence {
+                            UnitIdentifier = "3B",
+                            ResidenceRecords = residence_records,
+                            Property = new Property {
+                                UnitIdentifier = "3B",
+                                Address = new Address {
+                                    StreetNumber = Convert.ToString(inputTenant.HouseNumber),
+                                    Street = inputTenant.Street,
+                                    City = inputTenant.City,
+                                    State = "TX",
+                                    PostalCode = inputTenant.ZipCode
+                                },
+                                Residences = residences
+                            }
+                        }
+                    }
+                },
                 TenantPhones = new List<TenantPhone>{
                     new TenantPhone {
                         Phone = phone
                     }
                 }
             });
+
+            
+
             _context.SaveChanges();
             return tenantEntry.Entity;
         }
@@ -46,5 +77,10 @@ namespace TenantFile.Api.Models
     {
         public string Name { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
+        public int HouseNumber { get; set; } = -1;
+        public string Street { get; set; } = null!;
+        public string City { get; set; } = null!;
+        public int ZipCode { get; set; } = -1;
+        public string PropertyName { get; set; } = null!;
     }
 }
