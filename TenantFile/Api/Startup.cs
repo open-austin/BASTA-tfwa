@@ -38,7 +38,7 @@ namespace TenantFile.Api
 
             var connectionString =
                 new NpgsqlConnectionStringBuilder(
-                    Configuration["CloudSQL:ConnectionString"])
+                    Configuration["LocalSQL:ConnectionString"])
                 {
                     // Connecting to a local proxy that does not support ssl.
                     SslMode = SslMode.Disable
@@ -58,7 +58,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
            
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["CloudSQL:ConnectionString"])
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
               
