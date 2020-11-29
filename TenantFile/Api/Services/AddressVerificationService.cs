@@ -55,7 +55,7 @@ namespace TenantFile.Api.Services
             {
                 var stream = await response.EnsureSuccessStatusCode().Content.ReadAsStreamAsync();
                 addressSerial = (AddressValidateResponse)serializer.Deserialize(stream)!;
-                //ValdationMessag is null when address is fully successful but if more info is needed, it have a value
+                //ValdationMessag is null when address is fully successful but if more info is needed, it has a value
                 //addressSerial.Address.ValidationMessage = $"Status Code: {response.StatusCode} | Reason Phrase: {response.ReasonPhrase} ";
                 return addressSerial.Address;
             }

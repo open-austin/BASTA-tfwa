@@ -59,7 +59,4 @@
     <PackageReference Include="HotChocolate" Version="11.0.0" />
     <PackageReference Include="HotChocolate.Subscriptions" Version="11.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\GraphQL\" />
-  </ItemGroup>
 </Project>
