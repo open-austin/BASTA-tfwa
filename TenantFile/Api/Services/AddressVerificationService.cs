@@ -30,8 +30,6 @@ namespace TenantFile.Api.Services
         {
             this.userName = userName;
         }
-        public IConfiguration Configuration { get; } = null!;
-
         const string URIBASE = @"https://secure.shippingapis.com/ShippingAPI.dll";
         private readonly string userName;
 
