@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Collapse } from 'reactstrap';
-import { Cell } from 'react-table';
+import { Cell, Row } from 'react-table';
 import Image from './image';
 import styled from 'styled-components';
 
@@ -23,7 +23,7 @@ type TenantRow = {
 };
 
 type Props = {
-  row: any;
+  row: Row<TenantRow>;
 };
 
 const TenantTableCollapse = ({ row }: Props) => {
