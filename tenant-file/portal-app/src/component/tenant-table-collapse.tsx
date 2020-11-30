@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import { Collapse } from 'reactstrap';
 import { Cell } from 'react-table';
 import Image from './image';
+import styled from 'styled-components';
+
+const ImageGridStyles = styled.div`
+  display: grid;
+  gap: 0.5rem;
+  width: auto;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  justify-content: center;
+
+  & > * {
+    place-self: center;
+  }
+`;
 
 type TenantRow = {
   name: string;
@@ -42,9 +55,17 @@ const TenantTableCollapse = ({ row }: Props) => {
           style={isOpen ? {} : { padding: 0 }}
         >
           <Collapse isOpen={isOpen}>
-            {row.cells[2].value.length
-              ? row.cells[2].value.map((i: string) => <Image name={i} />)
-              : 'No images to show.'}
+            {row.cells[2].value.length ? (
+              <ImageGridStyles>
+                {row.cells[2].value.map((i: string) => (
+                  <>
+                    <Image name={i} />
+                  </>
+                ))}
+              </ImageGridStyles>
+            ) : (
+              'No images to show.'
+            )}
           </Collapse>
         </td>
       </tr>
