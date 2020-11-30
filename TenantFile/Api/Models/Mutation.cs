@@ -38,6 +38,24 @@ namespace TenantFile.Api.Models
             var residences = new List<Residence> {};
 
 
+            
+
+
+            var propertyEntry = _context.Properties.Add(new Property
+            {
+                UnitIdentifier = "3B",
+                    Address = new Address {
+                        StreetNumber = Convert.ToString(inputTenant.HouseNumber),
+                        Street = inputTenant.Street,
+                        City = inputTenant.City,
+                        State = "TX",
+                        PostalCode = inputTenant.ZipCode
+                    },
+                    Residences = residences
+            });
+            _context.SaveChanges();
+
+
             var tenantEntry = _context.Tenants.Add(new Tenant
             {
                 Name = inputTenant.Name,
@@ -48,17 +66,7 @@ namespace TenantFile.Api.Models
                         Residence = new Residence {
                             UnitIdentifier = "3B",
                             ResidenceRecords = residence_records,
-                            Property = new Property {
-                                UnitIdentifier = "3B",
-                                Address = new Address {
-                                    StreetNumber = Convert.ToString(inputTenant.HouseNumber),
-                                    Street = inputTenant.Street,
-                                    City = inputTenant.City,
-                                    State = "TX",
-                                    PostalCode = inputTenant.ZipCode
-                                },
-                                Residences = residences
-                            }
+                            Property = propertyEntry.Entity
                         }
                     }
                 },

@@ -12,6 +12,7 @@ import Admin from './component/admin';
 import Dashboard from './component/dashboard';
 import Properties from './component/properties';
 import Home from './component/home';
+import AddTenant from './component/add-tenant';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
         </PrivateRoute>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/add-tenant">
+          <AddTenant />
         </Route>
         <Route path="/properties">
           <Properties />
