@@ -32,7 +32,7 @@ namespace TenantFile.Api.DataLoader
             await using TenantFileContext dbContext =
                 dbContextFactory.CreateDbContext();
 
-            return await dbContext.Phones.AsAsyncEnumerable()//or as qureyable?
+            return await dbContext.Phones.AsQueryable()
                .Where(s => keys.Contains(s.Id))
                 .ToDictionaryAsync(t => t.Id, cancellationToken);
         }

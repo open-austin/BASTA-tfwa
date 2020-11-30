@@ -25,10 +25,10 @@ namespace TenantFile.Api.Configurations
             //   .WithOne(rr => rr.Residence)
             //   .HasForeignKey(rr => rr.Id);
 
-            //builder
-            //  .HasOne(r => r.Property)
-            //  .WithMany(p => p.Residences)
-            //  .HasForeignKey(p => p.PropertyId);
+            builder
+              .HasOne(r => r.Property)
+              .WithMany(p => p!.Residences)
+              .HasForeignKey(p => p.PropertyId);
         }
     }
 }

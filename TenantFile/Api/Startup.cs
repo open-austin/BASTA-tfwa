@@ -98,7 +98,8 @@ namespace TenantFile.Api
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
-                    .AddProjections();
+                    .AddProjections()
+                    ;
 
 
 

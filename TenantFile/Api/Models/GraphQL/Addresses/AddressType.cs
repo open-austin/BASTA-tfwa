@@ -18,37 +18,7 @@ namespace TenantFile.Api.Models.Addresses
                 .ImplementsNode()
                 .IdField(t => t.Id)
                 .ResolveNode((ctx, id) => ctx.DataLoader<AddressByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
-            //descriptor.Field(one => one.Line1);
-            //descriptor.Field(two => two.Line2);
-            //descriptor.Field(three => three.Line3);
-            //descriptor.Field(four => four.Line4);
-
-            //        descriptor
-            //                .Field(p => p.Residences)
-            //                .ResolveWith<PropertyResolvers>(r => r.GetResidencesAsync(default!, default!, default!, default!))
-            //                .UseDbContext<TenantFileContext>()
-            //                .Name("residences");
-
-
-            //    }
-            //}
-            //class PropertyResolvers
-            //{
-            //    public async Task<IEnumerable<Residence>> GetResidencesAsync(
-            //        Property property,
-            //        [ScopedService] TenantFileContext context,
-            //        ResidenceByPropertyDataLoader dataLoader,
-            //        CancellationToken cancellationToken)
-            //    {
-            //        var residenceIds = await context.Properties.AsAsyncEnumerable()
-            //           .Where(p => p.Id == property.Id)
-            //           .Select(r => r.Id)
-            //           .ToArrayAsync();
-
-            //        return await dataLoader.LoadAsync(cancellationToken, residenceIds);
-
-            //    }
-            //}
+                 
         }
     }
 }

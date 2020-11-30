@@ -25,6 +25,7 @@
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.3.0" />
     <PackageReference Include="Google.Cloud.Vision.V1" Version="2.1.0" />
     <PackageReference Include="HotChocolate.Data" Version="11.0.0" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="11.0.0" />
     <PackageReference Include="HotChocolate.Subscriptions.Redis" Version="11.0.0" />
     <PackageReference Include="MediaTypeMap.Core" Version="2.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.0" />
