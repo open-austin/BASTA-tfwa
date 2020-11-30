@@ -58,7 +58,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
            
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
+            services.AddDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
               
@@ -89,12 +89,12 @@ namespace TenantFile.Api
                     .AddInMemorySubscriptions()
                     .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<PhoneSubscriptions>()
-                    .AddDataLoader<TenantByIdDataLoader>()
-                    .AddDataLoader<PhoneByIdDataLoader>()
-                    .AddDataLoader<PropertyByIdDataLoader>()
-                    .AddDataLoader<ResidenceByIdDataLoader>()
-                    .AddDataLoader<ImageByIdDataLoader>()
-                    .AddDataLoader<AddressByIdDataLoader>()
+                    //.AddDataLoader<TenantByIdDataLoader>()
+                    //.AddDataLoader<PhoneByIdDataLoader>()
+                    //.AddDataLoader<PropertyByIdDataLoader>()
+                    //.AddDataLoader<ResidenceByIdDataLoader>()
+                    //.AddDataLoader<ImageByIdDataLoader>()
+                    //.AddDataLoader<AddressByIdDataLoader>()
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()

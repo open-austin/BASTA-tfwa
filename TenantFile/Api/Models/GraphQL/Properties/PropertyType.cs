@@ -22,7 +22,7 @@ namespace TenantFile.Api.Models.Properties
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNode((ctx, id) => ctx.DataLoader<PropertyByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+                .ResolveNodeWith<PropertyResolvers>(r=> r.GetProperty(default!, default!, default!));
 
             descriptor
                     .Field(p => p.Residences)
@@ -40,6 +40,15 @@ namespace TenantFile.Api.Models.Properties
     }
     class PropertyResolvers
     {
+        [UseFirstOrDefault]
+        public IQueryable<Property> GetProperty(
+            Property property,
+            [ScopedService] TenantFileContext context,
+            CancellationToken cancellationToken)
+        {
+            return context.Properties.AsQueryable()
+                 .Where(r => r.Id == property.Id);
+        }
         public IEnumerable<Residence> GetResidencesAsync(
             Property property,
             [ScopedService] TenantFileContext context,

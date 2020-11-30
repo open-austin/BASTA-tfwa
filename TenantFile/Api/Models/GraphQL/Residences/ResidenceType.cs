@@ -23,7 +23,7 @@ namespace TenantFile.Api.Models.Residences
                 .ImplementsNode()
                 .IdField(t => t.Id)
                 .ResolveNode((ctx, id) => ctx.DataLoader<ResidenceByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
-            
+
             descriptor.Field(r => r.Address)
                       .ResolveWith<ResidenceResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                       .UseDbContext<TenantFileContext>()
@@ -38,26 +38,17 @@ namespace TenantFile.Api.Models.Residences
     public class ResidenceResolvers
     {
 
-        //public Task<Address> GetAddressAsync(
-        //   Residence residence,
-        //   //[ScopedService] TenantFileContext context,
-        //   AddressByIdDataLoader dataLoader,
-        //   CancellationToken cancellationToken)
-        //{
-        //    //var addressId = context.Residences.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
-        //    //   .Where(p => p.Id == residence.Id)
-        //    //   .Select(r => r.AddressId)
-        //    //   .SingleOrDefault();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-
-
-        //    return dataLoader.LoadAsync(residence.AddressId, cancellationToken);
-
-        //}
-        
+        [UseFirstOrDefault]
+        public IQueryable<Residence> GetResidence(
+           Residence residence,
+           [ScopedService] TenantFileContext context)
+        {
+            return context.Residences.AsQueryable()
+                 .Where(r => r.Id == residence.Id);
+        }
         public IQueryable<Address> GetAddressAsync(
            Residence residence,
            [ScopedService] TenantFileContext context,
-           //AddressByIdDataLoader dataLoader,
            CancellationToken cancellationToken)
         {
             //var addressId = context.Residences.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex

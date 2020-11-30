@@ -17,10 +17,10 @@ namespace TenantFile.Api.Models.Images
     {
         protected override void Configure(IObjectTypeDescriptor<Image> descriptor)
         {
-            descriptor
-                .ImplementsNode()
-                .IdField(i => i.Id)
-                .ResolveNode((ctx, id) => ctx.DataLoader<ImageByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //descriptor
+            //    .ImplementsNode()
+            //    .IdField(i => i.Id)
+            //    .ResolveNode((ctx, id) => ctx.DataLoader<ImageByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
 
             //descriptor.Field(i => i.Labels)
             //    .ResolveWith<ImageResolvers>(r => r.;

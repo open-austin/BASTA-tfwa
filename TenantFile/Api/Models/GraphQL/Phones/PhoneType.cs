@@ -19,10 +19,10 @@ namespace TenantFile.Api.Models.Phones
 
         protected override void Configure(IObjectTypeDescriptor<Phone> descriptor)
         {
-            descriptor
-               .ImplementsNode()
-               .IdField(t => t.Id)
-               .ResolveNode((ctx, id) => ctx.DataLoader<PhoneByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //descriptor
+            //   .ImplementsNode()
+            //   .IdField(t => t.Id)
+            //   .ResolveNode((ctx, id) => ctx.DataLoader<PhoneByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
 
            descriptor
                 .Field(p => p.Images)
