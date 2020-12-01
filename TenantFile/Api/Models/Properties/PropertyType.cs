@@ -47,8 +47,8 @@ namespace TenantFile.Api.Models.Properties
             ResidenceByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            var residenceIds = context.Properties.AsQueryable()
-               .Where(p => p.Id == property.Id)
+            var residenceIds = context.Residences.AsQueryable()
+               .Where(r => r.PropertyId == property.Id)
                .Select(r => r.Id)
                .ToArrayAsync();
 
