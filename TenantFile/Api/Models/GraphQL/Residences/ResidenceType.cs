@@ -26,11 +26,11 @@ namespace TenantFile.Api.Models.Residences
 
             descriptor.Field(r => r.Address)
                       .ResolveWith<ResidenceResolvers>(r => r.GetAddressAsync(default!, default!, default!))
-                      .UseDbContext<TenantFileContext>()
+                      .UseTenantContext<TenantFileContext>()
                       .Name("address");
             descriptor.Field(r => r.Property)
-                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!))
-                      .UseDbContext<TenantFileContext>()
+                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!, default!))
+                      .UseTenantContext<TenantFileContext>()
                       .Name("property");
         }
     }
@@ -38,7 +38,7 @@ namespace TenantFile.Api.Models.Residences
     public class ResidenceResolvers
     {
 
-        [UseFirstOrDefault]
+        
         public IQueryable<Residence> GetResidence(
            Residence residence,
            [ScopedService] TenantFileContext context)
@@ -62,7 +62,7 @@ namespace TenantFile.Api.Models.Residences
         }
         public async Task<Property?> GetPropertyAsync(
            Residence residence,
-           //[ScopedService] TenantFileContext context,
+           [ScopedService] TenantFileContext context,
            PropertyByIdDataLoader dataLoader,
            CancellationToken cancellationToken)
         {                     

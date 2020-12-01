@@ -27,12 +27,12 @@ namespace TenantFile.Api.Models.Properties
             descriptor
                     .Field(p => p.Residences)
                     .ResolveWith<PropertyResolvers>(r => r.GetResidencesAsync(default!, default!, default!, default!))
-                    .UseDbContext<TenantFileContext>()
+                    .UseTenantContext<TenantFileContext>()
                     .Name("residences");
             descriptor
                     .Field(p => p.Address)
                     .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!, default!))
-                    .UseDbContext<TenantFileContext>()
+                    .UseTenantContext<TenantFileContext>()
                     .Name("address");
 
 
@@ -40,7 +40,7 @@ namespace TenantFile.Api.Models.Properties
     }
     class PropertyResolvers
     {
-        [UseFirstOrDefault]
+       
         public IQueryable<Property> GetProperty(
             Property property,
             [ScopedService] TenantFileContext context,
@@ -56,8 +56,8 @@ namespace TenantFile.Api.Models.Properties
             ResidenceByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            var residenceIds = context.Properties.AsQueryable()
-               .Where(p => p.Id == property.Id)
+            var residenceIds = context.Residences.AsQueryable()
+               .Where(p => p.PropertyId == property.Id)
                .Select(r => r.Id)
                .ToArrayAsync();
 
@@ -68,7 +68,7 @@ namespace TenantFile.Api.Models.Properties
         public async Task<IEnumerable<Address>> GetAddressAsync(
             Property property,
             [ScopedService] TenantFileContext context,
-            DataLoaderById<Address> dataLoader,
+            AddressByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
             int[] addressIds = await context.Properties.Include(p => p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity

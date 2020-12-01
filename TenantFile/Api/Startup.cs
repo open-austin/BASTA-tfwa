@@ -96,7 +96,7 @@ namespace TenantFile.Api
                     .AddDataLoader<ResidenceByIdDataLoader>()
                     .AddDataLoader<ImageByIdDataLoader>()
                     .AddDataLoader<AddressByIdDataLoader>()
-                    .AddDataLoader<DataLoaderById<Address>>()
+                    //.AddDataLoader<DataLoaderById<Address>>()
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
