@@ -26,6 +26,7 @@ using TenantFile.Api.Models.Residences;
 using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Addresses;
 using HotChocolate.Execution.Options;
+using TenantFile.Api.Models.Entities;
 //using TenantFile.Api.Models.ImageLabels;
 
 namespace TenantFile.Api
@@ -57,11 +58,11 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-           
+
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
-              
+
             .AddGraphQLServer()
                     .AddApolloTracing(TracingPreference.Always)
                      .AddMutationType(d => d.Name("Mutation"))
@@ -95,6 +96,7 @@ namespace TenantFile.Api
                     .AddDataLoader<ResidenceByIdDataLoader>()
                     .AddDataLoader<ImageByIdDataLoader>()
                     .AddDataLoader<AddressByIdDataLoader>()
+                    .AddDataLoader<DataLoaderById<Address>>()
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()

@@ -8,12 +8,16 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Middleware\**" />
     <Compile Remove="Models\Entities\Joins\**" />
     <Compile Remove="Models\ImageLabels\**" />
+    <Content Remove="Middleware\**" />
     <Content Remove="Models\Entities\Joins\**" />
     <Content Remove="Models\ImageLabels\**" />
+    <EmbeddedResource Remove="Middleware\**" />
     <EmbeddedResource Remove="Models\Entities\Joins\**" />
     <EmbeddedResource Remove="Models\ImageLabels\**" />
+    <None Remove="Middleware\**" />
     <None Remove="Models\Entities\Joins\**" />
     <None Remove="Models\ImageLabels\**" />
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace TenantFile.Api.Models.Properties
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNodeWith<PropertyResolvers>(r=> r.GetProperty(default!, default!, default!));
+                .ResolveNodeWith<PropertyResolvers>(r => r.GetProperty(default!, default!, default!));
 
             descriptor
                     .Field(p => p.Residences)
@@ -31,7 +31,7 @@ namespace TenantFile.Api.Models.Properties
                     .Name("residences");
             descriptor
                     .Field(p => p.Address)
-                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!))
+                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!, default!))
                     .UseDbContext<TenantFileContext>()
                     .Name("address");
 
@@ -49,58 +49,35 @@ namespace TenantFile.Api.Models.Properties
             return context.Properties.AsQueryable()
                  .Where(r => r.Id == property.Id);
         }
-        public IEnumerable<Residence> GetResidencesAsync(
+
+        public async Task<IEnumerable<Residence>> GetResidencesAsync(
             Property property,
             [ScopedService] TenantFileContext context,
             ResidenceByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            return context.Residences.AsQueryable()
-                 .Where(r => r.PropertyId == property.Id)
-                 .ToList();
+            var residenceIds = context.Properties.AsQueryable()
+               .Where(p => p.Id == property.Id)
+               .Select(r => r.Id)
+               .ToArrayAsync();
+
+            return await dataLoader.LoadAsync(cancellationToken, await residenceIds);
+
         }
-        //public async Task<IEnumerable<Residence>> GetResidencesAsync(
-        //    Property property,
-        //    [ScopedService] TenantFileContext context,
-        //    ResidenceByIdDataLoader dataLoader,
-        //    CancellationToken cancellationToken)
-        //{
-        //    var residenceIds = context.Properties.AsQueryable()
-        //       .Where(p => p.Id == property.Id)
-        //       .Select(r => r.Id)
-        //       .ToArrayAsync();
 
-        //    return await dataLoader.LoadAsync(cancellationToken, await residenceIds);
-
-        //}
-        public IQueryable<Address> GetAddressAsync(
-        Property property,
-        [ScopedService] TenantFileContext context,
-        //AddressByIdDataLoader dataLoader,
-        CancellationToken cancellationToken)
+        public async Task<IEnumerable<Address>> GetAddressAsync(
+            Property property,
+            [ScopedService] TenantFileContext context,
+            DataLoaderById<Address> dataLoader,
+            CancellationToken cancellationToken)
         {
+            int[] addressIds = await context.Properties.Include(p => p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity
+               .Where(p => p.Id == property.Id)
+               .Select(r => r.Address.Id)//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
+               .ToArrayAsync();
 
-            //var addressIds = context.Properties.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
-            //   .Where(p => p.Id == property.Id)
-            //   .Select(r => r.AddressId)
-            //   .Single();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
+            return await dataLoader.LoadAsync(cancellationToken, addressIds);
 
-
-            //return dataLoader.LoadAsync(addressIds, cancellationToken);
-            return context.Addresses.AsQueryable().Where(a=>a.Id==property.AddressId);
         }
-        //public async Task<IEnumerable<Address>> GetAddressAsync(
-        //    Property property,
-        //    [ScopedService] TenantFileContext context,
-        //    AddressByIdDataLoader dataLoader,
-        //    CancellationToken cancellationToken)
-        //{
-        //    int[] addressIds = await context.Properties.Include(p=>p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity
-        //       .Where(p => p.Id == property.Id)
-        //       .Select(r=>r.Address.Id)//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-        //       .ToArrayAsync();
-
-        //    return await dataLoader.LoadAsync(cancellationToken, addressIds);
-
     }
 }
