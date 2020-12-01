@@ -58,7 +58,7 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-
+            services.AddSingleton<IDataLoaderFactory,DataLoaderById>
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))

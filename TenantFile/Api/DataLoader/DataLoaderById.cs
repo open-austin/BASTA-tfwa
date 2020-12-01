@@ -15,14 +15,14 @@ namespace TenantFile.Api.DataLoader
     public class DataLoaderById<T> : BatchDataLoader<int, T> where T : class, IEntity
         {
             private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
-            //private readonly Func<TenantFileContext, DbSet<T>> dbsetCreator;
+            private readonly Func<TenantFileContext, DbSet<T>> dbsetCreator;
             public DataLoaderById(
                     IBatchScheduler batchScheduler,
-                    IDbContextFactory<TenantFileContext> dbContextFactory)
-                    //Func<TenantFileContext, DbSet<T>> dbset)
+                    IDbContextFactory<TenantFileContext> dbContextFactory,
+                    Func<TenantFileContext, DbSet<T>> dbset)
                     : base(batchScheduler)
             {
-                //dbsetCreator = dbset;
+                dbsetCreator = dbset;
                 this.dbContextFactory = dbContextFactory ??
                           throw new ArgumentNullException(nameof(this.dbContextFactory));
             }
@@ -30,22 +30,22 @@ namespace TenantFile.Api.DataLoader
             IReadOnlyList<int> keys,
             CancellationToken cancellationToken)
         {
-            await using TenantFileContext dbContext =
-                dbContextFactory.CreateDbContext();
-            var dbSetInfo = dbContext.GetType().GetProperties()
-                .Where(c => c.PropertyType == typeof(DbSet<T>)).FirstOrDefault()!;
-            return await ((DbSet<T>)dbContext.GetType().InvokeMember(
-                dbSetInfo.Name,
-                System.Reflection.BindingFlags.GetProperty,
-                binder: default,
-                target: dbContext,
-                null)!).AsQueryable()
-                            .Where(s => keys.Contains(s.Id))
-                            .ToDictionaryAsync(t => t.Id, cancellationToken);
+            //await using TenantFileContext dbContext =
+            //    dbContextFactory.CreateDbContext();
+            //var dbSetInfo = dbContext.GetType().GetProperties()
+            //    .Where(c => c.PropertyType == typeof(DbSet<T>)).FirstOrDefault()!;
+            //return await ((DbSet<T>)dbContext.GetType().InvokeMember(
+            //    dbSetInfo.Name,
+            //    System.Reflection.BindingFlags.GetProperty,
+            //    binder: default,
+            //    target: dbContext,
+            //    null)!).AsQueryable()
+            //                .Where(s => keys.Contains(s.Id))
+            //                .ToDictionaryAsync(t => t.Id, cancellationToken);
 
-            //return await dbsetCreator(dbContext).AsAsyncEnumerable()
-            //       .Where(s => keys.Contains(s.Id))
-            //        .ToDictionaryAsync(t => t.Id, cancellationToken);
+            return await dbsetCreator(dbContext).AsAsyncEnumerable()
+                   .Where(s => keys.Contains(s.Id))
+                    .ToDictionaryAsync(t => t.Id, cancellationToken);
         }
         }
     }
