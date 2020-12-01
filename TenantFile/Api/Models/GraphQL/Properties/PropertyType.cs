@@ -68,7 +68,7 @@ namespace TenantFile.Api.Models.Properties
         public async Task<Address> GetAddressAsync(
             Property property,
             //[ScopedService] TenantFileContext context,
-            AddressByIdDataLoader dataLoader,
+            DataLoaderById<Address> dataLoader,
             CancellationToken cancellationToken)
         {
             //int[] addressIds = await context.Properties.Include(p => p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity

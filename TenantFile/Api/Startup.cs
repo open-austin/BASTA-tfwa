@@ -58,7 +58,7 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-            services.AddSingleton<IDataLoaderFactory,DataLoaderById>
+            //services.AddSingleton<IDataLoaderFactory, DataLoaderFactory>();
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
@@ -95,8 +95,8 @@ namespace TenantFile.Api
                     .AddDataLoader<PropertyByIdDataLoader>()
                     .AddDataLoader<ResidenceByIdDataLoader>()
                     .AddDataLoader<ImageByIdDataLoader>()
-                    .AddDataLoader<AddressByIdDataLoader>()
-                    //.AddDataLoader<DataLoaderById<Address>>()
+                    //.AddDataLoader<AddressByIdDataLoader>()
+                    .AddDataLoader<DataLoaderById<Address>>(s=> DataLoaderFactory<Address>.CreateDataLoader(s))
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()

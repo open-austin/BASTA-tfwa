@@ -10,46 +10,46 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.DataLoader
 {
-    public interface IDataLoaderFactory//<T> where T : class, IEntity
+    public interface IDataLoaderFactory<T> where T : class, IEntity
     {
         //Func<IDbContextFactory<TenantFileContext>, DbSet<T>> dbSetFunc { get; init; }
-        public DataLoaderById<Type> CreateDataLoader(IServiceProvider service);
-        Type dbSetType { get; init; }
+        public DataLoaderById<T> CreateDataLoader(IServiceProvider service);
+        // Type dbSetType { get; init; }
     }
 
-    public class DataLoaderFactory//<T> : IDataLoaderFactory<T> where T : class, IEntity
+    public static class DataLoaderFactory<T> /*: IDataLoaderFactory<T>*/  where T : class, IEntity
     {
         //public DataLoaderFactory(Func<IDbContextFactory<TenantFileContext>, DbSet<T>> func)
         //{
         //    //dbSetFunc = func;
         //}
-        public IEntity dbSetType { get; init; } = null!;
+        //public IEntity[] dbSetType { get; init; } = null!;
         // public Func<IDbContextFactory<TenantFileContext>, DbSet<T>> dbSetFunc { get ; init; }
-        public DataLoaderFactory(IEntity entity)
-        {
-            dbSetType = entity;
-        }
-        public DataLoaderById<IEntity> CreateDataLoader(IServiceProvider service)
+
+        public static DataLoaderById<T> CreateDataLoader(IServiceProvider service)
         {
             var ctx = service.GetRequiredService<IDbContextFactory<TenantFileContext>>();
-            var dbSetInfo = ctx.GetType().GetProperties()
-              .Where(c => c.PropertyType == typeof(DbSet<IEntity>)).FirstOrDefault()!;
-            return new DataLoaderById<IEntity>(default!, ctx,
-                func => (DbSet<IEntity>)func.GetType().InvokeMember(
-                dbSetInfo.Name,
-                System.Reflection.BindingFlags.GetProperty,
-                binder: default,
-                target: ctx,
-                null)!);
+
+            var dbSetInfo = ctx;
+            //return new DataLoaderById<T>(default!, ctx,
+            //    func => (DbSet<T>)func
+            //    .GetType().InvokeMember(
+            //    dbSetInfo.Name,
+            //    System.Reflection.BindingFlags.GetProperty,
+            //    binder: default,
+            //    target: func,
+            //    null)!);  
+            return new DataLoaderById<T>(default!, ctx,
+                func => GetDbSet(func));
         }
-        public  DbSet<IEntity> GetDbSet(TenantFileContext context)
-        { 
-            var t = dbSetType.GetType();
+        public static DbSet<T> GetDbSet(TenantFileContext context)
+        {
+            //var t = dbSetType.GetType();
 
 
-               var dbSetInfo = context.GetType().GetProperties().Where(c => c.PropertyType == typeof(DbSet<>)).FirstOrDefault()!;
+            var dbSetInfo = context.GetType().GetProperties().Where(c => c.PropertyType == typeof(DbSet<T>)).FirstOrDefault()!;
 
-            return (DbSet<IEntity>)context.GetType().InvokeMember(
+            return (DbSet<T>)context.GetType().InvokeMember(
                 dbSetInfo.Name,
                 System.Reflection.BindingFlags.GetProperty,
                 binder: default,
@@ -57,6 +57,5 @@ namespace TenantFile.Api.DataLoader
                 null)!;
         }
     }
+}
 
-
-    

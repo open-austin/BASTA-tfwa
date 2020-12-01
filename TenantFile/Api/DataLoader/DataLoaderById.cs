@@ -23,9 +23,9 @@ namespace TenantFile.Api.DataLoader
                     : base(batchScheduler)
             {
                 dbsetCreator = dbset;
-                this.dbContextFactory = dbContextFactory ??
-                          throw new ArgumentNullException(nameof(this.dbContextFactory));
-            }
+            this.dbContextFactory = dbContextFactory ??
+                      throw new ArgumentNullException(nameof(this.dbContextFactory));
+        }
         protected override async Task<IReadOnlyDictionary<int, T>> LoadBatchAsync(
             IReadOnlyList<int> keys,
             CancellationToken cancellationToken)
@@ -42,8 +42,8 @@ namespace TenantFile.Api.DataLoader
             //    null)!).AsQueryable()
             //                .Where(s => keys.Contains(s.Id))
             //                .ToDictionaryAsync(t => t.Id, cancellationToken);
-
-            return await dbsetCreator(dbContext).AsAsyncEnumerable()
+            await using var ctx = dbContextFactory.CreateDbContext();
+            return await dbsetCreator(ctx).AsAsyncEnumerable()
                    .Where(s => keys.Contains(s.Id))
                     .ToDictionaryAsync(t => t.Id, cancellationToken);
         }

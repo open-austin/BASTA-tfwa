@@ -27,7 +27,7 @@ namespace TenantFile.Api.Models.Addresses
     {
         public async Task<Address> GetAddress(Address address,
             //[ScopedService] TenantFileContext context,
-            AddressByIdDataLoader dataLoader,
+            DataLoaderById<Address> dataLoader,
             CancellationToken cancellationToken)
         {
             return await dataLoader.LoadAsync(address.Id, cancellationToken);

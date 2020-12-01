@@ -48,7 +48,7 @@ namespace TenantFile.Api.Models.Residences
         }
         public async Task<Address> GetAddressAsync(
            Residence residence,
-           AddressByIdDataLoader dataLoader,
+           DataLoaderById<Address> dataLoader,
            //[ScopedService] TenantFileContext context,
            CancellationToken cancellationToken)
         {
