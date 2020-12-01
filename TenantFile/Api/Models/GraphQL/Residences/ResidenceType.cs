@@ -29,7 +29,7 @@ namespace TenantFile.Api.Models.Residences
                       .UseTenantContext<TenantFileContext>()
                       .Name("address");
             descriptor.Field(r => r.Property)
-                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!, default!))
+                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!))
                       .UseTenantContext<TenantFileContext>()
                       .Name("property");
         }
@@ -46,9 +46,10 @@ namespace TenantFile.Api.Models.Residences
             return context.Residences.AsQueryable()
                  .Where(r => r.Id == residence.Id);
         }
-        public IQueryable<Address> GetAddressAsync(
+        public async Task<Address> GetAddressAsync(
            Residence residence,
-           [ScopedService] TenantFileContext context,
+           AddressByIdDataLoader dataLoader,
+           //[ScopedService] TenantFileContext context,
            CancellationToken cancellationToken)
         {
             //var addressId = context.Residences.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
@@ -57,12 +58,12 @@ namespace TenantFile.Api.Models.Residences
             //   .SingleOrDefault();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
 
 
-            return context.Addresses.AsQueryable().Where(a => a.Id == residence.AddressId);
+            return await dataLoader.LoadAsync(residence.AddressId, cancellationToken);
 
         }
         public async Task<Property?> GetPropertyAsync(
            Residence residence,
-           [ScopedService] TenantFileContext context,
+           //[ScopedService] TenantFileContext context,
            PropertyByIdDataLoader dataLoader,
            CancellationToken cancellationToken)
         {                     

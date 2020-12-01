@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Resolvers;
@@ -18,17 +19,18 @@ namespace TenantFile.Api.Models.Addresses
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNodeWith<AddressResolvers>(c => c.GetAddress(default!, default!));
+                .ResolveNodeWith<AddressResolvers>(c => c.GetAddress(default!, default!, default!));
 
         }
     }
     public class AddressResolvers
     {
-        [UseFirstOrDefault]
-        public IQueryable<Address> GetAddress(Address address,
-            [ScopedService] TenantFileContext context)
+        public async Task<Address> GetAddress(Address address,
+            //[ScopedService] TenantFileContext context,
+            AddressByIdDataLoader dataLoader,
+            CancellationToken cancellationToken)
         {
-            return context.Addresses.AsQueryable().Where(a => a.Id == address.Id);
+            return await dataLoader.LoadAsync(address.Id, cancellationToken);
         }
     }
 }

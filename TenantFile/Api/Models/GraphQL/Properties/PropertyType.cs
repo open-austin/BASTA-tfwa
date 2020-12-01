@@ -31,7 +31,7 @@ namespace TenantFile.Api.Models.Properties
                     .Name("residences");
             descriptor
                     .Field(p => p.Address)
-                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!, default!))
+                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                     .UseTenantContext<TenantFileContext>()
                     .Name("address");
 
@@ -57,7 +57,7 @@ namespace TenantFile.Api.Models.Properties
             CancellationToken cancellationToken)
         {
             var residenceIds = context.Residences.AsQueryable()
-               .Where(p => p.PropertyId == property.Id)
+               .Where(r => r.PropertyId == property.Id)
                .Select(r => r.Id)
                .ToArrayAsync();
 
@@ -65,18 +65,18 @@ namespace TenantFile.Api.Models.Properties
 
         }
 
-        public async Task<IEnumerable<Address>> GetAddressAsync(
+        public async Task<Address> GetAddressAsync(
             Property property,
-            [ScopedService] TenantFileContext context,
+            //[ScopedService] TenantFileContext context,
             AddressByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            int[] addressIds = await context.Properties.Include(p => p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity
-               .Where(p => p.Id == property.Id)
-               .Select(r => r.Address.Id)//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-               .ToArrayAsync();
+            //int[] addressIds = await context.Properties.Include(p => p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity
+            //   .Where(p => p.Id == property.Id)
+            //   .Select(r => r.Address.Id)//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
+            //   .ToArrayAsync();
 
-            return await dataLoader.LoadAsync(cancellationToken, addressIds);
+            return await dataLoader.LoadAsync(property.AddressId, cancellationToken);
 
         }
     }
