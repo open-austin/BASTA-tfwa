@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
+using TenantFile.Api.Common;
 
 namespace TenantFile.Api.Models.Entities
 {
-    public class Address
+    public class Address : IEntity
     {
         
         public int Id { get; set; }
+<<<<<<< HEAD
      
+=======
+>>>>>>> DataLoaderFactory
         [XmlElement("Address2")]
         public string Line1 { get; set; } = null!;
         [XmlElement("Address1")]
