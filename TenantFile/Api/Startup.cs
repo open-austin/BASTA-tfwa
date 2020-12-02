@@ -26,6 +26,7 @@ using TenantFile.Api.Models.Residences;
 using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Addresses;
 using HotChocolate.Execution.Options;
+using TenantFile.Api.Models.Entities;
 //using TenantFile.Api.Models.ImageLabels;
 
 namespace TenantFile.Api
@@ -95,7 +96,8 @@ namespace TenantFile.Api
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
-                    .AddProjections();
+                    .AddProjections()
+                    ;
 
 
 

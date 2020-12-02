@@ -11,10 +11,7 @@ namespace TenantFile.Api.Models.Entities
     {
         
         public int Id { get; set; }
-<<<<<<< HEAD
      
-=======
->>>>>>> DataLoaderFactory
         [XmlElement("Address2")]
         public string Line1 { get; set; } = null!;
         [XmlElement("Address1")]

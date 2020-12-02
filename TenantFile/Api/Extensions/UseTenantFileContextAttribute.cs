@@ -9,7 +9,7 @@ namespace TenantFile.Api.Extensions
     {
         public override void OnConfigure(IDescriptorContext context, IObjectFieldDescriptor descriptor, MemberInfo member)
         {
-            descriptor.UseDbContext<TenantFileContext>();
+            descriptor.UseTenantContext<TenantFileContext>();
         }
     }
 }

@@ -6,7 +6,7 @@ using TenantFile.Api.Common;
 
 namespace TenantFile.Api.Models.Entities
 {
-    public class Phone
+    public class Phone : IEntity
     {
         
         public int Id { get; set; }
