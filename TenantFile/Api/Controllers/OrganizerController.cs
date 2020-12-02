@@ -14,26 +14,23 @@ namespace TenantFile.Api.Controllers
     [Authorize(Policy = "AdminOnly")]
     public class OrganizerController : ControllerBase
     {
-        private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
+        private readonly TenantFileContext context;
 
-        public OrganizerController(IDbContextFactory<TenantFileContext> dbContextFactory)
+        public OrganizerController(TenantFileContext context)
         {
-            this.dbContextFactory = dbContextFactory;
+            this.context = context;
         }
-
-       // [HttpGet("/Organizer/{UserName}")]
-        // public IActionResult GetOrganizer(){}
 
         [HttpPost("/organizer/create")]
         public async Task<IActionResult> CreateOrganizerAsync([FromQuery] string userUid)
         {
-            await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
-            dbContext.Organizers.Add(new Organizer() {Uid = userUid});
+            //await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
+            context.Organizers.Add(new Organizer() {Uid = userUid});
 
-            await dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
                 return StatusCode(201);
-          //return CreatedAtAction("organizer", new { id = userUid}, userUid );
+          
         }
     }
 }

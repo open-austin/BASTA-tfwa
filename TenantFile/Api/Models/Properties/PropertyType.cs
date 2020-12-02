@@ -17,7 +17,6 @@ namespace TenantFile.Api.Models.Properties
 {
     public class PropertyType : ObjectType<Property>
     {
-
         protected override void Configure(IObjectTypeDescriptor<Property> descriptor)
         {
             descriptor
@@ -61,27 +60,14 @@ namespace TenantFile.Api.Models.Properties
             AddressByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {
-            var addressIds = context.Properties.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
+            var addressIds = context.Properties.AsQueryable()
                .Where(p => p.Id == property.Id)
                .Select(r => r.AddressId)
-               .Single();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
+               .Single();
                
 
             return dataLoader.LoadAsync(addressIds, cancellationToken);
 
         }
-        //public async Task<IEnumerable<Address>> GetAddressAsync(
-        //    Property property,
-        //    [ScopedService] TenantFileContext context,
-        //    AddressByIdDataLoader dataLoader,
-        //    CancellationToken cancellationToken)
-        //{
-        //    int[] addressIds = await context.Properties.Include(p=>p.Address).AsAsyncEnumerable()//don't use include...add AddresssId ot Entity
-        //       .Where(p => p.Id == property.Id)
-        //       .Select(r=>r.Address.Id)//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-        //       .ToArrayAsync();
-
-        //    return await dataLoader.LoadAsync(cancellationToken, addressIds);
-
     }
 }

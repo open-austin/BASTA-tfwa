@@ -29,44 +29,41 @@ namespace TenantFile.Api.Controllers
     {
         private readonly ITopicEventSender eventSender;
         private readonly ILogger<SmsController> logger;
-        private readonly IDbContextFactory<TenantFileContext> dbContextFactory;
+        private readonly TenantFileContext context;
         private readonly ICloudStorage storageClient;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, IDbContextFactory<TenantFileContext> dbContextFactory, [Service] ITopicEventSender eventSender)
+        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context, [Service] ITopicEventSender eventSender)
         {
             this.eventSender = eventSender;
             this.logger = logger;
             this.storageClient = storageClient;
-            this.dbContextFactory = dbContextFactory;
+            this.context = context;
         }
 
-        //Twilio can use the graphql endpoint with middleware but it would effect every call to API...
-        //CANNOT inject ITopicEventSending in this method
         [HttpPost("/api/sms")]
-        public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia/*, [Service] ITopicEventSender eventSender*/)
+        public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia)
         {
 
             DateTime timeStamp = DateTime.Now;
             var filenames = await SaveMediaAsync(numMedia);
 
-            await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
-            var phone = dbContext.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
+            //await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
+            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
 
             bool newPhone = false;
 
             if (phone == null)
             {
-                newPhone = true;//not raising the subscription event here because the image names are not populated yet.
+                newPhone = true;
                 phone = new Phone
                 {
                     PhoneNumber = request.From,
                     Images = new List<Models.Entities.Image>()
                 };
-                dbContext.Phones.Add(phone);
-            //await dbContext.SaveChangesAsync();//This call is needed to generate the Id for the phone so it is available to the TenantEvent...but, if the TenantEvent has a navigation property to the Phone, the Id would be added when its saved later...the reference should be enough to establish the relationship
+                context.Phones.Add(phone);
+            
             }
-            var tenantEvent = CreateTenantEventAsync(dbContext, phone, timeStamp);
-
+  
             foreach (var (image, thumbnail, labels) in filenames)
             {
                 if (phone.Images == null)
@@ -81,8 +78,7 @@ namespace TenantFile.Api.Controllers
 
                 });
             }
-            dbContext.TenantEvents.Add(await tenantEvent);
-            await dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             if (newPhone == true)
             {
@@ -137,21 +133,6 @@ namespace TenantFile.Api.Controllers
             return filenames;
         }
 
-        async Task<TenantEvent> CreateTenantEventAsync(TenantFileContext dbContext, Phone phone, DateTime time)
-        {
-            var tenant = await dbContext.Tenants.AsAsyncEnumerable()
-                                                .Where(t => t.Phones.Select(p => p.PhoneNumber)
-                                                .Contains(phone.PhoneNumber))
-                                                .FirstOrDefaultAsync();
-            return new TenantEvent()
-            {
-                TimeOccurred = time,
-                Tenant = tenant,
-                EventType = TenantEventType.SentEvidence,
-                Phone = phone
-            };
-        }
-
         async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
         {
             var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
@@ -193,6 +174,7 @@ namespace TenantFile.Api.Controllers
             return imageLables;
         }
 
+        //TODO: Not yet implemented, need bucket for sequestered content, delete,send custom message though Twilio 
         //TODO: Recheck performance with long list of keywords and make Async if performance is poor
         /// <summary>
         /// Uses the return type TextAnnotation from Google's OCR search for a set of words and return the confidence that the reading was correct.

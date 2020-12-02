@@ -8,7 +8,6 @@ namespace TenantFile.Api.Models.Phones
         protected override void Configure(IFilterInputTypeDescriptor<Phone> descriptor)
         {
             descriptor.Ignore(t => t.Id);
-            //descriptor.Ignore(t => t. ); // todo : fix nullability issue with the descriptor.
         }
     }
 }

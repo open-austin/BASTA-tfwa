@@ -21,7 +21,6 @@ namespace TenantFile.Api.Models.Phones
 
         [UseTenantFileContext]
         [UsePaging]
-        //[UseSelection]
         [HotChocolate.Data.UseFiltering(typeof(PhoneFilterInputType))]
         [HotChocolate.Data.UseSorting]
         public IQueryable<Phone> GetPhones([ScopedService] TenantFileContext tenantContext) => tenantContext.Phones.AsQueryable();

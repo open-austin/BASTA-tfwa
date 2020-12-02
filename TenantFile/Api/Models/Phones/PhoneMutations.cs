@@ -16,9 +16,9 @@ namespace TenantFile.Api.Models.Phones
     {
         [UseTenantFileContext]
         public async Task<CreatePhonePayload> CreatePhone(
-     CreatePhoneInput input,
-     [ScopedService] TenantFileContext context,
-     [Service] ITopicEventSender eventSender)
+         CreatePhoneInput input,
+         [ScopedService] TenantFileContext context,
+         [Service] ITopicEventSender eventSender)
         {
             var phone = new Phone { PhoneNumber = input.PhoneNumber };
             context.Phones.Add(phone);

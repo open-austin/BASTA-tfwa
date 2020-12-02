@@ -8,7 +8,7 @@ namespace TenantFile.Api.Models.Residences
         protected override void Configure(IFilterInputTypeDescriptor<Residence> descriptor)
         {
             descriptor.Ignore(t => t.Id);
-            descriptor.Ignore(t => t.PropertyId); // todo : fix nullability issue with the descriptor.
+            descriptor.Ignore(t => t.PropertyId);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace TenantFile.Api.Models.Residences
 {
     public class ResidenceType : ObjectType<Residence>
     {
-
         protected override void Configure(IObjectTypeDescriptor<Residence> descriptor)
         {
             descriptor
@@ -38,14 +37,7 @@ namespace TenantFile.Api.Models.Residences
            AddressByIdDataLoader dataLoader,
            CancellationToken cancellationToken)
         {
-            //var addressIds = context.Residences.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
-            //   .Where(p => p.Id == residence.Id)
-            //   .Select(r => r.AddressId)
-            //   .Single();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-
-
             return dataLoader.LoadAsync(residence.AddressId, cancellationToken);
-
         }
     }
 }

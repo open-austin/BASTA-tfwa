@@ -38,7 +38,7 @@ namespace TenantFile.Api
 
             var connectionString =
                 new NpgsqlConnectionStringBuilder(
-                    Configuration["CloudSQL:ConnectionString"])
+                    Configuration["LocalSQL:ConnectionString"])
                 {
                     // Connecting to a local proxy that does not support ssl.
                     SslMode = SslMode.Disable
@@ -57,12 +57,11 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-           
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["CloudSQL:ConnectionString"])
+            services.AddScoped<TenantFileContext>();
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
-            .LogTo(Console.WriteLine, LogLevel.Information))
-              
-            .AddGraphQLServer()
+                    .LogTo(Console.WriteLine, LogLevel.Information))
+              .AddGraphQLServer()
                     .AddApolloTracing(TracingPreference.Always)
                      .AddMutationType(d => d.Name("Mutation"))
                         .AddType<ImageMutations>()
@@ -76,7 +75,6 @@ namespace TenantFile.Api
                         .AddType<ResidenceQueries>()
                         .AddType<PhoneQueries>()
                         .AddType<ImageQueries>()
-                        //.AddType<ImageLabelQueries>()
                         .AddType<AddressQueries>()
                     .AddType<PhoneType>()
                     .AddType<TenantType>()
@@ -84,8 +82,6 @@ namespace TenantFile.Api
                     .AddType<ImageType>()
                     .AddType<PropertyType>()
                     .AddType<ResidenceType>()
-                    //.AddType<ImageLabelType>()
-                    .EnableRelaySupport()
                     .AddInMemorySubscriptions()
                     .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<PhoneSubscriptions>()
@@ -95,6 +91,7 @@ namespace TenantFile.Api
                     .AddDataLoader<ResidenceByIdDataLoader>()
                     .AddDataLoader<ImageByIdDataLoader>()
                     .AddDataLoader<AddressByIdDataLoader>()
+                    .EnableRelaySupport()
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
@@ -173,8 +170,6 @@ namespace TenantFile.Api
                .AllowAnyHeader()
                .AllowCredentials()
             );
-
-            //app.UseTwilioToStorage();
             app.UseWebSockets()
                .UseRouting()
                .UsePlayground()
@@ -213,7 +208,6 @@ namespace TenantFile.Api
 
             if (dbContext.Database.EnsureCreated())
             {
-
                 dbContext.SaveChangesAsync();
             }
         }

@@ -19,7 +19,6 @@ namespace TenantFile.Api.Models.Images
     {
         [UseTenantFileContext]
         [UsePaging]
-        //[UseSelection]
         [HotChocolate.Data.UseFiltering(typeof(ImageFilterInputType))]
         [HotChocolate.Data.UseSorting]
         public IQueryable<Image> GetImages([ScopedService] TenantFileContext tenantContext) => tenantContext.Images.AsNoTracking();

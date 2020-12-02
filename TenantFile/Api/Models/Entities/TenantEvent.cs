@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TenantFile.Api.Common;
 
 namespace TenantFile.Api.Models.Entities
 {
     /// <summary>
     /// Replaces ResidenceRecords as a way to track important events for Tenants
     /// </summary>
-    public class TenantEvent
+    public class TenantEvent 
     {
         public int Id { get; set; }
         public TenantEventType EventType { get; set; }

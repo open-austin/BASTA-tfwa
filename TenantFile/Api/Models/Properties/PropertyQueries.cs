@@ -19,7 +19,6 @@ namespace TenantFile.Api.Models.Properties
     {
         [UseTenantFileContext]
         [UsePaging]
-        //[UseSelection]
         [HotChocolate.Data.UseFiltering(typeof(PropertyFilterInputType))]
         [HotChocolate.Data.UseSorting]
         public IQueryable<Property> GetProperties([ScopedService] TenantFileContext tenantContext) => tenantContext.Properties.AsQueryable();

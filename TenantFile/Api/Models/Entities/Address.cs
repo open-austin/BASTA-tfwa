@@ -10,9 +10,7 @@ namespace TenantFile.Api.Models.Entities
     {
         
         public int Id { get; set; }
-        //public string Street { get; set; } = null!;
-        //public string StreetNumber { get; set; } = null!;
-        //public string StreetName { get; set; } = null!;
+     
         [XmlElement("Address2")]
         public string Line1 { get; set; } = null!;
         [XmlElement("Address1")]

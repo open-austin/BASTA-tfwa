@@ -18,7 +18,6 @@ namespace TenantFile.Api.Models.Residences
     {
         [UseTenantFileContext]
         [UsePaging]
-        //[UseSelection]
         [HotChocolate.Data.UseFiltering(typeof(ResidenceFilterInputType))]
         [HotChocolate.Data.UseSorting]
         public IQueryable<Residence> GetResidences([ScopedService] TenantFileContext tenantContext) => tenantContext.Residences.AsQueryable();

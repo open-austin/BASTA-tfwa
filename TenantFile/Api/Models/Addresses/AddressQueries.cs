@@ -19,7 +19,6 @@ namespace TenantFile.Api.Models.Addresses
     {
         [UseTenantFileContext]
         [UsePaging]
-        //[UseSelection]
         [HotChocolate.Data.UseFiltering(typeof(AddressFilterInputType))]
         [HotChocolate.Data.UseSorting]
         public IQueryable<Address> GetAddresses([ScopedService] TenantFileContext tenantContext) => tenantContext.Addresses.AsQueryable();

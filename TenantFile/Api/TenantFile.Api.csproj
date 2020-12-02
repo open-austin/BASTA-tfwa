@@ -8,14 +8,25 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Middleware\**" />
     <Compile Remove="Models\Entities\Joins\**" />
     <Compile Remove="Models\ImageLabels\**" />
+    <Content Remove="Middleware\**" />
     <Content Remove="Models\Entities\Joins\**" />
     <Content Remove="Models\ImageLabels\**" />
+    <EmbeddedResource Remove="Middleware\**" />
     <EmbeddedResource Remove="Models\Entities\Joins\**" />
     <EmbeddedResource Remove="Models\ImageLabels\**" />
+    <None Remove="Middleware\**" />
     <None Remove="Models\Entities\Joins\**" />
     <None Remove="Models\ImageLabels\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20201004183758_InitialCreate.cs" />
+    <Compile Remove="Migrations\20201004183758_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20201202174548_removeid.cs" />
+    <Compile Remove="Migrations\20201202174548_removeid.Designer.cs" />
+    <Compile Remove="Migrations\TenantContextModelSnapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="5.0.0-rc1" />
@@ -60,6 +71,7 @@
     <PackageReference Include="HotChocolate.Subscriptions" Version="11.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Models\GraphQL\" />
   </ItemGroup>
 </Project>

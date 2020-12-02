@@ -34,12 +34,12 @@ namespace TenantFile.Api.Models.Tenants
             var tenant = new Tenant
             {
                 Name = inputTenant.Name,
-                Phones = new List<Phone>{
+                Phones = new List<Phone> {
                     new Phone {
                         PhoneNumber = phone.PhoneNumber
                     }
-
-                }
+                },
+                CurrentResidence = inputTenant.CurrentResidence
             };
 
             var tenantEntry = context.Tenants.Add(tenant);

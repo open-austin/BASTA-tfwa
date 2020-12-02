@@ -16,8 +16,6 @@ namespace TenantFile.Api.Controllers
     [Authorize]
     public class ImageController : ControllerBase
     {
-        // private static readonly string projectId = "tenant-file-fc6de";
-
         private readonly ILogger<ImageController> _logger;
         private readonly StorageClient _storageClient;
         private readonly TenantFileContext _context;
@@ -55,7 +53,7 @@ namespace TenantFile.Api.Controllers
             }
             catch (Exception ex)
             {
-				Console.WriteLine(ex);
+				_logger.LogError(ex.Message);
                 return new BadRequestResult();
             }
         }
