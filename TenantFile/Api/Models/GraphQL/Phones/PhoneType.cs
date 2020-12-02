@@ -22,10 +22,10 @@ namespace TenantFile.Api.Models.Phones
             //descriptor
             //   .ImplementsNode()
             //   .IdField(t => t.Id)
-            //   .ResolveNode((ctx, id) => ctx.DataLoader<PhoneByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //   .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Phone>>().LoadAsync(id, ctx.RequestAborted));
 
-           descriptor
-                .Field(p => p.Images)
+            descriptor
+                 .Field(p => p.Images)
                 .ResolveWith<PhoneResolvers>(r =>  r.GetImagesAsync(default!, default!, default!, default!))
                 .UseDbContext<TenantFileContext>()
                 .Name("images");
@@ -38,7 +38,7 @@ namespace TenantFile.Api.Models.Phones
         public async Task<IEnumerable<Image>> GetImagesAsync(
             Phone phone,
             [ScopedService] TenantFileContext context,
-            ImageByIdDataLoader dataLoader,
+            DataLoaderById<Image> dataLoader,
             CancellationToken cancellationToken)
         {
             var imagesId = context.Phones.AsQueryable()

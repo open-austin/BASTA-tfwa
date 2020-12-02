@@ -24,6 +24,6 @@ namespace TenantFile.Api.Tenants
         [HotChocolate.Data.UseSorting]
         public IQueryable<Tenant> GetTenants([ScopedService] TenantFileContext tenantContext) => tenantContext.Tenants.AsQueryable();
 
-        public Task<Tenant> GetTenantAsync(int id, TenantByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+        public Task<Tenant> GetTenantAsync(int id, DataLoaderById<Tenant> dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
     }
 }

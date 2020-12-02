@@ -22,7 +22,7 @@ namespace TenantFile.Api.Models.Residences
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNode((ctx, id) => ctx.DataLoader<ResidenceByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+                .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Residence>>().LoadAsync(id, ctx.RequestAborted));
 
             descriptor.Field(r => r.Address)
                       .ResolveWith<ResidenceResolvers>(r => r.GetAddressAsync(default!, default!, default!))
@@ -64,7 +64,7 @@ namespace TenantFile.Api.Models.Residences
         public async Task<Property?> GetPropertyAsync(
            Residence residence,
            //[ScopedService] TenantFileContext context,
-           PropertyByIdDataLoader dataLoader,
+           DataLoaderById<Property> dataLoader,
            CancellationToken cancellationToken)
         {                     
             if (residence.PropertyId == null)

@@ -53,7 +53,7 @@ namespace TenantFile.Api.Models.Properties
         public async Task<IEnumerable<Residence>> GetResidencesAsync(
             Property property,
             [ScopedService] TenantFileContext context,
-            ResidenceByIdDataLoader dataLoader,
+            DataLoaderById<Residence> dataLoader,
             CancellationToken cancellationToken)
         {
             var residenceIds = context.Residences.AsQueryable()

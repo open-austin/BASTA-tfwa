@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenDonut;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TenantFile.Api.Common;
@@ -10,14 +11,16 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.DataLoader
 {
-    public interface IDataLoaderFactory<T> where T : class, IEntity
+    public interface IDataLoaderFactory/*<T> where T : class, IEntity*/
     {
         //Func<IDbContextFactory<TenantFileContext>, DbSet<T>> dbSetFunc { get; init; }
-        public DataLoaderById<T> CreateDataLoader(IServiceProvider service);
+        public DataLoaderById<T> CreateDataLoader<T>(IServiceProvider service) where T : class, IEntity;
+       // {
+            
         // Type dbSetType { get; init; }
     }
 
-    public static class DataLoaderFactory<T> /*: IDataLoaderFactory<T>*/  where T : class, IEntity
+    public class DataLoaderFactory : IDataLoaderFactory  //where T : class, IEntity
     {
         //public DataLoaderFactory(Func<IDbContextFactory<TenantFileContext>, DbSet<T>> func)
         //{
@@ -26,7 +29,7 @@ namespace TenantFile.Api.DataLoader
         //public IEntity[] dbSetType { get; init; } = null!;
         // public Func<IDbContextFactory<TenantFileContext>, DbSet<T>> dbSetFunc { get ; init; }
 
-        public static DataLoaderById<T> CreateDataLoader(IServiceProvider service)
+        public DataLoaderById<T> CreateDataLoader<T>(IServiceProvider service) where T : class, IEntity
         {
             var ctx = service.GetRequiredService<IDbContextFactory<TenantFileContext>>();
 
@@ -39,22 +42,24 @@ namespace TenantFile.Api.DataLoader
             //    binder: default,
             //    target: func,
             //    null)!);  
-            return new DataLoaderById<T>(default!, ctx,
-                func => GetDbSet(func));
+            return new DataLoaderById<T>(service.GetRequiredService<IBatchScheduler>(), ctx,
+                func => GetDbSet<T>(func));
         }
-        public static DbSet<T> GetDbSet(TenantFileContext context)
+        public DbSet<T> GetDbSet<T>(TenantFileContext context) where T : class, IEntity
         {
-            //var t = dbSetType.GetType();
+            {
+                //var t = dbSetType.GetType();
 
 
-            var dbSetInfo = context.GetType().GetProperties().Where(c => c.PropertyType == typeof(DbSet<T>)).FirstOrDefault()!;
+                var dbSetInfo = context.GetType().GetProperties().Where(c => c.PropertyType == typeof(DbSet<T>)).FirstOrDefault()!;
 
-            return (DbSet<T>)context.GetType().InvokeMember(
-                dbSetInfo.Name,
-                System.Reflection.BindingFlags.GetProperty,
-                binder: default,
-                target: context,
-                null)!;
+                return (DbSet<T>)context.GetType().InvokeMember(
+                    dbSetInfo.Name,
+                    System.Reflection.BindingFlags.GetProperty,
+                    binder: default,
+                    target: context,
+                    null)!;
+            }
         }
     }
 }

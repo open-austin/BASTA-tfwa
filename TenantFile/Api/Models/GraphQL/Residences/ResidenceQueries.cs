@@ -23,6 +23,6 @@ namespace TenantFile.Api.Models.Residences
         [HotChocolate.Data.UseSorting]
         public IQueryable<Residence> GetResidences([ScopedService] TenantFileContext tenantContext) => tenantContext.Residences.AsQueryable();
 
-        public Task<Residence> GetResidenceAsync(int id, ResidenceByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+        public Task<Residence> GetResidenceAsync(int id, DataLoaderById<Residence> dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
     }
 }

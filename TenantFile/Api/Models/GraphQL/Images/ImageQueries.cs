@@ -24,6 +24,6 @@ namespace TenantFile.Api.Models.Images
         [HotChocolate.Data.UseSorting]
         public IQueryable<Image> GetImages([ScopedService] TenantFileContext tenantContext) => tenantContext.Images.AsNoTracking();
 
-        public Task<Image> GetImageAsync(int id, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+        public Task<Image> GetImageAsync(int id, DataLoaderById<Image> dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
     }
 }

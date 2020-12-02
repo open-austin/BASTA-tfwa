@@ -58,7 +58,7 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-            //services.AddSingleton<IDataLoaderFactory, DataLoaderFactory>();
+            services.AddScoped<IDataLoaderFactory, DataLoaderFactory>();
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
@@ -90,13 +90,18 @@ namespace TenantFile.Api
                     .AddInMemorySubscriptions()
                     .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<PhoneSubscriptions>()
-                    .AddDataLoader<TenantByIdDataLoader>()
-                    .AddDataLoader<PhoneByIdDataLoader>()
-                    .AddDataLoader<PropertyByIdDataLoader>()
-                    .AddDataLoader<ResidenceByIdDataLoader>()
-                    .AddDataLoader<ImageByIdDataLoader>()
+                    //.AddDataLoader<TenantByIdDataLoader>()
+                    //.AddDataLoader<PhoneByIdDataLoader>()
+                    //.AddDataLoader<PropertyByIdDataLoader>()
+                    //.AddDataLoader<ResidenceByIdDataLoader>()
+                    //.AddDataLoader<ImageByIdDataLoader>()
                     //.AddDataLoader<AddressByIdDataLoader>()
-                    .AddDataLoader<DataLoaderById<Address>>(s=> DataLoaderFactory<Address>.CreateDataLoader(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Address>(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Tenant>(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Phone>(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Property>(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Residence>(s))
+                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Image>(s))
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()

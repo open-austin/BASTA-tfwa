@@ -19,7 +19,7 @@ namespace TenantFile.Api.Models.Phones
         [Topic]
         public Task<Phone> OnNewPhoneReceived(
             [EventMessage] int phoneId,
-            PhoneByIdDataLoader phoineById,
+            DataLoaderById<Phone> phoineById,
             CancellationToken cancellationToken) =>
             phoineById.LoadAsync(phoneId, cancellationToken);
 

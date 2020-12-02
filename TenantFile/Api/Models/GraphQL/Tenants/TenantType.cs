@@ -18,7 +18,7 @@ namespace TenantFile.Api.Models.Tenants
             //descriptor
             //    .ImplementsNode()
             //    .IdField(t => t.Id)
-            //    .ResolveNode((ctx, id) => ctx.DataLoader<TenantByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //    .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Tenant>>().LoadAsync(id, ctx.RequestAborted));
         }
     }
 }

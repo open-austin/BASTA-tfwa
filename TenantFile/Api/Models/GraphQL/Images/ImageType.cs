@@ -20,7 +20,7 @@ namespace TenantFile.Api.Models.Images
             //descriptor
             //    .ImplementsNode()
             //    .IdField(i => i.Id)
-            //    .ResolveNode((ctx, id) => ctx.DataLoader<ImageByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
+            //    .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Image>>().LoadAsync(id, ctx.RequestAborted));
 
             //descriptor.Field(i => i.Labels)
             //    .ResolveWith<ImageResolvers>(r => r.;
