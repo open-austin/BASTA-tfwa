@@ -7,7 +7,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Entities    
 {
-    public class Property //: Premise
+    public class Property : IEntity
     {
         public int Id { get; set; }
         public string? Name { get; set; }

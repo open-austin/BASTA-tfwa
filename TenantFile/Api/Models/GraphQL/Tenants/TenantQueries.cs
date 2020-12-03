@@ -1,15 +1,11 @@
 ﻿using HotChocolate;
 using HotChocolate.Types;
-using HotChocolate.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Tenants
