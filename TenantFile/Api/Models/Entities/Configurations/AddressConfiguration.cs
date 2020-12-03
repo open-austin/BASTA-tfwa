@@ -28,9 +28,6 @@ namespace TenantFile.Api.Configurations
 
             builder.Ignore(a => a.ValidationMessage);
 
-            //builder.Property(a => a.StreetNumber)
-            //        .IsRequired();
-
             //Might like to make an enumeration class for this property to constrain options to valid values
             builder.Property(a => a.State)
                     .IsRequired();

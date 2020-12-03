@@ -16,18 +16,6 @@ namespace TenantFile.Api.Configurations
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd()
                 .IsRequired();
-
-            //builder
-            //  .HasMany(p => p.Residences)
-            //  .WithOne()
-            //  .HasForeignKey(r => r.PropertyId);
-            //builder
-            //  .HasOne(p => p.Address)
-            //  .WithOne();
-            //  .HasForeignKey(p=>p.)
-
-            //builder.HasOne(p=>p.Complex)
-            //    .WithMany(collection=>collection.Properties)
-        }
+            }
     }
 }

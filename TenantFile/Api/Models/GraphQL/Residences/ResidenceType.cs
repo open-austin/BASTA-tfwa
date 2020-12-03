@@ -37,8 +37,6 @@ namespace TenantFile.Api.Models.Residences
 
     public class ResidenceResolvers
     {
-
-        
         public IQueryable<Residence> GetResidence(
            Residence residence,
            [ScopedService] TenantFileContext context)
@@ -49,21 +47,12 @@ namespace TenantFile.Api.Models.Residences
         public async Task<Address> GetAddressAsync(
            Residence residence,
            AddressByIdDataLoader dataLoader,
-           //[ScopedService] TenantFileContext context,
            CancellationToken cancellationToken)
         {
-            //var addressId = context.Residences.AsQueryable()//don't use include...add AddresssId to Entity...Address is the Princpal for Property, Residence and Complex
-            //   .Where(p => p.Id == residence.Id)
-            //   .Select(r => r.AddressId)
-            //   .SingleOrDefault();//Could return Address here BUT I believe fetching the ID then passing them all to the Dataloader to make one call to the DB is the benefit ofthe dataloader? n+1?
-
-
             return await dataLoader.LoadAsync(residence.AddressId, cancellationToken);
-
         }
         public async Task<Property?> GetPropertyAsync(
            Residence residence,
-           //[ScopedService] TenantFileContext context,
            PropertyByIdDataLoader dataLoader,
            CancellationToken cancellationToken)
         {                     
@@ -71,11 +60,8 @@ namespace TenantFile.Api.Models.Residences
             {
                 return null;
             }
-           
 
             return await dataLoader.LoadAsync(residence.PropertyId.Value, cancellationToken).ConfigureAwait(false);
-         
-
         }
     }
 }
