@@ -144,7 +144,7 @@ const TenantList: React.FC = () => {
           prepareRow(row);
           return (
             <>
-              <tr {...row.getRowProps()} onClick={onHandleRowClick} data-user-id={mockUserIdNumber}>
+              <tr style={{cursor:'pointer'}} {...row.getRowProps()} onClick={onHandleRowClick} data-user-id={mockUserIdNumber}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>
