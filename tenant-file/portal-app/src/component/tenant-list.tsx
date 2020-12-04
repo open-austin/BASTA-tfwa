@@ -6,7 +6,7 @@ import { Table } from 'reactstrap';
 import { useTable, Column } from 'react-table';
 import axios from 'axios';
 import { getToken } from './firebase';
-import Image from './image';
+import TenantTableCollapse from './tenant-table-collapse';
 
 const EXCHANGE_RATES = gql`
   query TenantListQuery($name: String = "") {
@@ -141,28 +141,7 @@ const TenantList: React.FC = () => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          return (
-            <>
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {console.log(cell)}
-                      {cell.column.Header === 'Images'
-                        ? cell.value.map((i: string) => <Image name={i} />)
-                        : cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-
-              {/* <tr>
-                  <td colSpan={2} className="text-center">
-                    <Collapse>I'm Spanning Yo</Collapse>
-                  </td>
-                </tr> */}
-            </>
-          );
+          return <TenantTableCollapse row={row} />;
         })}
       </tbody>
     </Table>
