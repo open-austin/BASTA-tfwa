@@ -22,8 +22,8 @@ namespace TenantFile.Api.Models
         //TODO: Determine if these should be owned type as well
         public DbSet<Address> Addresses { get; set; } = null!;
         public DbSet<Residence> Residences{ get; set; } = null!;
-        //public DbSet<ResidenceRecord> ResidenceRecords { get; set; } = null!;
-        public DbSet<TenantEvent> TenantEvents { get; set; } = null!;
+        public DbSet<ResidenceRecord> ResidenceRecords { get; set; } = null!;
+        //public DbSet<TenantEvent> TenantEvents { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

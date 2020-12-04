@@ -23,8 +23,8 @@ namespace TenantFile.Api.Models.Phones
             CancellationToken cancellationToken) =>
             phoineById.LoadAsync(phoneId, cancellationToken);
 
-        public async ValueTask<IAsyncEnumerable<int>> SubscribeToOnNewPhoneReceivedAsync(int phoneId,
-            [Service] ITopicEventReceiver eventReceiver, CancellationToken cancellationToken) =>
-             (await eventReceiver.SubscribeAsync<string, int>("OnNewPhoneReceived_" + phoneId, cancellationToken)).ReadEventsAsync();
+        //public async ValueTask<IAsyncEnumerable<int>> SubscribeToOnNewPhoneReceivedAsync(int phoneId,
+        //    [Service] ITopicEventReceiver eventReceiver, CancellationToken cancellationToken) =>
+        //     (await eventReceiver.SubscribeAsync<string, int>("OnNewPhoneReceived_" + phoneId, cancellationToken)).ReadEventsAsync();
     }
 }

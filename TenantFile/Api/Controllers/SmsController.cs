@@ -81,7 +81,7 @@ namespace TenantFile.Api.Controllers
 
                 });
             }
-            dbContext.TenantEvents.Add(await tenantEvent);
+            //dbContext.TenantEvents.Add(await tenantEvent);
             await dbContext.SaveChangesAsync();
 
             if (newPhone == true)

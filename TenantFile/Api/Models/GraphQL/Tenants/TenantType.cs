@@ -15,10 +15,10 @@ namespace TenantFile.Api.Models.Tenants
       
         protected override void Configure(IObjectTypeDescriptor<Tenant> descriptor)
         {
-            //descriptor
-            //    .ImplementsNode()
-            //    .IdField(t => t.Id)
-            //    .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Tenant>>().LoadAsync(id, ctx.RequestAborted));
+            descriptor
+                .ImplementsNode()
+                .IdField(t => t.Id)
+                .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Tenant>>().LoadAsync(id, ctx.RequestAborted));
         }
     }
 }
