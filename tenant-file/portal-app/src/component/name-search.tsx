@@ -87,6 +87,12 @@ const NameSearch = () => {
     setSearchValue('');
   }
 
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  }
+
   return (
     <StyledNameSearch onSubmit={handleSubmit}>
       <input
@@ -94,6 +100,7 @@ const NameSearch = () => {
         placeholder="Search by name... "
         value={searchValue}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       <button className="clear" onClick={clearSearch}>
         &times;
