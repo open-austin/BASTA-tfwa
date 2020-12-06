@@ -13,23 +13,23 @@ import { Console } from "console";
 //const AddTenant: React.FC = () => (<div >I AM A DIV</div>);
 
 // Credit to the Apollo GraphQL documentation:
-/* const ADD_TENANT = gql`
-    mutation addingATenant {
-        createTenant(inputTenant: { name: "Sample", phoneNumber: "5121231234", houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
-        {
-                name
-        }
-    }
-`; */
-
 const ADD_TENANT = gql`
     mutation addingATenant {
-        createTenant(inputTenant: { name: fullName, phoneNumber: phoneNumber, houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
+        createTenant(inputTenant: { name: "Sample 2", phoneNumber: "5121231234", houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
         {
                 name
         }
     }
 `;
+
+// const ADD_TENANT = gql`
+//     mutation addingATenant($fullName: String!) {
+//         createTenant(inputTenant: { name: $fullName, phoneNumber: phoneNumber, houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
+//         {
+//                 name
+//         }
+//     }
+// `;
   
 
 
@@ -51,7 +51,7 @@ function ValidatePhoneNumber(number: any) {
 export default () => {
 
     //let input: { value: string; };
-    const [addTenant, { data }] = useMutation(ADD_TENANT);
+    const [addTenant] = useMutation(ADD_TENANT);
 
     return <Formik
         initialValues={{
@@ -68,7 +68,7 @@ export default () => {
         onSubmit={         
             async e => {
                 console.log("****FIRST NAME IS: " + e.firstName);
-                await addTenant({
+                addTenant({
                     variables:
                     {
                         fullName: e.firstName + " " + e.lastName,
@@ -81,9 +81,9 @@ export default () => {
                         phoneNumber: e.phoneNumber
                     }
                 })
-                .then(({ data: variables }) =>
-                    console.log(variables)
-                );
+                // .then(({ data: variables }) =>
+                //     console.log(variables)
+                // );
                 setTimeout(() => { }, 1000);
             }
         }>
