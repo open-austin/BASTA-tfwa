@@ -13,23 +13,23 @@ import { Console } from "console";
 //const AddTenant: React.FC = () => (<div >I AM A DIV</div>);
 
 // Credit to the Apollo GraphQL documentation:
-const ADD_TENANT = gql`
+/* const ADD_TENANT = gql`
     mutation addingATenant {
         createTenant(inputTenant: { name: "Sample 2", phoneNumber: "5121231234", houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
         {
                 name
         }
     }
-`;
+`; */
 
-// const ADD_TENANT = gql`
-//     mutation addingATenant($fullName: String!) {
-//         createTenant(inputTenant: { name: $fullName, phoneNumber: phoneNumber, houseNumber: 1333, street: "Shore District Dr", city: "Austin", zipCode: 78741, propertyName: "South Shore District" })
-//         {
-//                 name
-//         }
-//     }
-// `;
+const ADD_TENANT = gql`
+    mutation addingATenant($fullName: String!, $phoneNumber: String!, $houseNumber: Int!, $street: String!, $city: String!, $zip: Int!, $bldgName: String!) {
+        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, houseNumber: $houseNumber, street: $street, city: $city, zipCode: $zip, propertyName: $bldgName })
+        {
+                name
+        }
+    }
+`;
   
 
 
@@ -57,8 +57,8 @@ export default () => {
         initialValues={{
             firstName: '',
             lastName: '',
-            addressLn1: '',
-            addressLn2: '',
+            houseNumber: '',
+            street: '',
             city: '',
             state: '',
             zip: '',
@@ -72,11 +72,11 @@ export default () => {
                     variables:
                     {
                         fullName: e.firstName + " " + e.lastName,
-                        addressLn1: e.addressLn1,
-                        addressLn2: e.addressLn1,
+                        houseNumber: parseInt(e.houseNumber),
+                        street: e.street,
                         city: e.city,
                         state: e.state,
-                        zip: e.zip,
+                        zip: parseInt(e.zip),
                         bldgName: e.bldgName,
                         phoneNumber: e.phoneNumber
                     }
@@ -95,11 +95,11 @@ export default () => {
                 <label htmlFor="lastName">*Last Name:</label>
                 <Field id="lastName" name="lastName" />
                 <br></br>
-                <label htmlFor="addressLn1">*Address Line 1:</label>
-                <Field id="addressLn1" name="addressLn1" />
+                <label htmlFor="houseNumber">*House Number:</label>
+                <Field id="houseNumber" name="houseNumber" />
                 <br></br>
-                <label htmlFor="addressLn2">Address Line 2:</label>
-                <Field id="addressLn2" name="addressLn2" />
+                <label htmlFor="street">*Street:</label>
+                <Field id="street" name="street" />
                 <br></br>
                 <label htmlFor="city">*City:</label>
                 <Field id="city" name="city" />
@@ -110,7 +110,7 @@ export default () => {
                 <label htmlFor="zip">*Zip Code:</label>
                 <Field id="zip" name="zip" />
                 <br></br>
-                <label htmlFor="bldgName">Building Name:</label>
+                <label htmlFor="bldgName">*Building Name:</label>
                 <Field id="bldgName" name="bldgName" />
                 <br></br>
                 <label htmlFor="phoneNumber">*Cell Phone Number:</label>
