@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
-import { TenantListQuery } from "./__generated__/TenantListQuery";
-import { Table } from "reactstrap";
-import { useTable, Column } from "react-table";
-import axios from "axios";
-import { getToken } from "./firebase";
-import Image from "./image";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
+import { TenantListQuery } from './__generated__/TenantListQuery';
+import { Table } from 'reactstrap';
+import { useTable, Column } from 'react-table';
+import axios from 'axios';
+import { getToken } from './firebase';
+import TenantTableCollapse from './tenant-table-collapse';
 
-const TENANT_INFO = gql`
-  query TenantListQuery {
-    tenants(order_by: { name: ASC }) {
+const EXCHANGE_RATES = gql`
+  query TenantListQuery($name: String = "") {
+    tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
       nodes {
         name
         tenantPhones {
@@ -28,16 +29,16 @@ const TENANT_INFO = gql`
 
 const columns: Column<TenantRow>[] = [
   {
-    Header: "Name",
-    accessor: "name", // accessor is the "key" in the data
+    Header: 'Name',
+    accessor: 'name', // accessor is the "key" in the data
   },
   {
-    Header: "Phone Number",
-    accessor: "phone",
+    Header: 'Phone Number',
+    accessor: 'phone',
   },
   {
-    Header: "Images",
-    accessor: "images",
+    Header: 'Images',
+    accessor: 'images',
   },
 ];
 
@@ -48,10 +49,21 @@ type TenantRow = {
 };
 
 const TenantList: React.FC = () => {
-  console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_INFO);
+  const paramsString = useLocation().search;
+  const searchParams = new URLSearchParams(paramsString);
+  const nameQuery = searchParams.get('q') || '';
+  console.log(searchParams.get('q'), 'location');
 
-  const [, setUserToken] = useState("");
+  const queryVariables = {
+    name: nameQuery,
+  };
+
+  console.log(process.env.REACT_APP_API_URL);
+  const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES, {
+    variables: queryVariables,
+  });
+
+  const [, setUserToken] = useState('');
 
   useEffect(() => {
     const func = async () => {
@@ -79,9 +91,9 @@ const TenantList: React.FC = () => {
     const func = async () => {
       const token = await getToken();
       const baseUrl =
-        process.env.NODE_ENV === "production"
-          ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
-          : "http://localhost:8080";
+        process.env.NODE_ENV === 'production'
+          ? 'https://tenant-file-api-zmzadnnc3q-uc.a.run.app'
+          : 'http://localhost:8080';
 
       rowData.map((x) =>
         x.images.map(async (y) => {
@@ -92,7 +104,7 @@ const TenantList: React.FC = () => {
               },
             })
             .then((x) => x);
-          console.log("RESPONSE", imageResponse);
+          console.log('RESPONSE', imageResponse);
         })
       );
     };
@@ -121,7 +133,7 @@ const TenantList: React.FC = () => {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
             ))}
           </tr>
         ))}
@@ -129,28 +141,7 @@ const TenantList: React.FC = () => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          return (
-            <>
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {console.log(cell)}
-                      {cell.column.Header === "Images"
-                        ? cell.value.map((i: string) => <Image name={i} />)
-                        : cell.render("Cell")}
-                    </td>
-                  );
-                })}
-              </tr>
-
-              {/* <tr>
-                  <td colSpan={2} className="text-center">
-                    <Collapse>I'm Spanning Yo</Collapse>
-                  </td>
-                </tr> */}
-            </>
-          );
+          return <TenantTableCollapse row={row} />;
         })}
       </tbody>
     </Table>
