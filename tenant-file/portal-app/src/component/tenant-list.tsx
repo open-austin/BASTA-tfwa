@@ -8,7 +8,7 @@ import axios from 'axios';
 import { getToken } from './firebase';
 import TenantTableCollapse from './tenant-table-collapse';
 
-const EXCHANGE_RATES = gql`
+const TENANT_QUERY = gql`
   query TenantListQuery($name: String = "") {
     tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
       nodes {
@@ -59,7 +59,7 @@ const TenantList: React.FC = () => {
   };
 
   console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(EXCHANGE_RATES, {
+  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY, {
     variables: queryVariables,
   });
 
