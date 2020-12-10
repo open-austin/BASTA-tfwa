@@ -63,18 +63,6 @@ const TenantList: React.FC = () => {
     variables: queryVariables,
   });
 
-  const [, setUserToken] = useState('');
-
-  useEffect(() => {
-    const func = async () => {
-      const token = await getToken();
-      if (token) {
-        setUserToken(token);
-      }
-    };
-    func();
-  }, []);
-
   const rowData =
     data?.tenants?.nodes?.reduce((acc, curr) => {
       if (curr?.name && curr?.tenantPhones[0].phone.phoneNumber) {
