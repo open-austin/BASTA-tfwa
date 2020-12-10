@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { TenantListQuery } from './__generated__/TenantListQuery';
