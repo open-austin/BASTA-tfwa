@@ -15,7 +15,5 @@ namespace TenantFile.Api.Models.Entities
 
         public int AddressId { get; set; }
         public virtual Address Address { get; set; } = null!;
-        
-        public virtual ICollection<TenantEvent> TenantEvents { get; set; } = null!;
     }
 }
