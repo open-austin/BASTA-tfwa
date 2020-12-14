@@ -9,7 +9,7 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.Migrations
 {
-    [DbContext(typeof(TenantContext))]
+    [DbContext(typeof(TenantFileContext))]
     [Migration("20201004183758_InitialCreate")]
     partial class InitialCreate
     {
