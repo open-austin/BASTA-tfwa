@@ -56,7 +56,7 @@ namespace TenantFile.Api.Controllers
 
             if (phone == null)
             {
-                newPhone = true;//not raising the subscription event here because the image names are not populated yet.
+                newPhone = true;//Don't raise the subscription event here because the image names are not populated yet.
                 phone = new Phone
                 {
                     PhoneNumber = request.From,
