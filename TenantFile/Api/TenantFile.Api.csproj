@@ -27,6 +27,8 @@
     <Compile Remove="Migrations\20201202174548_removeid.cs" />
     <Compile Remove="Migrations\20201202174548_removeid.Designer.cs" />
     <Compile Remove="Migrations\TenantContextModelSnapshot.cs" />
+    <Compile Remove="Models\Entities\Configurations\TenantEventConfiguration.cs" />
+    <Compile Remove="Models\Entities\TenantEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="5.0.0-rc1" />

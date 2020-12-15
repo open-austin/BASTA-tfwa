@@ -39,7 +39,7 @@ namespace TenantFile.Api
 
             var connectionString =
                 new NpgsqlConnectionStringBuilder(
-                    Configuration["LocalSQL:ConnectionString"])
+                    Configuration.GetValue<string>("DbUrl"))
                 {
                     // Connecting to a local proxy that does not support ssl.
                     SslMode = SslMode.Disable
@@ -59,7 +59,7 @@ namespace TenantFile.Api
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
             services.AddScoped<TenantFileContext>();
-            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
+            services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration.GetValue<string>("DbUrl"))
             //.UseSnakeCaseNamingConvention()
                     .LogTo(Console.WriteLine, LogLevel.Information))
               .AddGraphQLServer()

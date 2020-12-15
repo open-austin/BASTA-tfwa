@@ -127,19 +127,19 @@ namespace TenantFile.Api.Controllers
 
                 await storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
 
-                filenames.Add((imagePath, thumbPath, (await imageLabel).ToArray()));
+                filenames.Add((imagePath, thumbPath, (await imageLabel).Item1.ToArray()));
             }
 
             return filenames;
         }
 
-        async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
+        async Task<(IEnumerable<ImageLabel>, TextAnnotation?)> GetLabelsAsync(string uri)
         {
             var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
             var client = ImageAnnotatorClient.Create();
             var imageLables = new List<ImageLabel>();
             var response = client.DetectLabelsAsync(image);
-
+            TextAnnotation? text = null;
             //definitions for safe-search
             //https://cloud.google.com/vision/docs/reference/rpc/google.cloud.vision.v1?hl=it#google.cloud.vision.v1.SafeSearchAnnotation 
             var safeResponse = client.DetectSafeSearchAsync(image);
@@ -157,6 +157,12 @@ namespace TenantFile.Api.Controllers
                         if (annotation.Description != null)
                         {
                             imageLables.Add(new ImageLabel("GCPImageAnnotator", annotation.Description, annotation.Score));
+                            
+                            if (annotation.Description == "Text")
+                            {
+                                text = await client.DetectDocumentTextAsync(image);
+
+                            }
                         }
                     }
                 }
@@ -171,7 +177,7 @@ namespace TenantFile.Api.Controllers
                 }
                 visionTasks.Remove(completedTask);
             }
-            return imageLables;
+            return (imageLables,text);
         }
 
         //TODO: Not yet implemented, need bucket for sequestered content, delete,send custom message though Twilio 
