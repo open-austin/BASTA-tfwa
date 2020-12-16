@@ -5,7 +5,6 @@ import { TenantListQuery } from "./__generated__/TenantListQuery";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { getToken } from "./firebase";
 import TenantTableCollapse from "./tenant-table-collapse";
 
@@ -48,7 +47,6 @@ type TenantRow = {
 };
 
 const TenantList: React.FC = () => {
-  let history = useHistory();
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
   const nameQuery = searchParams.get("q") || "";
