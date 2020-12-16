@@ -1,17 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import Login from './component/login';
-import Layout from './component/layout';
-import PrivateRoute from './component/private-route';
-import DisplayImages from './component/display-images';
-import Admin from './component/admin';
-import Dashboard from './component/dashboard';
-import Properties from './component/properties';
-import Home from './component/home';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Login from "./component/login";
+import Layout from "./component/layout";
+import PrivateRoute from "./component/private-route";
+import DisplayImages from "./component/display-images";
+import Admin from "./component/admin";
+import Dashboard from "./component/dashboard";
+import Properties from "./component/properties";
+import Home from "./component/home";
+import TenantDetails from "./component/tenant-details";
 
 function App() {
   return (
@@ -24,9 +25,13 @@ function App() {
         <PrivateRoute path="/admin">
           <Admin />
         </PrivateRoute>
-        <PrivateRoute path="/dashboard">
+        <PrivateRoute exact path="/dashboard">
           <Dashboard />
         </PrivateRoute>
+        <PrivateRoute
+          path="/dashboard/tenant/:id"
+          component={TenantDetails}
+        ></PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>

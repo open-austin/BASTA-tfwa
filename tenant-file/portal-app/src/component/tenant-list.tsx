@@ -1,25 +1,24 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
-import { TenantListQuery } from './__generated__/TenantListQuery';
-import { Table } from 'reactstrap';
-import { useTable, Column } from 'react-table';
-import axios from 'axios';
-import { getToken } from './firebase';
-import TenantTableCollapse from './tenant-table-collapse';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useQuery, gql } from "@apollo/client";
+import { TenantListQuery } from "./__generated__/TenantListQuery";
+import { Table } from "reactstrap";
+import { useTable, Column } from "react-table";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import { getToken } from "./firebase";
+import TenantTableCollapse from "./tenant-table-collapse";
 
 const TENANT_QUERY = gql`
   query TenantListQuery($name: String = "") {
-    tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
+    tenants(order: { name: ASC }, where: { name: { contains: $name } }) {
       nodes {
         name
-        tenantPhones {
-          phone {
-            phoneNumber
-            images {
-              thumbnailName
-              name
-            }
+        phones {
+          phoneNumber
+          images {
+            thumbnailName
+            name
           }
         }
       }
@@ -29,16 +28,16 @@ const TENANT_QUERY = gql`
 
 const columns: Column<TenantRow>[] = [
   {
-    Header: 'Name',
-    accessor: 'name', // accessor is the "key" in the data
+    Header: "Name",
+    accessor: "name", // accessor is the "key" in the data
   },
   {
-    Header: 'Phone Number',
-    accessor: 'phone',
+    Header: "Phone Number",
+    accessor: "phone",
   },
   {
-    Header: 'Images',
-    accessor: 'images',
+    Header: "Images",
+    accessor: "images",
   },
 ];
 
@@ -49,10 +48,11 @@ type TenantRow = {
 };
 
 const TenantList: React.FC = () => {
+  let history = useHistory();
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
-  const nameQuery = searchParams.get('q') || '';
-  console.log(searchParams.get('q'), 'location');
+  const nameQuery = searchParams.get("q") || "";
+  console.log(searchParams.get("q"), "location");
 
   const queryVariables = {
     name: nameQuery,
@@ -62,14 +62,17 @@ const TenantList: React.FC = () => {
   const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY, {
     variables: queryVariables,
   });
-
+  console.log("ROWDATA", loading, error, data);
   const rowData =
-    data?.tenants?.nodes?.reduce((acc, curr) => {
-      if (curr?.name && curr?.tenantPhones[0].phone.phoneNumber) {
+    data?.tenants?.nodes?.reduce((acc, node) => {
+      if (node?.name && node?.phones[0].phoneNumber) {
         acc.push({
-          name: curr.name,
-          phone: curr.tenantPhones[0].phone.phoneNumber,
-          images: curr.tenantPhones[0].phone.images.map((x) => x.thumbnailName),
+          name: node.name,
+          phone: node.phones[0].phoneNumber,
+          images:
+            node.phones[0].images
+              ?.filter((x) => x)
+              .map((x) => x!.thumbnailName) ?? [],
         });
       }
       return acc;
@@ -79,9 +82,9 @@ const TenantList: React.FC = () => {
     const func = async () => {
       const token = await getToken();
       const baseUrl =
-        process.env.NODE_ENV === 'production'
-          ? 'https://tenant-file-api-zmzadnnc3q-uc.a.run.app'
-          : 'http://localhost:8080';
+        process.env.NODE_ENV === "production"
+          ? "https://tenant-file-api-zmzadnnc3q-uc.a.run.app"
+          : "http://localhost:8080";
 
       rowData.map((x) =>
         x.images.map(async (y) => {
@@ -92,7 +95,7 @@ const TenantList: React.FC = () => {
               },
             })
             .then((x) => x);
-          console.log('RESPONSE', imageResponse);
+          console.log("RESPONSE", imageResponse);
         })
       );
     };
@@ -116,12 +119,12 @@ const TenantList: React.FC = () => {
   } = tableInstance;
 
   return (
-    <Table {...getTableProps()}>
+    <Table hover {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
             ))}
           </tr>
         ))}

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Collapse } from 'reactstrap';
-import { Cell, Row } from 'react-table';
-import Image from './image';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { Collapse } from "reactstrap";
+import { Cell, Row } from "react-table";
+import { useHistory } from "react-router-dom";
+import Image from "./image";
+import styled from "styled-components";
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -27,9 +28,16 @@ type Props = {
 };
 
 const TenantTableCollapse = ({ row }: Props) => {
+  let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  // (RG) will be replaced by actual userId as dataset in each row
+  const mockUserIdNumber = "1234";
+  const onViewClick = (userId: string) => {
+    history.push(`/dashboard/tenant/${userId}`);
+  };
 
   return (
     <>
@@ -38,14 +46,18 @@ const TenantTableCollapse = ({ row }: Props) => {
           return (
             <td {...cell.getCellProps()}>
               {console.log(row, cell)}
-              {cell.column.Header === 'Images' ? (
+              {cell.column.Header === "Images" ? (
                 <Image name={cell.value[0]} />
               ) : (
-                cell.render('Cell')
+                cell.render("Cell")
               )}
             </td>
           );
         })}
+        <td></td>
+        <td>
+          <button onClick={() => onViewClick(mockUserIdNumber)}>View</button>
+        </td>
       </tr>
 
       <tr>
@@ -64,7 +76,7 @@ const TenantTableCollapse = ({ row }: Props) => {
                 ))}
               </ImageGridStyles>
             ) : (
-              'No images to show.'
+              "No images to show."
             )}
           </Collapse>
         </td>
