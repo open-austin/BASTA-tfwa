@@ -59,7 +59,9 @@ const TenantList: React.FC = () => {
   };
 
   console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY);
+  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY, {
+    variables: queryVariables,
+  });
   console.log("ROWDATA", loading, error, data);
   const rowData =
     data?.tenants?.nodes?.reduce((acc, node) => {
@@ -115,16 +117,6 @@ const TenantList: React.FC = () => {
     rows,
     prepareRow,
   } = tableInstance;
-
-  // (RG) will be replaced by actual userId as dataset in each row
-  const mockUserIdNumber = "1234";
-  const onHandleRowClick = (event: React.MouseEvent) => {
-    if (event.target instanceof Element) {
-      console.log("clicked", event.target.parentElement?.dataset.userId);
-      const userId = event.target.parentElement?.dataset.userId;
-      history.push(`/dashboard/tenant/${userId}`);
-    }
-  };
 
   return (
     <Table hover {...getTableProps()}>
