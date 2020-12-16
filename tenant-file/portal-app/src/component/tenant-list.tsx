@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import { TenantListQuery } from "./__generated__/TenantListQuery";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
-import {useHistory} from 'react-router-dom';
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { getToken } from "./firebase";
-import Image from "./image";
+import TenantTableCollapse from "./tenant-table-collapse";
 
-const TENANT_INFO = gql`
-  query TenantListQuery {
-    tenants(order_by: { name: ASC }) {
+const TENANT_QUERY = gql`
+  query TenantListQuery($name: String = "") {
+    tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
       nodes {
         name
         tenantPhones {
@@ -50,20 +51,19 @@ type TenantRow = {
 
 const TenantList: React.FC = () => {
   let history = useHistory();
+  const paramsString = useLocation().search;
+  const searchParams = new URLSearchParams(paramsString);
+  const nameQuery = searchParams.get("q") || "";
+  console.log(searchParams.get("q"), "location");
+
+  const queryVariables = {
+    name: nameQuery,
+  };
+
   console.log(process.env.REACT_APP_API_URL);
-  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_INFO);
-
-  const [, setUserToken] = useState("");
-
-  useEffect(() => {
-    const func = async () => {
-      const token = await getToken();
-      if (token) {
-        setUserToken(token);
-      }
-    };
-    func();
-  }, []);
+  const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY, {
+    variables: queryVariables,
+  });
 
   const rowData =
     data?.tenants?.nodes?.reduce((acc, curr) => {
@@ -118,15 +118,14 @@ const TenantList: React.FC = () => {
   } = tableInstance;
 
   // (RG) will be replaced by actual userId as dataset in each row
-  const mockUserIdNumber = '1234';
+  const mockUserIdNumber = "1234";
   const onHandleRowClick = (event: React.MouseEvent) => {
-
     if (event.target instanceof Element) {
-      console.log('clicked', event.target.parentElement?.dataset.userId);
+      console.log("clicked", event.target.parentElement?.dataset.userId);
       const userId = event.target.parentElement?.dataset.userId;
       history.push(`/dashboard/tenant/${userId}`);
     }
-  }
+  };
 
   return (
     <Table hover {...getTableProps()}>
@@ -142,28 +141,7 @@ const TenantList: React.FC = () => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          return (
-            <>
-              <tr style={{cursor:'pointer'}} {...row.getRowProps()} onClick={onHandleRowClick} data-user-id={mockUserIdNumber}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {console.log(cell)}
-                      {cell.column.Header === "Images"
-                        ? cell.value.map((i: string) => <Image name={i} />)
-                        : cell.render("Cell")}
-                    </td>
-                  );
-                })}
-              </tr>
-
-              {/* <tr>
-                  <td colSpan={2} className="text-center">
-                    <Collapse>I'm Spanning Yo</Collapse>
-                  </td>
-                </tr> */}
-            </>
-          );
+          return <TenantTableCollapse row={row} />;
         })}
       </tbody>
     </Table>

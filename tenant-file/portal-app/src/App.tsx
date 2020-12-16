@@ -2,7 +2,8 @@ import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { Switch, Route, Redirect} from "react-router-dom";
+import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./component/login";
 import Layout from "./component/layout";
 import PrivateRoute from "./component/private-route";
@@ -27,9 +28,10 @@ function App() {
         <PrivateRoute exact path="/dashboard">
           <Dashboard />
         </PrivateRoute>
-        <PrivateRoute 
-          path="/dashboard/tenant/:id" component={TenantDetails}>
-        </PrivateRoute>
+        <PrivateRoute
+          path="/dashboard/tenant/:id"
+          component={TenantDetails}
+        ></PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>
