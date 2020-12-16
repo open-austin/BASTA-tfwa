@@ -6,6 +6,5 @@ namespace TenantFile.Api.Models.Residences
     (
          CreateAddressInput AddressInput,
          int? PropertyId
-
     );
 }

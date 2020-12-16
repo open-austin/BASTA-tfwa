@@ -11,42 +11,39 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Tenants
 {
-    [ExtendObjectType(Name = "Mutation")]
-    public class TenantMutations
+  [ExtendObjectType(Name = "Mutation")]
+  public class TenantMutations
+  {
+    [UseTenantFileContext]
+    public async Task<CreateTenantPayload> CreateTenantAsync(
+        CreateTenantInput inputTenant,
+        [ScopedService] TenantFileContext context,
+        CancellationToken cancellationToken)
     {
-        [UseTenantFileContext]
-        public async Task<CreateTenantPayload> CreateTenantAsync(
-            CreateTenantInput inputTenant,
-            [ScopedService] TenantFileContext context,
-            CancellationToken cancellationToken)
+      // See if the phone number exists already
+      Phone? phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == inputTenant.PhoneNumber);
+
+      // If it doesn't exist, create a new phone number
+      if (phone == null)
+      {
+        phone = new Phone
         {
-            // See if the phone number exists already
-            Phone? phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == inputTenant.PhoneNumber);
-
-            // If it doesn't exist, create a new phone number
-            if (phone == null)
-            {
-                phone = new Phone
-                {
-                    PhoneNumber = inputTenant.PhoneNumber
-                };
-            }
-            var tenant = new Tenant
-            {
-                Name = inputTenant.Name,
-                Phones = new List<Phone> {
-                    new Phone {
-                        PhoneNumber = phone.PhoneNumber
-                    }
+          PhoneNumber = inputTenant.PhoneNumber
+        };
+      }
+      var tenant = new Tenant
+      {
+        Name = inputTenant.Name,
+        Phones = new List<Phone> {
+                    phone
                 },
-                CurrentResidence = inputTenant.CurrentResidence
-            };
+      };
 
-            var tenantEntry = context.Tenants.Add(tenant);
-            await context.SaveChangesAsync(cancellationToken);
-            return new CreateTenantPayload(tenant);
-        }
-
+      var tenantEntry = context.Tenants.Add(tenant);
+      await context.SaveChangesAsync(cancellationToken);
+      return new CreateTenantPayload(tenant);
     }
+
+  }
 }
 
