@@ -21,6 +21,11 @@ const StyledTagsDisplay = styled.div`
   }
 
   .header {
+    background-color: lightgray;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .header {
     display: flex;
 
     & > * {
@@ -34,10 +39,15 @@ const StyledTagsDisplay = styled.div`
 
   .flex-row {
     display: flex;
+    border-bottom: 1px solid grey;
 
     & > * {
       flex: 1;
     }
+  }
+
+  .body .flex-row:last-child {
+    border-bottom: none;
   }
 
   .buttons {
