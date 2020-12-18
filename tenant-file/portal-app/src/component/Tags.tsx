@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledTagsDisplay = styled.div`
@@ -95,6 +95,7 @@ const StyledTagsDisplay = styled.div`
     button:first-child {
       border-radius: 8px 0 0 8px;
       border-right: 1px solid white;
+      width: 64px;
     }
 
     button:last-child {
@@ -109,39 +110,66 @@ const Tags = () => {
       name: 'Chris',
       description: 'Good guy',
       photoCount: 5,
+      id: 0,
     },
     {
       name: 'Jenn',
       description: 'cool gal',
       photoCount: 4,
+      id: 1,
     },
     {
       name: 'Elvis',
       description: 'Big guy',
       photoCount: 5,
+      id: 2,
     },
   ];
+
+  const [editingRow, setEditingRow] = useState(-1);
 
   return (
     <StyledTagsDisplay>
       <div className="display">
         <div className="header">
-          <div className="title">12 labels</div>
+          <div className="title">{data.length} labels</div>
           <div className="sort">{/* <button>sort</button> */}</div>
         </div>
         <div className="body">
           {data.map((tag) => (
-            <div className="flex-row">
-              <div className="label">
-                <button>{tag.name}</button>
+            <>
+              <div className="flex-row" key={tag.id}>
+                <div className="label">
+                  <button>{tag.name}</button>
+                </div>
+                {editingRow !== tag.id && (
+                  <>
+                    <div className="description">{tag.description}</div>
+                    <div className="photoCount">{tag.photoCount}</div>
+                  </>
+                )}
+                <div className="buttons">
+                  <button onClick={() => setEditingRow(tag.id)}>Edit</button>
+                  <button>Delete</button>
+                </div>
               </div>
-              <div className="description">{tag.description}</div>
-              <div className="photoCount">{tag.photoCount}</div>
-              <div className="buttons">
-                <button>Edit</button>
-                <button>Delete</button>
-              </div>
-            </div>
+
+              {editingRow === tag.id && (
+                <form className="flex-row" onSubmit={() => console.log('ok!')}>
+                  <div className="label">
+                    <button>{tag.name}</button>
+                  </div>
+
+                  <div className="description">{tag.description}</div>
+                  <div className="photoCount">{tag.photoCount}</div>
+
+                  <div className="buttons">
+                    <button onClick={() => setEditingRow(tag.id)}>Edit</button>
+                    <button>Delete</button>
+                  </div>
+                </form>
+              )}
+            </>
           ))}
         </div>
       </div>
