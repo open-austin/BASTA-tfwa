@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TenantFile.Api.Models;
@@ -10,31 +9,15 @@ using TenantFile.Api.Models;
 namespace TenantFile.Api.Migrations
 {
     [DbContext(typeof(TenantFileContext))]
-    [Migration("20201129161557_FKpropId")]
-    partial class FKpropId
+    partial class TenantFileContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("OrganizerPhone", b =>
-                {
-                    b.Property<string>("OrganizersUid")
-                        .HasColumnType("text");
-
-                    b.Property<int>("PhonesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("OrganizersUid", "PhonesId");
-
-                    b.HasIndex("PhonesId");
-
-                    b.ToTable("OrganizerPhone");
-                });
 
             modelBuilder.Entity("PhoneTenant", b =>
                 {
@@ -88,26 +71,6 @@ namespace TenantFile.Api.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.Complex", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.ToTable("Complex");
-                });
-
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -154,11 +117,16 @@ namespace TenantFile.Api.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
+                    b.Property<string>("OrganizerUid")
+                        .HasColumnType("text");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizerUid");
 
                     b.ToTable("Phones");
                 });
@@ -173,9 +141,6 @@ namespace TenantFile.Api.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ComplexId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -185,8 +150,6 @@ namespace TenantFile.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("ComplexId");
 
                     b.HasIndex("OrganizerUid");
 
@@ -240,7 +203,7 @@ namespace TenantFile.Api.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ResidenceRecord");
+                    b.ToTable("ResidenceRecords");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Tenant", b =>
@@ -254,7 +217,7 @@ namespace TenantFile.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ResidenceId")
+                    b.Property<int?>("ResidenceId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -262,54 +225,6 @@ namespace TenantFile.Api.Migrations
                     b.HasIndex("ResidenceId");
 
                     b.ToTable("Tenants");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.TenantEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<int>("EventType")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("PhoneId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ResidenceId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("TimeOccurred")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PhoneId");
-
-                    b.HasIndex("ResidenceId");
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("TenantEvents");
-                });
-
-            modelBuilder.Entity("OrganizerPhone", b =>
-                {
-                    b.HasOne("TenantFile.Api.Models.Entities.Organizer", null)
-                        .WithMany()
-                        .HasForeignKey("OrganizersUid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TenantFile.Api.Models.Entities.Phone", null)
-                        .WithMany()
-                        .HasForeignKey("PhonesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PhoneTenant", b =>
@@ -325,15 +240,6 @@ namespace TenantFile.Api.Migrations
                         .HasForeignKey("TenantsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.Complex", b =>
-                {
-                    b.HasOne("TenantFile.Api.Models.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Image", b =>
@@ -374,6 +280,13 @@ namespace TenantFile.Api.Migrations
                     b.Navigation("Labels");
                 });
 
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Phone", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Organizer", null)
+                        .WithMany("Phones")
+                        .HasForeignKey("OrganizerUid");
+                });
+
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Property", b =>
                 {
                     b.HasOne("TenantFile.Api.Models.Entities.Address", "Address")
@@ -382,17 +295,11 @@ namespace TenantFile.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TenantFile.Api.Models.Entities.Complex", "Complex")
-                        .WithMany()
-                        .HasForeignKey("ComplexId");
-
                     b.HasOne("TenantFile.Api.Models.Entities.Organizer", null)
                         .WithMany("Properties")
                         .HasForeignKey("OrganizerUid");
 
                     b.Navigation("Address");
-
-                    b.Navigation("Complex");
                 });
 
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Residence", b =>
@@ -431,34 +338,15 @@ namespace TenantFile.Api.Migrations
                 {
                     b.HasOne("TenantFile.Api.Models.Entities.Residence", "CurrentResidence")
                         .WithMany()
-                        .HasForeignKey("ResidenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResidenceId");
 
                     b.Navigation("CurrentResidence");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.TenantEvent", b =>
-                {
-                    b.HasOne("TenantFile.Api.Models.Entities.Phone", "Phone")
-                        .WithMany()
-                        .HasForeignKey("PhoneId");
-
-                    b.HasOne("TenantFile.Api.Models.Entities.Residence", null)
-                        .WithMany("TenantEvents")
-                        .HasForeignKey("ResidenceId");
-
-                    b.HasOne("TenantFile.Api.Models.Entities.Tenant", "Tenant")
-                        .WithMany("TenantEvents")
-                        .HasForeignKey("TenantId");
-
-                    b.Navigation("Phone");
-
-                    b.Navigation("Tenant");
-                });
-
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Organizer", b =>
                 {
+                    b.Navigation("Phones");
+
                     b.Navigation("Properties");
                 });
 
@@ -470,16 +358,6 @@ namespace TenantFile.Api.Migrations
             modelBuilder.Entity("TenantFile.Api.Models.Entities.Property", b =>
                 {
                     b.Navigation("Residences");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.Residence", b =>
-                {
-                    b.Navigation("TenantEvents");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Entities.Tenant", b =>
-                {
-                    b.Navigation("TenantEvents");
                 });
 #pragma warning restore 612, 618
         }
