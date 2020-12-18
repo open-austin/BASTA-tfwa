@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledTagsDisplay = styled.div`
-  width: 90%;
+  width: 95%;
+  max-width: 1200px;
   margin: 0 auto;
   border: 1px solid grey;
   display: flex;
@@ -18,6 +19,8 @@ const StyledTagsDisplay = styled.div`
   .header,
   .flex-row {
     padding: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid grey;
   }
 
   .header {
@@ -32,6 +35,10 @@ const StyledTagsDisplay = styled.div`
       flex: 1;
     }
 
+    .title {
+      font-weight: 700;
+    }
+
     .sort {
       text-align: right;
     }
@@ -39,16 +46,18 @@ const StyledTagsDisplay = styled.div`
 
   .flex-row {
     display: flex;
-    border-bottom: 1px solid grey;
+    justify-content: center;
 
     & > * {
       flex: 1;
+      display: flex;
+      align-items: center;
     }
 
     .label span {
+      /* TODO Fix stretch */
       display: inline-block;
       padding: 0.1rem 0.5rem;
-      /* border: 1px solid black; */
       background-color: green;
       border-radius: 15px;
       font-weight: 700;
@@ -64,7 +73,16 @@ const StyledTagsDisplay = styled.div`
   }
 
   .buttons {
-    text-align: right;
+    justify-content: flex-end;
+
+    button {
+      border: none;
+      box-shadow: none;
+      background-color: ${(props) => props.theme.backdrop};
+      color: ${(props) => props.theme.primary};
+      border-radius: 8px;
+      padding: 0 0.6rem;
+    }
   }
 `;
 
