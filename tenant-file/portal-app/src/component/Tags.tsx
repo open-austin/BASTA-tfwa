@@ -44,10 +44,23 @@ const StyledTagsDisplay = styled.div`
     & > * {
       flex: 1;
     }
+
+    .label span {
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      /* border: 1px solid black; */
+      background-color: green;
+      border-radius: 15px;
+      font-weight: 700;
+      color: #eee;
+      font-size: 0.8rem;
+    }
   }
 
   .body .flex-row:last-child {
     border-bottom: none;
+    background-color: rgba(10, 100, 10, 0.5);
+    border-radius: 0 0 8px 8px;
   }
 
   .buttons {
@@ -86,7 +99,9 @@ const Tags = () => {
         <div className="body">
           {data.map((tag) => (
             <div className="flex-row">
-              <div className="label">{tag.name}</div>
+              <div className="label">
+                <span>{tag.name}</span>
+              </div>
               <div className="description">{tag.description}</div>
               <div className="photoCount">{tag.photoCount}</div>
               <div className="buttons">
