@@ -27,6 +27,8 @@ using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Addresses;
 using HotChocolate.Execution.Options;
 using TenantFile.Api.Models.Entities;
+using TenantFile.Api.Common;
+using GreenDonut;
 //using TenantFile.Api.Models.ImageLabels;
 
 namespace TenantFile.Api
@@ -58,7 +60,6 @@ namespace TenantFile.Api
             {
                 Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
             });
-            services.AddScoped<IDataLoaderFactory, DataLoaderFactory>();
             services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
             //.UseSnakeCaseNamingConvention()
             .LogTo(Console.WriteLine, LogLevel.Information))
@@ -77,7 +78,6 @@ namespace TenantFile.Api
                         .AddType<ResidenceQueries>()
                         .AddType<PhoneQueries>()
                         .AddType<ImageQueries>()
-                        //.AddType<ImageLabelQueries>()
                         .AddType<AddressQueries>()
                     .AddType<PhoneType>()
                     .AddType<TenantType>()
@@ -85,23 +85,16 @@ namespace TenantFile.Api
                     .AddType<ImageType>()
                     .AddType<PropertyType>()
                     .AddType<ResidenceType>()
-                    //.AddType<ImageLabelType>()
                     .EnableRelaySupport()
                     .AddInMemorySubscriptions()
                     .AddSubscriptionType(d => d.Name("Subscription"))
                         .AddType<PhoneSubscriptions>()
-                    //.AddDataLoader<TenantByIdDataLoader>()
-                    //.AddDataLoader<PhoneByIdDataLoader>()
-                    //.AddDataLoader<PropertyByIdDataLoader>()
-                    //.AddDataLoader<ResidenceByIdDataLoader>()
-                    //.AddDataLoader<ImageByIdDataLoader>()
-                    //.AddDataLoader<AddressByIdDataLoader>()
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Address>(s))
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Tenant>(s))
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Phone>(s))
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Property>(s))
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Residence>(s))
-                    .AddDataLoader(s => s.GetRequiredService<IDataLoaderFactory>().CreateDataLoader<Image>(s))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Addresses))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Tenants))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Phones))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Properties))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Residences))
+                    .AddDataLoader(s => CreateDataLoader(s, c => c.Images))
                     .AddAuthorization()
                     .AddFiltering()
                     .AddSorting()
@@ -181,8 +174,7 @@ namespace TenantFile.Api
                .AllowAnyHeader()
                .AllowCredentials()
             );
-
-            //app.UseTwilioToStorage();
+                  
             app.UseWebSockets()
                .UseRouting()
                .UsePlayground()
@@ -205,8 +197,6 @@ namespace TenantFile.Api
                 endpoints.MapGet("/",  context =>
                 {
 
-                    //await context.WebSockets.AcceptWebSocketAsync();  
-                    //context.Response.Redirect("/playground");
                     return Task.CompletedTask;
                 });
                 endpoints.MapControllers();
@@ -224,6 +214,14 @@ namespace TenantFile.Api
 
                 dbContext.SaveChangesAsync();
             }
+        }
+        private DataLoaderById<T> CreateDataLoader<T>(IServiceProvider service, Func<TenantFileContext, DbSet<T>> func) where T : class, IEntity
+        {
+            var context = service.GetRequiredService<IDbContextFactory<TenantFileContext>>();
+
+            return new DataLoaderById<T>(service.GetRequiredService<IBatchScheduler>(),
+                                         context,
+                                         func);
         }
     }
 }
