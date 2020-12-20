@@ -7,27 +7,22 @@
 // GraphQL query operation: TenantListQuery
 // ====================================================
 
-export interface TenantListQuery_tenants_nodes_tenantPhones_phone_images {
+export interface TenantListQuery_tenants_nodes_phones_images {
   __typename: "Image";
   thumbnailName: string;
   name: string;
 }
 
-export interface TenantListQuery_tenants_nodes_tenantPhones_phone {
+export interface TenantListQuery_tenants_nodes_phones {
   __typename: "Phone";
   phoneNumber: string;
-  images: TenantListQuery_tenants_nodes_tenantPhones_phone_images[];
-}
-
-export interface TenantListQuery_tenants_nodes_tenantPhones {
-  __typename: "TenantPhone";
-  phone: TenantListQuery_tenants_nodes_tenantPhones_phone;
+  images: (TenantListQuery_tenants_nodes_phones_images | null)[] | null;
 }
 
 export interface TenantListQuery_tenants_nodes {
   __typename: "Tenant";
   name: string;
-  tenantPhones: TenantListQuery_tenants_nodes_tenantPhones[];
+  phones: TenantListQuery_tenants_nodes_phones[];
 }
 
 export interface TenantListQuery_tenants {
@@ -35,7 +30,7 @@ export interface TenantListQuery_tenants {
   /**
    * A flattened list of the nodes.
    */
-  nodes: (TenantListQuery_tenants_nodes | null)[] | null;
+  nodes: TenantListQuery_tenants_nodes[] | null;
 }
 
 export interface TenantListQuery {

@@ -9,12 +9,11 @@ import { getToken } from './firebase';
 import TenantTableCollapse from './tenant-table-collapse';
 
 const TENANT_QUERY = gql`
-  query TenantListQuery($name: String = "") {
-    tenants(order_by: { name: ASC }, where: { name_contains: $name }) {
-      nodes {
-        name
-        tenantPhones {
-          phone {
+    query TenantListQuery {
+      tenants {
+        nodes {
+          name
+          phones {
             phoneNumber
             images {
               thumbnailName
@@ -24,7 +23,6 @@ const TENANT_QUERY = gql`
         }
       }
     }
-  }
 `;
 
 const columns: Column<TenantRow>[] = [
@@ -65,11 +63,13 @@ const TenantList: React.FC = () => {
 
   const rowData =
     data?.tenants?.nodes?.reduce((acc, curr) => {
-      if (curr?.name && curr?.tenantPhones[0].phone.phoneNumber) {
+      if (curr?.name && curr?.phones[0].phoneNumber) {
         acc.push({
           name: curr.name,
-          phone: curr.tenantPhones[0].phone.phoneNumber,
-          images: curr.tenantPhones[0].phone.images.map((x) => x.thumbnailName),
+          phone: curr.phones[0].phoneNumber,
+          images: curr.phones[0].images
+            ?.filter((x) => x)
+            .map((x) => x!.thumbnailName) ?? [],
         });
       }
       return acc;
