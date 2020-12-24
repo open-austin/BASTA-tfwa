@@ -8,277 +8,476 @@ using TenantFile.Api.Models;
 
 namespace TenantFile.Api.Migrations
 {
-    [DbContext(typeof(TenantContext))]
+    [DbContext(typeof(TenantFileContext))]
     partial class TenantContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .UseIdentityByDefaultColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("TenantFile.Api.Models.Address", b =>
+            modelBuilder.Entity("OrganizerPhone", b =>
+                {
+                    b.Property<string>("OrganizersUid")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PhonesId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrganizersUid", "PhonesId");
+
+                    b.HasIndex("PhonesId");
+
+                    b.ToTable("OrganizerPhone");
+                });
+
+            modelBuilder.Entity("PhoneTenant", b =>
+                {
+                    b.Property<int>("PhonesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TenantsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PhonesId", "TenantsId");
+
+                    b.HasIndex("TenantsId");
+
+                    b.ToTable("PhoneTenant");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnName("city")
                         .HasColumnType("text");
 
-                    b.Property<int>("PostalCode")
-                        .HasColumnName("postal_code")
-                        .HasColumnType("integer");
+                    b.Property<string>("Line1")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line3")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line4")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnName("state")
                         .HasColumnType("text");
 
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnName("street")
-                        .HasColumnType("text");
+                    b.HasKey("Id");
 
-                    b.Property<string>("StreetNumber")
-                        .IsRequired()
-                        .HasColumnName("street_number")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_addresses");
-
-                    b.ToTable("addresses");
+                    b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Image", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Complex", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("Complex");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.Property<int?>("PhoneId")
-                        .HasColumnName("phone_id")
                         .HasColumnType("integer");
 
                     b.Property<string>("ThumbnailName")
                         .IsRequired()
-                        .HasColumnName("thumbnail_name")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_images");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PhoneId")
-                        .HasName("ix_images_phone_id");
+                    b.HasIndex("PhoneId");
 
-                    b.ToTable("images");
+                    b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Phone", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Organizer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnName("phone_number")
+                    b.Property<string>("Uid")
                         .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_phones");
-
-                    b.ToTable("phones");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Property", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AddressId")
-                        .HasColumnName("address_id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UnitIdentifier")
-                        .IsRequired()
-                        .HasColumnName("unit_identifier")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_properties");
-
-                    b.HasIndex("AddressId")
-                        .HasName("ix_properties_address_id");
-
-                    b.ToTable("properties");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Residence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("UnitIdentifier")
-                        .IsRequired()
-                        .HasColumnName("unit_identifier")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_residences");
-
-                    b.ToTable("residences");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.ResidenceRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("MoveIn")
-                        .HasColumnName("move_in")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("MoveOut")
-                        .HasColumnName("move_out")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnName("tenant_id")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id")
-                        .HasName("pk_residence_records");
-
-                    b.HasIndex("TenantId")
-                        .HasName("ix_residence_records_tenant_id");
-
-                    b.ToTable("residence_records");
-                });
-
-            modelBuilder.Entity("TenantFile.Api.Models.Tenant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_tenants");
+                    b.HasKey("Uid");
 
-                    b.ToTable("tenants");
+                    b.ToTable("Organizers");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.TenantPhone", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Phone", b =>
                 {
-                    b.Property<int>("TenantId")
-                        .HasColumnName("tenant_id")
-                        .HasColumnType("integer");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
 
-                    b.Property<int>("PhoneId")
-                        .HasColumnName("phone_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.HasKey("TenantId", "PhoneId")
-                        .HasName("pk_tenant_phone");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PhoneId")
-                        .HasName("ix_tenant_phone_phone_id");
-
-                    b.ToTable("tenant_phone");
+                    b.ToTable("Phones");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Image", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Property", b =>
                 {
-                    b.HasOne("TenantFile.Api.Models.Phone", null)
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ComplexId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrganizerUid")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("ComplexId");
+
+                    b.HasIndex("OrganizerUid");
+
+                    b.ToTable("Properties");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Residence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PropertyId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.ToTable("Residences");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.ResidenceRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<DateTime>("MoveIn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("MoveOut")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("ResidenceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResidenceId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("ResidenceRecord");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Tenant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ResidenceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResidenceId");
+
+                    b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.TenantEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PhoneId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ResidenceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("TimeOccurred")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhoneId");
+
+                    b.HasIndex("ResidenceId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("TenantEvents");
+                });
+
+            modelBuilder.Entity("OrganizerPhone", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Organizer", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizersUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Phone", null)
+                        .WithMany()
+                        .HasForeignKey("PhonesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PhoneTenant", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Phone", null)
+                        .WithMany()
+                        .HasForeignKey("PhonesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Tenant", null)
+                        .WithMany()
+                        .HasForeignKey("TenantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Complex", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Image", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Phone", null)
                         .WithMany("Images")
-                        .HasForeignKey("PhoneId")
-                        .HasConstraintName("fk_images_phones_phone_id");
+                        .HasForeignKey("PhoneId");
+
+                    b.OwnsMany("TenantFile.Api.Models.Entities.ImageLabel", "Labels", b1 =>
+                        {
+                            b1.Property<int>("ImageId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer")
+                                .UseIdentityByDefaultColumn();
+
+                            b1.Property<float?>("Confidence")
+                                .HasColumnType("real");
+
+                            b1.Property<string>("Label")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Source")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("ImageId", "Id");
+
+                            b1.ToTable("ImageLabel");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ImageId");
+                        });
+
+                    b.Navigation("Labels");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Property", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Property", b =>
                 {
-                    b.HasOne("TenantFile.Api.Models.Address", "Address")
+                    b.HasOne("TenantFile.Api.Models.Entities.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
-                        .HasConstraintName("fk_properties_addresses_address_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Complex", "Complex")
+                        .WithMany()
+                        .HasForeignKey("ComplexId");
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Organizer", null)
+                        .WithMany("Properties")
+                        .HasForeignKey("OrganizerUid");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Complex");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.Residence", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Residence", b =>
                 {
-                    b.HasOne("TenantFile.Api.Models.Property", "Property")
+                    b.HasOne("TenantFile.Api.Models.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Property", "Property")
                         .WithMany("Residences")
-                        .HasForeignKey("Id")
-                        .HasConstraintName("fk_residences_properties_property_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PropertyId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Property");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.ResidenceRecord", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.ResidenceRecord", b =>
                 {
-                    b.HasOne("TenantFile.Api.Models.Residence", "Residence")
-                        .WithMany("ResidenceRecords")
-                        .HasForeignKey("Id")
-                        .HasConstraintName("fk_residence_records_residences_residence_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("TenantFile.Api.Models.Entities.Residence", "Residence")
+                        .WithMany()
+                        .HasForeignKey("ResidenceId");
 
-                    b.HasOne("TenantFile.Api.Models.Tenant", "Tenant")
-                        .WithMany("ResidenceRecords")
-                        .HasForeignKey("TenantId")
-                        .HasConstraintName("fk_residence_records_tenants_tenant_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("TenantFile.Api.Models.Entities.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Residence");
+
+                    b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("TenantFile.Api.Models.TenantPhone", b =>
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Tenant", b =>
                 {
-                    b.HasOne("TenantFile.Api.Models.Phone", "Phone")
-                        .WithMany("TenantPhones")
-                        .HasForeignKey("PhoneId")
-                        .HasConstraintName("fk_tenant_phone_phones_phone_id")
+                    b.HasOne("TenantFile.Api.Models.Entities.Residence", "CurrentResidence")
+                        .WithMany()
+                        .HasForeignKey("ResidenceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TenantFile.Api.Models.Tenant", "Tenant")
-                        .WithMany("TenantPhones")
-                        .HasForeignKey("TenantId")
-                        .HasConstraintName("fk_tenant_phone_tenants_tenant_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CurrentResidence");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.TenantEvent", b =>
+                {
+                    b.HasOne("TenantFile.Api.Models.Entities.Phone", "Phone")
+                        .WithMany()
+                        .HasForeignKey("PhoneId");
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Residence", null)
+                        .WithMany("TenantEvents")
+                        .HasForeignKey("ResidenceId");
+
+                    b.HasOne("TenantFile.Api.Models.Entities.Tenant", "Tenant")
+                        .WithMany("TenantEvents")
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Phone");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Organizer", b =>
+                {
+                    b.Navigation("Properties");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Phone", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Property", b =>
+                {
+                    b.Navigation("Residences");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Residence", b =>
+                {
+                    b.Navigation("TenantEvents");
+                });
+
+            modelBuilder.Entity("TenantFile.Api.Models.Entities.Tenant", b =>
+                {
+                    b.Navigation("TenantEvents");
                 });
 #pragma warning restore 612, 618
         }

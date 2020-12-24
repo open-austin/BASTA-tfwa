@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TenantFile.Api.Common;
 
-namespace TenantFile.Api.Models
+namespace TenantFile.Api.Models.Entities
 {
-    public class Residence
+    public class Residence : IEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string UnitIdentifier { get; set; } = null!;
+             
+        public int? PropertyId { get; set; }
+        public virtual Property? Property { get; set; } 
 
-
-        public virtual ICollection<ResidenceRecord> ResidenceRecords { get; set; } = null!;
-        public virtual Property Property { get; set; } = null!;
+        public int AddressId { get; set; }
+        public virtual Address Address { get; set; } = null!;
     }
 }

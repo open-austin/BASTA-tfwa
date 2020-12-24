@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TenantFile.Api.Common;
+using TenantFile.Api.Models.Entities;
 
-namespace TenantFile.Api.Models
-{
-    public class ResidenceRecord
+namespace TenantFile.Api.Models.Entities
+{   
+   
+    public class ResidenceRecord : IEntity
     {
       
         public int Id { get; set; }
@@ -16,4 +19,6 @@ namespace TenantFile.Api.Models
         public virtual Residence Residence { get; set; } = null!;
 
     }
+
+
 }

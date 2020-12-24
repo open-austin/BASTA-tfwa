@@ -1,7 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using Google.Cloud.Firestore;
-using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Twilio.AspNet.Common;
@@ -9,152 +6,206 @@ using Twilio.AspNet.Core;
 using Twilio.TwiML;
 using MimeTypes;
 using System.IO;
-using Microsoft.Extensions.Primitives;
-using System.Net;
-using Newtonsoft.Json;
 using TenantFile.Api.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using TenantFile.Api.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Png;
 using System.Net.Http;
 using System.Linq;
-using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using HotChocolate.Subscriptions;
+using HotChocolate;
+using TenantFile.Api.Models.Phones;
+using TenantFile.Api.Models.Entities;
+using Google.Cloud.Vision.V1;
+using System;
 
 namespace TenantFile.Api.Controllers
 {
     public class SmsController : TwilioController
     {
-        private readonly ILogger<SmsController> _logger;
-        private readonly ICloudStorage _storageClient;
-        private readonly FirestoreDb _db;
-        private readonly TenantContext _context;
+        private readonly ITopicEventSender eventSender;
+        private readonly ILogger<SmsController> logger;
+        private readonly TenantFileContext context;
+        private readonly ICloudStorage storageClient;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantContext context)
+        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context, [Service] ITopicEventSender eventSender)
         {
-            _logger = logger;
-            _storageClient = storageClient;
-
-            _db = FirestoreDb.Create(configuration.GetValue<string>("GoogleProjectId"));
-            _context = context;
+            this.eventSender = eventSender;
+            this.logger = logger;
+            this.storageClient = storageClient;
+            this.context = context;
         }
 
         [HttpPost("/api/sms")]
         public async Task<TwiMLResult> SmsWebhook(SmsRequest request, int numMedia)
         {
-            // Is this number in our database?
 
-            var accountsRef = _db.Collection("accounts");
-            var query = accountsRef.WhereEqualTo("PhoneNumber", request.From);
-            var querySnapshot = await query.GetSnapshotAsync();
-            DocumentSnapshot? document;
-            if (querySnapshot.Count == 0)
-            {
-                await accountsRef.Document(Guid.NewGuid().ToString())
-                        .SetAsync(new Dictionary<string, object>(){
-                            { "PhoneNumber", request.From }
-                        });
-                var snapshot = await query.GetSnapshotAsync();
-                document = snapshot.Documents[0];
-            }
-            else
-            {
-                document = querySnapshot.Documents[0];
-            }
+            DateTime timeStamp = DateTime.Now;
+            var filenames = await SaveMediaAsync(numMedia);
 
-            // Save the message body if there is one
-            if (request.Body != null)
-            {
-                await document.Reference.UpdateAsync("Messages", FieldValue.ArrayUnion(new Dictionary<string, object>()
-                {
-                    {"Text", request.Body},
-                    {"Timestamp", Timestamp.GetCurrentTimestamp()}
-                }));
-            }
+            //await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
+            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
 
-
-            var filenames = await SaveMedia(numMedia);
-
-
-            var phone = _context.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
+            bool newPhone = false;
 
             if (phone == null)
             {
+                newPhone = true;
                 phone = new Phone
                 {
                     PhoneNumber = request.From,
-                    Images = new List<Models.Image>()
+                    Images = new List<Models.Entities.Image>()
                 };
-                _context.Phones.Add(phone);
+                context.Phones.Add(phone);
+            
             }
-
-            foreach (var (image, thumbnail) in filenames)
+  
+            foreach (var (image, thumbnail, labels) in filenames)
             {
                 if (phone.Images == null)
                 {
-                    phone.Images = new List<Models.Image>();
+                    phone.Images = new List<Models.Entities.Image>();
                 }
-                phone.Images.Add(new Models.Image
+                phone.Images.Add(new Models.Entities.Image
                 {
                     Name = image,
-                    ThumbnailName = thumbnail
+                    ThumbnailName = thumbnail,
+                    Labels = labels
+
                 });
             }
+            await context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
+            if (newPhone == true)
+            {
+                await eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);//ConfigureAwait?
+            }
             var response = new MessagingResponse();
-            var messageBody = numMedia == 0 ? "Send us an image!" :
+            var messageBody = numMedia == 0 ? "No images were recieved from your message. Please send us an image of what you are trying to document." :
                 $"Thanks for sending us {numMedia} file(s)!";
             response.Message(messageBody);
             return TwiML(response);
         }
 
-        private async Task<IEnumerable<(string image, string thumbnail)>> SaveMedia(int numMedia)
+
+
+        async Task<IEnumerable<(string image, string thumbnail, ImageLabel[] labels)>> SaveMediaAsync(int numMedia)
         {
-            var filenames = new List<(string, string)>();
+            var filenames = new List<(string, string, ImageLabel[])>();
             for (var i = 0; i < numMedia; i++)
             {
                 var mediaUrl = Request.Form[$"MediaUrl{i}"];
-                _logger.LogInformation(mediaUrl);
+                var imageLabel = GetLabelsAsync(mediaUrl);
+                logger.LogInformation(mediaUrl);
                 var contentType = Request.Form[$"MediaContentType{i}"];
 
-                var filePath = Path.Combine("images", GetMediaFileName(mediaUrl, contentType));
+                var imagePath = $"images/{GetMediaFileName(mediaUrl, contentType)}";
 
-                await _storageClient.UploadToStorageAsync(mediaUrl, filePath, contentType);
+                await storageClient.UploadToStorageAsync(mediaUrl, imagePath, contentType);
 
                 var httpClient = new HttpClient();
                 var response = await httpClient.GetAsync(mediaUrl);
                 var inputStream = await response.Content.ReadAsStreamAsync();
-                
+
                 using var image = SixLabors.ImageSharp.Image.Load(inputStream);
                 image.Mutate(x => x
                      .Resize(new ResizeOptions()
-                        { 
-                           Mode = ResizeMode.Crop,
-                           Size = new Size(125, 100)
-                           
-                        }));
-                
+                     {
+                         Mode = ResizeMode.Crop,
+                         Size = new Size(100, 60)
+
+                     }));
+
                 var outputStream = new MemoryStream();
                 image.Save(outputStream, encoder: new PngEncoder() { CompressionLevel = PngCompressionLevel.BestSpeed });
-               
-                var thumbnailName = Path.Combine("thumbnails", GetMediaFileName(mediaUrl, contentType));
-                await _storageClient.UploadStreamToStorageAsync(outputStream, thumbnailName, "image/png");
 
-                filenames.Add((filePath, thumbnailName));
+                var thumbPath = $"thumbnails/{GetMediaFileName(mediaUrl, contentType)}";
+
+                await storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
+
+                filenames.Add((imagePath, thumbPath, (await imageLabel).ToArray()));
             }
 
             return filenames;
         }
 
-        private string GetMediaFileName(string mediaUrl,
-            string contentType)
+        async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
         {
-            return Path.GetFileName(mediaUrl) + MimeTypeMap.GetExtension(contentType);
+            var image = Google.Cloud.Vision.V1.Image.FromUri(uri);
+            var client = ImageAnnotatorClient.Create();
+            var imageLables = new List<ImageLabel>();
+            var response = client.DetectLabelsAsync(image);
+
+            //definitions for safe-search
+            //https://cloud.google.com/vision/docs/reference/rpc/google.cloud.vision.v1?hl=it#google.cloud.vision.v1.SafeSearchAnnotation 
+            var safeResponse = client.DetectSafeSearchAsync(image);
+
+            var visionTasks = new List<Task> { response, safeResponse };
+
+            while (visionTasks.Count > 0)
+            {
+                var completedTask = await Task.WhenAny(visionTasks);
+
+                if (completedTask == response)
+                {
+                    foreach (var annotation in response.Result)
+                    {
+                        if (annotation.Description != null)
+                        {
+                            imageLables.Add(new ImageLabel("GCPImageAnnotator", annotation.Description, annotation.Score));
+                        }
+                    }
+                }
+                else if (completedTask == safeResponse)
+                {
+
+                    imageLables.Add(new ImageLabel("SafeSearch Adult", safeResponse.Result.Adult.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Violence", safeResponse.Result.Violence.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Spoof", safeResponse.Result.Spoof.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Racy", safeResponse.Result.Racy.ToString()));
+                    imageLables.Add(new ImageLabel("SafeSearch Medical", safeResponse.Result.Medical.ToString()));
+                }
+                visionTasks.Remove(completedTask);
+            }
+            return imageLables;
+        }
+
+        //TODO: Not yet implemented, need bucket for sequestered content, delete,send custom message though Twilio 
+        //TODO: Recheck performance with long list of keywords and make Async if performance is poor
+        /// <summary>
+        /// Uses the return type TextAnnotation from Google's OCR search for a set of words and return the confidence that the reading was correct.
+        /// Confidence is the highest found confidence for the specific term
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="terms"></param>
+        /// <returns></returns>
+        IEnumerable<ImageLabel> FindWordsFromOCR(TextAnnotation text, IEnumerable<string> terms)
+        {
+            var list = new List<ImageLabel>();
+            foreach (var term in terms)
+            {
+
+                list.AddRange(text.Pages
+                              .SelectMany(p => p.Blocks
+                              .SelectMany(b => b.Paragraphs
+                              .SelectMany(p => p.Words
+                              .Select(w => (Text: string.Join("", w.Symbols.Select(s => s.Text)), Confidence: w.Confidence))
+                              ))).Where(str => str.Text.ToLower() == term.ToLower())
+                              .GroupBy(x => x.Text)
+                              .Select(g => new ImageLabel( Label : g.Key, Confidence: g.Select(p => p.Confidence).Max(), Source: "GoogleOCR"))
+                              );
+            }
+          
+            return list;
+
+        }
+        string GetMediaFileName(string mediaUrl, string contentType)
+        {
+            return System.IO.Path.GetFileName(mediaUrl) + MimeTypeMap.GetExtension(contentType);
         }
     }
 }
