@@ -36,3 +36,7 @@ export interface TenantListQuery_tenants {
 export interface TenantListQuery {
   tenants: TenantListQuery_tenants | null;
 }
+
+export interface TenantListQueryVariables {
+  name?: string | null;
+}
