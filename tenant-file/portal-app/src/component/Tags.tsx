@@ -5,10 +5,10 @@ const StyledTagsDisplay = styled.div`
   width: 95%;
   max-width: 1200px;
   margin: 0 auto;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  /* border: 1px solid rgba(0, 0, 0, 0.3); */
   display: flex;
   border-radius: 10px;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1); */
 
   .display,
   .header,
@@ -21,12 +21,11 @@ const StyledTagsDisplay = styled.div`
   .flex-row {
     padding: 0.5rem;
     padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
   .header {
     background-color: rgba(0, 0, 0, 0.08);
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px;
   }
 
   .header {
@@ -49,6 +48,7 @@ const StyledTagsDisplay = styled.div`
     display: flex;
     justify-content: center;
     font-size: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 
     & > * {
       flex: 1;
@@ -57,13 +57,12 @@ const StyledTagsDisplay = styled.div`
     }
 
     .label button {
-      /* TODO Fix stretch */
       display: inline-block;
       padding: 0.1rem 0.5rem;
       background-color: green;
       border-radius: 15px;
       font-weight: 700;
-      color: #eee;
+      color: rgba(220, 220, 220, 0.5);
       box-shadow: none;
       border: none;
     }
@@ -111,22 +110,33 @@ const Tags = () => {
       description: 'Good guy',
       photoCount: 5,
       id: 0,
+      color: '#7070f8',
     },
     {
       name: 'Jenn',
       description: 'cool gal',
       photoCount: 4,
       id: 1,
+      color: '#eee8aa',
     },
     {
       name: 'Elvis',
       description: 'Big guy',
       photoCount: 5,
       id: 2,
+      color: '#00000',
     },
   ];
 
   const [editingRow, setEditingRow] = useState(-1);
+
+  function isDark(hex: String) {
+    // const hex = colors[colorName].substring(1, 7);
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+    return r * 0.299 + g * 0.587 + b * 0.114 < 120;
+  }
 
   return (
     <StyledTagsDisplay>
@@ -140,7 +150,14 @@ const Tags = () => {
             <>
               <div className="flex-row" key={tag.id}>
                 <div className="label">
-                  <button>{tag.name}</button>
+                  <button
+                    style={{
+                      backgroundColor: tag.color,
+                      color: isDark(tag.color) ? 'white' : 'black',
+                    }}
+                  >
+                    {tag.name}
+                  </button>
                 </div>
                 {editingRow !== tag.id && (
                   <>
@@ -154,6 +171,7 @@ const Tags = () => {
                 </div>
               </div>
 
+              {/* TODO Create edit tag form */}
               {editingRow === tag.id && (
                 <form className="flex-row" onSubmit={() => console.log('ok!')}>
                   <div className="label">
