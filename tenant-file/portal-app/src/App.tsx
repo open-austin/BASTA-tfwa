@@ -34,8 +34,8 @@ function App() {
           component={TenantDetails}
         ></PrivateRoute>
         <PrivateRoute
-          //path="/image/:id"
-          path="/image"
+          path="/image/:id"
+          //path="/image"
           component={ImageDetails}
         ></PrivateRoute>
         <Route path="/login">

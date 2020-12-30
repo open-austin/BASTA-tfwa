@@ -2,18 +2,25 @@ import { graphql } from 'graphql';
 import React from 'react'
 import {RouteComponentProps} from 'react-router-dom';
 import ImageDetailsStyles from './styles/ImageDetailsStyles';
-import { gql, useQuery } from '@apollo/client';
+import { gql, selectHttpOptionsAndBody, useQuery } from '@apollo/client';
 
 // Thanks to W3Schools for this example: https://www.w3schools.com/html/tryit.asp?filename=tryhtml_layout_float
 
 // Might need to make a query to GraphQL to retrieve the image for the given ID.
 
-const RETRIEVE_IMAGE = gql`
-query RetrieveImage($id: Int!) {
+
+/* query RetrieveImage($id: Int!) {
     image(id: $id) {
       name
     }
-}
+} */
+
+const RETRIEVE_IMAGE = gql`
+  query somethingelse($id: Int!) {
+    tenant(id: $id) {
+        name
+    }
+  }
 `;
 
 type TParams = {
@@ -22,14 +29,24 @@ type TParams = {
 
 const ImageDetails: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
 
+    console.log("Match ID is " + match.params.id);
+
     const { loading, error, data } = useQuery(RETRIEVE_IMAGE, {
         variables: {
-            id: match
+            id: parseInt(match.params.id)
         }
     });
 
-    if (loading) return null;
-    if (error) return `Error! ${error}`;
+    /* if (loading) {
+        setTimeout(console.log("Data is " + data), 3000);
+    } */
+
+    if (!loading) {
+        console.log("Data done loading and value is " + data.tenant.name);
+    }
+
+    /* if (loading) return null;
+    if (error) return `Error! ${error}`; */
 
 
 
@@ -48,6 +65,7 @@ const ImageDetails: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
                 This is the section.
                 Image: 
                 {/* {data.image.name} */}
+                {data.tenant.name}
                 Labels:
                 Image ID:
                 {match.params.id}
