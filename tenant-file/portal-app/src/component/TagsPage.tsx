@@ -103,6 +103,14 @@ const StyledTagsDisplay = styled.div`
   }
 `;
 
+type Tag = {
+  name: string;
+  description: string;
+  photoCount: number;
+  id: number;
+  color: string;
+};
+
 const Tags = () => {
   const data = [
     {
@@ -131,11 +139,82 @@ const Tags = () => {
   const [editingRow, setEditingRow] = useState(-1);
 
   function isDark(hex: String) {
-    // const hex = colors[colorName].substring(1, 7);
     const r = parseInt(hex.substring(1, 3), 16);
     const g = parseInt(hex.substring(3, 5), 16);
     const b = parseInt(hex.substring(5, 7), 16);
     return r * 0.299 + g * 0.587 + b * 0.114 < 120;
+  }
+
+  function renderTagRow(tag: Tag) {
+    return (
+      <div className="flex-row" key={tag.id}>
+        <div className="label">
+          <button
+            style={{
+              backgroundColor: tag.color,
+              color: isDark(tag.color) ? 'white' : 'black',
+            }}
+          >
+            {tag.name}
+          </button>
+        </div>
+        {editingRow !== tag.id && (
+          <>
+            <div className="description">{tag.description}</div>
+            <div className="photoCount">{tag.photoCount}</div>
+          </>
+        )}
+        <div className="buttons">
+          <button onClick={() => setEditingRow(tag.id)}>Edit</button>
+          <button>Delete</button>
+        </div>
+      </div>
+    );
+  }
+
+  function renderTagEditingRow(tag: Tag) {
+    return (
+      <>
+        <div className="flex-row" key={tag.id}>
+          <div className="label">
+            <button
+              style={{
+                backgroundColor: tag.color,
+                color: isDark(tag.color) ? 'white' : 'black',
+              }}
+            >
+              {tag.name}
+            </button>
+          </div>
+          {editingRow !== tag.id && (
+            <>
+              <div className="description">{tag.description}</div>
+              <div className="photoCount">{tag.photoCount}</div>
+            </>
+          )}
+          <div className="buttons">
+            <button onClick={() => setEditingRow(tag.id)}>Edit</button>
+            <button>Delete</button>
+          </div>
+        </div>
+
+        {editingRow === tag.id && (
+          <form className="flex-row" onSubmit={() => console.log('ok!')}>
+            <div className="label">
+              <button>{tag.name}</button>
+            </div>
+
+            <div className="description">{tag.description}</div>
+            <div className="photoCount">{tag.photoCount}</div>
+
+            <div className="buttons">
+              <button onClick={() => setEditingRow(tag.id)}>Edit</button>
+              <button>Delete</button>
+            </div>
+          </form>
+        )}
+      </>
+    );
   }
 
   return (
@@ -146,49 +225,11 @@ const Tags = () => {
           <div className="sort">{/* <button>sort</button> */}</div>
         </div>
         <div className="body">
-          {data.map((tag) => (
-            <>
-              <div className="flex-row" key={tag.id}>
-                <div className="label">
-                  <button
-                    style={{
-                      backgroundColor: tag.color,
-                      color: isDark(tag.color) ? 'white' : 'black',
-                    }}
-                  >
-                    {tag.name}
-                  </button>
-                </div>
-                {editingRow !== tag.id && (
-                  <>
-                    <div className="description">{tag.description}</div>
-                    <div className="photoCount">{tag.photoCount}</div>
-                  </>
-                )}
-                <div className="buttons">
-                  <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-                  <button>Delete</button>
-                </div>
-              </div>
-
-              {/* TODO Create edit tag form */}
-              {editingRow === tag.id && (
-                <form className="flex-row" onSubmit={() => console.log('ok!')}>
-                  <div className="label">
-                    <button>{tag.name}</button>
-                  </div>
-
-                  <div className="description">{tag.description}</div>
-                  <div className="photoCount">{tag.photoCount}</div>
-
-                  <div className="buttons">
-                    <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-                    <button>Delete</button>
-                  </div>
-                </form>
-              )}
-            </>
-          ))}
+          {data.map((tag) => {
+            return editingRow === tag.id
+              ? renderTagEditingRow(tag)
+              : renderTagRow(tag);
+          })}
         </div>
       </div>
     </StyledTagsDisplay>
