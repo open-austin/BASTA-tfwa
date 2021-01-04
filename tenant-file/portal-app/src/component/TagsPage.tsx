@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { TwitterPicker } from 'react-color';
 
 const StyledTagsDisplay = styled.div`
   width: 95%;
@@ -177,24 +178,17 @@ const Tags = () => {
       <>
         <div className="flex-row" key={tag.id}>
           <div className="label">
-            <button
-              style={{
-                backgroundColor: tag.color,
-                color: isDark(tag.color) ? 'white' : 'black',
-              }}
-            >
-              {tag.name}
-            </button>
+            <input type="text" name="name" id="name" />
           </div>
-          {editingRow !== tag.id && (
-            <>
-              <div className="description">{tag.description}</div>
-              <div className="photoCount">{tag.photoCount}</div>
-            </>
-          )}
+
+          <div className="description">
+            <input type="text" name="description" id="description" />
+          </div>
+          <div className="photoCount">Color</div>
+
           <div className="buttons">
-            <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-            <button>Delete</button>
+            <button onClick={() => setEditingRow(-1)}>Save</button>
+            <button onClick={() => setEditingRow(-1)}>Discard</button>
           </div>
         </div>
 
@@ -208,8 +202,7 @@ const Tags = () => {
             <div className="photoCount">{tag.photoCount}</div>
 
             <div className="buttons">
-              <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-              <button>Delete</button>
+              <TwitterPicker />
             </div>
           </form>
         )}
