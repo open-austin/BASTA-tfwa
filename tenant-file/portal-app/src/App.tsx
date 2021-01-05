@@ -13,7 +13,7 @@ import Dashboard from './component/dashboard';
 import Properties from './component/properties';
 import Home from './component/home';
 import TenantDetails from './component/tenant-details';
-import Tags from './component/TagsPage';
+import Tags from './component/Tags-Page';
 
 function App() {
   return (

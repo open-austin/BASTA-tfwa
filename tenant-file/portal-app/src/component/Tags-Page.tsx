@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TwitterPicker } from 'react-color';
+import EditTagRow from './edit-tag-row';
+import { isDark } from '../utility';
+import { TaggedTemplateExpression } from 'typescript';
 
 const StyledTagsDisplay = styled.div`
   width: 95%;
@@ -139,13 +142,6 @@ const Tags = () => {
 
   const [editingRow, setEditingRow] = useState(-1);
 
-  function isDark(hex: String) {
-    const r = parseInt(hex.substring(1, 3), 16);
-    const g = parseInt(hex.substring(3, 5), 16);
-    const b = parseInt(hex.substring(5, 7), 16);
-    return r * 0.299 + g * 0.587 + b * 0.114 < 120;
-  }
-
   function renderTagRow(tag: Tag) {
     return (
       <div className="flex-row" key={tag.id}>
@@ -159,12 +155,10 @@ const Tags = () => {
             {tag.name}
           </button>
         </div>
-        {editingRow !== tag.id && (
-          <>
-            <div className="description">{tag.description}</div>
-            <div className="photoCount">{tag.photoCount}</div>
-          </>
-        )}
+
+        <div className="description">{tag.description}</div>
+        <div className="photoCount">{tag.photoCount}</div>
+
         <div className="buttons">
           <button onClick={() => setEditingRow(tag.id)}>Edit</button>
           <button>Delete</button>
@@ -219,9 +213,11 @@ const Tags = () => {
         </div>
         <div className="body">
           {data.map((tag) => {
-            return editingRow === tag.id
-              ? renderTagEditingRow(tag)
-              : renderTagRow(tag);
+            return editingRow === tag.id ? (
+              <EditTagRow tag={tag} setEditingRow={setEditingRow} />
+            ) : (
+              renderTagRow(tag)
+            );
           })}
         </div>
       </div>
