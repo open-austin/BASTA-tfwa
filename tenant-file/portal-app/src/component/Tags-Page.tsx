@@ -142,6 +142,13 @@ const Tags = () => {
 
   const [editingRow, setEditingRow] = useState(-1);
 
+  function handleDelete(tagId: number) {
+    if (window.confirm('Do you really want to leave?')) {
+      // Clever and clean solution for deleting tag here
+      window.alert(`deleted tag with id of ${tagId}`);
+    }
+  }
+
   function renderTagRow(tag: Tag) {
     return (
       <div className="flex-row" key={tag.id}>
@@ -161,7 +168,7 @@ const Tags = () => {
 
         <div className="buttons">
           <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-          <button>Delete</button>
+          <button onClick={() => handleDelete(tag.id)}>Delete</button>
         </div>
       </div>
     );

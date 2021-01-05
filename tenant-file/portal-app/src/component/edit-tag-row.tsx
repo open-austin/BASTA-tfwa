@@ -17,6 +17,7 @@ type Props = {
 
 const EditTagRow = ({ tag, setEditingRow }: Props) => {
   const [editTagFields, setEditTagFields] = useState(tag);
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   function handleChange(e: React.ChangeEvent) {
     const target = e.currentTarget as HTMLInputElement;
@@ -34,7 +35,9 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
     setEditingRow(-1);
   }
 
-  function toggleColorPicker() {}
+  function toggleColorPicker() {
+    setShowColorPicker(!showColorPicker);
+  }
 
   return (
     <>
@@ -83,7 +86,20 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
             id="color"
             value={editTagFields.color}
             onChange={handleChange}
+            onFocus={toggleColorPicker}
           />
+          {showColorPicker && (
+            <div
+              className="color-picker"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: 0,
+              }}
+            >
+              <TwitterPicker />
+            </div>
+          )}
         </div>
         <div className="buttons">
           <button onClick={handleSubmit}>Save</button>
