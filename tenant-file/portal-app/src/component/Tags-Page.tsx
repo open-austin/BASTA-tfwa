@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { TwitterPicker } from 'react-color';
 import EditTagRow from './edit-tag-row';
 import { isDark } from '../utility';
-import { TaggedTemplateExpression } from 'typescript';
 
 const StyledTagsDisplay = styled.div`
   width: 95%;
@@ -171,43 +169,6 @@ const Tags = () => {
           <button onClick={() => handleDelete(tag.id)}>Delete</button>
         </div>
       </div>
-    );
-  }
-
-  function renderTagEditingRow(tag: Tag) {
-    return (
-      <>
-        <div className="flex-row" key={tag.id}>
-          <div className="label">
-            <input type="text" name="name" id="name" />
-          </div>
-
-          <div className="description">
-            <input type="text" name="description" id="description" />
-          </div>
-          <div className="photoCount">Color</div>
-
-          <div className="buttons">
-            <button onClick={() => setEditingRow(-1)}>Save</button>
-            <button onClick={() => setEditingRow(-1)}>Discard</button>
-          </div>
-        </div>
-
-        {editingRow === tag.id && (
-          <form className="flex-row" onSubmit={() => console.log('ok!')}>
-            <div className="label">
-              <button>{tag.name}</button>
-            </div>
-
-            <div className="description">{tag.description}</div>
-            <div className="photoCount">{tag.photoCount}</div>
-
-            <div className="buttons">
-              <TwitterPicker />
-            </div>
-          </form>
-        )}
-      </>
     );
   }
 
