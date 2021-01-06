@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TwitterPicker } from 'react-color';
+import { TwitterPicker, ColorResult } from 'react-color';
 import { isDark } from '../utility';
 
 type Tag = {
@@ -37,6 +37,12 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
 
   function toggleColorPicker() {
     setShowColorPicker(!showColorPicker);
+  }
+
+  function hadleColorChangeComplete(color: ColorResult) {
+    setEditTagFields((prevState) => {
+      return { ...prevState, color: color.hex };
+    });
   }
 
   return (
@@ -97,7 +103,11 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
                 left: 0,
               }}
             >
-              <TwitterPicker />
+              {/* TODO: Handle color picker */}
+              <TwitterPicker
+                onChangeComplete={hadleColorChangeComplete}
+                color={tag.color}
+              />
             </div>
           )}
         </div>

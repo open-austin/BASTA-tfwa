@@ -143,7 +143,7 @@ const Tags = () => {
   const [editingRow, setEditingRow] = useState(-1);
 
   function handleDelete(tagId: number) {
-    if (window.confirm('Do you really want to leave?')) {
+    if (window.confirm('Do you really want to delete this tag?')) {
       // Clever and clean solution for deleting tag here
       window.alert(`deleted tag with id of ${tagId}`);
     }
