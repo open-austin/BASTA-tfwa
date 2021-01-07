@@ -1,6 +1,28 @@
 import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
 import { isDark } from '../utility';
+import styled from 'styled-components';
+
+const StyledEditTagRow = styled.form`
+  position: relative;
+
+  .color_section {
+    position: relative;
+  }
+  .color {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: ${(props) => props.color};
+    position: relative;
+  }
+
+  .color-picker {
+    position: absolute;
+    transform: translate(-5px, 30px);
+  }
+`;
 
 type Tag = {
   name: string;
@@ -65,7 +87,11 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
         <div className="buttons"></div>
       </div>
 
-      <form className="flex-row" onSubmit={() => console.log('ok!')}>
+      <StyledEditTagRow
+        color={editTagFields.color}
+        className="flex-row"
+        onSubmit={() => console.log('ok!')}
+      >
         <div>
           <input
             type="text"
@@ -85,15 +111,8 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
             onChange={handleChange}
           />
         </div>
-        <div onClick={toggleColorPicker}>
-          <input
-            type="text"
-            name="color"
-            id="color"
-            value={editTagFields.color}
-            onChange={handleChange}
-            onFocus={toggleColorPicker}
-          />
+        <div onClick={toggleColorPicker} className="color_section">
+          <div className="color"></div>
           {showColorPicker && (
             <div
               className="color-picker"
@@ -106,7 +125,7 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
               {/* TODO: Handle color picker */}
               <TwitterPicker
                 onChangeComplete={hadleColorChangeComplete}
-                color={tag.color}
+                color={editTagFields.color}
               />
             </div>
           )}
@@ -115,7 +134,7 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
           <button onClick={handleSubmit}>Save</button>
           <button onClick={() => setEditingRow(-1)}>Cancel</button>
         </div>
-      </form>
+      </StyledEditTagRow>
     </>
   );
 };
