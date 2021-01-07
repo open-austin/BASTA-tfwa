@@ -32,12 +32,21 @@ type Tag = {
   color: string;
 };
 
+type Tags = {
+  name: string;
+  description: string;
+  photoCount: number;
+  id: number;
+  color: string;
+}[];
+
 type Props = {
   tag: Tag;
   setEditingRow: React.Dispatch<React.SetStateAction<number>>;
+  setData: React.Dispatch<React.SetStateAction<Tags>>;
 };
 
-const EditTagRow = ({ tag, setEditingRow }: Props) => {
+const EditTagRow = ({ tag, setEditingRow, setData }: Props) => {
   const [editTagFields, setEditTagFields] = useState(tag);
   const [showColorPicker, setShowColorPicker] = useState(false);
 
@@ -53,7 +62,12 @@ const EditTagRow = ({ tag, setEditingRow }: Props) => {
 
   function handleSubmit() {
     // Perform tag updating magic
-    window.alert(JSON.stringify(editTagFields));
+    setData((prevState) => {
+      // clean this up later
+      const index = prevState.findIndex((item) => item.id === tag.id);
+      prevState[index] = { ...prevState[index], ...editTagFields };
+      return prevState;
+    });
     setEditingRow(-1);
   }
 

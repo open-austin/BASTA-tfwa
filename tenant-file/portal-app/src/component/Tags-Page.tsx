@@ -114,7 +114,7 @@ type Tag = {
 };
 
 const Tags = () => {
-  const data = [
+  const [data, setData] = useState([
     {
       name: 'Chris',
       description: 'Good guy',
@@ -136,8 +136,7 @@ const Tags = () => {
       id: 2,
       color: '#00000',
     },
-  ];
-
+  ]);
   const [editingRow, setEditingRow] = useState(-1);
 
   function handleDelete(tagId: number) {
@@ -182,7 +181,11 @@ const Tags = () => {
         <div className="body">
           {data.map((tag) => {
             return editingRow === tag.id ? (
-              <EditTagRow tag={tag} setEditingRow={setEditingRow} />
+              <EditTagRow
+                tag={tag}
+                setEditingRow={setEditingRow}
+                setData={setData}
+              />
             ) : (
               renderTagRow(tag)
             );
