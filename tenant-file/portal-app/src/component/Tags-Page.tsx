@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditTagRow from './edit-tag-row';
+import AddTagRow from './add-tag-row';
 import { isDark } from '../utility';
 
 const StyledTagsDisplay = styled.div`
   width: 95%;
   max-width: 1200px;
   margin: 0 auto;
-  /* border: 1px solid rgba(0, 0, 0, 0.3); */
   display: flex;
   border-radius: 10px;
-  /* box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1); */
 
   .display,
   .header,
@@ -41,7 +40,7 @@ const StyledTagsDisplay = styled.div`
       font-weight: 700;
     }
 
-    .sort {
+    .add {
       text-align: right;
     }
   }
@@ -105,6 +104,30 @@ const StyledTagsDisplay = styled.div`
   }
 `;
 
+const sampleData = [
+  {
+    name: 'Damages',
+    description: 'Windows, walls, appliance',
+    photoCount: 5,
+    id: 0,
+    color: '#00D084',
+  },
+  {
+    name: 'Conversations',
+    description: 'Records of texts or phone calls',
+    photoCount: 4,
+    id: 1,
+    color: '#0693E3',
+  },
+  {
+    name: 'Documents',
+    description: 'Lease, notices, etc.',
+    photoCount: 5,
+    id: 2,
+    color: '#FF6900',
+  },
+];
+
 type Tag = {
   name: string;
   description: string;
@@ -114,35 +137,16 @@ type Tag = {
 };
 
 const Tags = () => {
-  const [data, setData] = useState([
-    {
-      name: 'Chris',
-      description: 'Good guy',
-      photoCount: 5,
-      id: 0,
-      color: '#7070f8',
-    },
-    {
-      name: 'Jenn',
-      description: 'cool gal',
-      photoCount: 4,
-      id: 1,
-      color: '#eee8aa',
-    },
-    {
-      name: 'Elvis',
-      description: 'Big guy',
-      photoCount: 5,
-      id: 2,
-      color: '#00000',
-    },
-  ]);
+  const [data, setData] = useState(sampleData);
   const [editingRow, setEditingRow] = useState(-1);
 
   function handleDelete(tagId: number) {
     if (window.confirm('Do you really want to delete this tag?')) {
       // Clever and clean solution for deleting tag here
       window.alert(`deleted tag with id of ${tagId}`);
+      setData((prevState) => {
+        return prevState.filter((item) => item.id !== tagId);
+      });
     }
   }
 
@@ -176,9 +180,12 @@ const Tags = () => {
       <div className="display">
         <div className="header">
           <div className="title">{data.length} labels</div>
-          <div className="sort">{/* <button>sort</button> */}</div>
+          <div className="add">
+            <button>+</button>
+          </div>
         </div>
         <div className="body">
+          <AddTagRow setData={setData} />
           {data.map((tag) => {
             return editingRow === tag.id ? (
               <EditTagRow
