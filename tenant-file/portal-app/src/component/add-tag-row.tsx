@@ -48,16 +48,19 @@ const AddTagRow = ({ setData }: Props) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   function handleChange(e: React.ChangeEvent) {
-    //   const target = e.currentTarget as HTMLInputElement;
-    //   console.log(target.id);
-    //   setEditTagFields((prevState) => ({
-    //     ...prevState,
-    //     [target.id]: target.value,
-    //   }));
-    //   console.log(editTagFields);
+    const target = e.currentTarget as HTMLInputElement;
+    console.log(target.id);
+    setEditTagFields((prevState) => {
+      return {
+        ...prevState,
+        [target.id]: target.value,
+      };
+    });
+    console.log(editTagFields);
   }
 
-  function handleSubmit() {
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
     // Perform tag updating magic
     setData((prevState) => {
       return [editTagFields, ...prevState];
