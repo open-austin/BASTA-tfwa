@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditTagRow from './edit-tag-row';
 import AddTagRow from './add-tag-row';
+import Tag from './tag';
 import { isDark } from '../utility';
 
 const StyledTagsDisplay = styled.div`
@@ -52,17 +53,6 @@ const StyledTagsDisplay = styled.div`
       flex: 1;
       display: flex;
       align-items: center;
-    }
-
-    .label button {
-      display: inline-block;
-      padding: 0.1rem 0.5rem;
-      background-color: green;
-      border-radius: 15px;
-      font-weight: 700;
-      color: rgba(220, 220, 220, 0.5);
-      box-shadow: none;
-      border: none;
     }
   }
 
@@ -158,14 +148,7 @@ const Tags = () => {
     return (
       <div className="flex-row" key={tag.id}>
         <div className="label">
-          <button
-            style={{
-              backgroundColor: tag.color,
-              color: isDark(tag.color) ? 'white' : 'black',
-            }}
-          >
-            {tag.name}
-          </button>
+          <Tag tag={tag} />
         </div>
         <div className="description">{tag.description}</div>
         <div className="photoCount">{tag.photoCount}</div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
+import Tag from './tag';
 import { isDark } from '../utility';
 import styled from 'styled-components';
 
@@ -40,7 +41,7 @@ type Props = {
 
 const AddTagRow = ({ setData, toggleAddTag }: Props) => {
   const initialState = {
-    name: '',
+    name: 'New Tag',
     description: '',
     photoCount: 0,
     id: Math.floor(Math.random() * 10000),
@@ -87,14 +88,7 @@ const AddTagRow = ({ setData, toggleAddTag }: Props) => {
     <>
       <div className="flex-row" key="add">
         <div className="label">
-          <button
-            style={{
-              backgroundColor: editTagFields.color,
-              color: isDark(editTagFields.color) ? 'white' : 'black',
-            }}
-          >
-            "New Tag"
-          </button>
+          <Tag tag={editTagFields} />
         </div>
 
         <div className="description"></div>
@@ -115,6 +109,7 @@ const AddTagRow = ({ setData, toggleAddTag }: Props) => {
             id="name"
             value={editTagFields.name}
             onChange={handleChange}
+            placeholder="Name"
           ></input>
         </div>
 
@@ -125,6 +120,7 @@ const AddTagRow = ({ setData, toggleAddTag }: Props) => {
             id="description"
             value={editTagFields.description}
             onChange={handleChange}
+            placeholder="Description"
           />
         </div>
         <div onClick={toggleColorPicker} className="color_section">
