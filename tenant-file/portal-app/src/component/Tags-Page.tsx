@@ -40,6 +40,28 @@ const StyledTagsDisplay = styled.div`
 
     .add {
       text-align: right;
+
+      button {
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.04);
+        text-align: center;
+        position: relative;
+        transition: background-color ease 0.4s;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        span {
+          display: block;
+          position: absolute;
+          top: 2px;
+          left: 10px;
+        }
+      }
     }
   }
 
@@ -166,7 +188,9 @@ const Tags = () => {
         <div className="header">
           <div className="title">{data.length} Tags</div>
           <div className="add">
-            <button onClick={toggleAddTag}>+</button>
+            <button onClick={toggleAddTag}>
+              <span>+</span>
+            </button>
           </div>
         </div>
         <div className="body">
