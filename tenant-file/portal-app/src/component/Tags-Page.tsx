@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import EditTagRow from './edit-tag-row';
 import AddTagRow from './add-tag-row';
 import Tag from './tag';
-import { isDark } from '../utility';
 
 const StyledTagsDisplay = styled.div`
   width: 95%;

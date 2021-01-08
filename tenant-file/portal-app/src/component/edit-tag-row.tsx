@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
 import styled from 'styled-components';
 import Tag from './tag';
-import { isDark } from '../utility';
 
 const StyledEditTagRow = styled.form`
   position: relative;

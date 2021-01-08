@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
 import Tag from './tag';
-import { isDark } from '../utility';
 import styled from 'styled-components';
 
 const StyledEditTagRow = styled.form`
