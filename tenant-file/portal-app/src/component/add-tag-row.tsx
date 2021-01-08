@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
 import Tag from './tag';
 import StyledEditTagRow from './styles/TagEditRow';
-
-type Tags = {
-  name: string;
-  description: string;
-  photoCount: number;
-  id: number;
-  color: string;
-}[];
+import { Tags } from '../types/tag';
 
 type Props = {
   setData: React.Dispatch<React.SetStateAction<Tags>>;

@@ -1,23 +1,8 @@
 import React, { useState } from 'react';
 import { TwitterPicker, ColorResult } from 'react-color';
 import StyledEditTagRow from './styles/TagEditRow';
-import Tag from './tag';
-
-type Tag = {
-  name: string;
-  description: string;
-  photoCount: number;
-  id: number;
-  color: string;
-};
-
-type Tags = {
-  name: string;
-  description: string;
-  photoCount: number;
-  id: number;
-  color: string;
-}[];
+import TagButton from './tag';
+import { Tag, Tags } from '../types/tag';
 
 type Props = {
   tag: Tag;
@@ -61,7 +46,7 @@ const EditTagRow = ({ tag, setEditingRow, setData }: Props) => {
     <>
       <div className="flex-row" key={tag.id}>
         <div className="label">
-          <Tag tag={tag} />
+          <TagButton tag={tag} />
         </div>
 
         <div className="description"></div>

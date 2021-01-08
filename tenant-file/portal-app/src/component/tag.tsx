@@ -1,13 +1,6 @@
 import React from 'react';
 import StyledTag from './styles/Tag';
-
-type Tag = {
-  name: string;
-  description: string;
-  photoCount: number;
-  id: number;
-  color: string;
-};
+import { Tag } from '../types/tag';
 
 type Props = {
   tag: Tag;
