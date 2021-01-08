@@ -139,6 +139,11 @@ type Tag = {
 const Tags = () => {
   const [data, setData] = useState(sampleData);
   const [editingRow, setEditingRow] = useState(-1);
+  const [isAddTagShowing, setIsAddTagShowing] = useState(false);
+
+  function toggleAddTag() {
+    setIsAddTagShowing(!isAddTagShowing);
+  }
 
   function handleDelete(tagId: number) {
     if (window.confirm('Do you really want to delete this tag?')) {
@@ -181,11 +186,13 @@ const Tags = () => {
         <div className="header">
           <div className="title">{data.length} labels</div>
           <div className="add">
-            <button>+</button>
+            <button onClick={toggleAddTag}>+</button>
           </div>
         </div>
         <div className="body">
-          <AddTagRow setData={setData} />
+          {isAddTagShowing && (
+            <AddTagRow setData={setData} toggleAddTag={toggleAddTag} />
+          )}
           {data.map((tag) => {
             return editingRow === tag.id ? (
               <EditTagRow

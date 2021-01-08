@@ -34,15 +34,16 @@ type Tags = {
 
 type Props = {
   setData: React.Dispatch<React.SetStateAction<Tags>>;
+  toggleAddTag: () => void;
 };
 
-const AddTagRow = ({ setData }: Props) => {
+const AddTagRow = ({ setData, toggleAddTag }: Props) => {
   const initialState = {
     name: '',
     description: '',
     photoCount: 0,
     id: Math.floor(Math.random() * 10000),
-    color: 'red',
+    color: '#F78DA7',
   };
   const [editTagFields, setEditTagFields] = useState(initialState);
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -65,6 +66,7 @@ const AddTagRow = ({ setData }: Props) => {
     setData((prevState) => {
       return [editTagFields, ...prevState];
     });
+    toggleAddTag();
   }
 
   function toggleColorPicker() {
@@ -75,6 +77,11 @@ const AddTagRow = ({ setData }: Props) => {
     setEditTagFields((prevState) => {
       return { ...prevState, color: color.hex };
     });
+  }
+
+  function cancelAddTag() {
+    setEditTagFields(initialState);
+    toggleAddTag();
   }
 
   return (
@@ -142,7 +149,7 @@ const AddTagRow = ({ setData }: Props) => {
         </div>
         <div className="buttons">
           <button onClick={handleSubmit}>Save</button>
-          <button onClick={() => console.log('closing')}>Cancel</button>
+          <button onClick={cancelAddTag}>Cancel</button>
         </div>
       </StyledEditTagRow>
     </>
