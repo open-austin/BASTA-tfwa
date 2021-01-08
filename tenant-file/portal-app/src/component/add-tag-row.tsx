@@ -20,7 +20,8 @@ const StyledEditTagRow = styled.form`
 
   .color-picker {
     position: absolute;
-    transform: translate(-5px, 30px);
+    transform: translate(-5px, 80px);
+    z-index: 4;
   }
 `;
 
@@ -50,19 +51,17 @@ const AddTagRow = ({ setData, toggleAddTag }: Props) => {
 
   function handleChange(e: React.ChangeEvent) {
     const target = e.currentTarget as HTMLInputElement;
-    console.log(target.id);
     setEditTagFields((prevState) => {
       return {
         ...prevState,
         [target.id]: target.value,
       };
     });
-    console.log(editTagFields);
   }
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    // Perform tag updating magic here
     e.preventDefault();
-    // Perform tag updating magic
     setData((prevState) => {
       return [editTagFields, ...prevState];
     });
@@ -131,15 +130,7 @@ const AddTagRow = ({ setData, toggleAddTag }: Props) => {
         <div onClick={toggleColorPicker} className="color_section">
           <div className="color"></div>
           {showColorPicker && (
-            <div
-              className="color-picker"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: 0,
-              }}
-            >
-              {/* TODO: Handle color picker */}
+            <div className="color-picker">
               <TwitterPicker
                 onChangeComplete={hadleColorChangeComplete}
                 color={editTagFields.color}

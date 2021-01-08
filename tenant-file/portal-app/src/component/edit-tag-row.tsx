@@ -20,7 +20,7 @@ const StyledEditTagRow = styled.form`
 
   .color-picker {
     position: absolute;
-    transform: translate(-5px, 30px);
+    transform: translate(-5px, 35px);
   }
 `;
 
@@ -52,18 +52,15 @@ const EditTagRow = ({ tag, setEditingRow, setData }: Props) => {
 
   function handleChange(e: React.ChangeEvent) {
     const target = e.currentTarget as HTMLInputElement;
-    console.log(target.id);
     setEditTagFields((prevState) => ({
       ...prevState,
       [target.id]: target.value,
     }));
-    console.log(editTagFields);
   }
 
   function handleSubmit() {
-    // Perform tag updating magic
+    // Perform tag updating magic here
     setData((prevState) => {
-      // clean this up later
       const index = prevState.findIndex((item) => item.id === tag.id);
       prevState[index] = { ...prevState[index], ...editTagFields };
       return prevState;
@@ -136,7 +133,6 @@ const EditTagRow = ({ tag, setEditingRow, setData }: Props) => {
                 left: 0,
               }}
             >
-              {/* TODO: Handle color picker */}
               <TwitterPicker
                 onChangeComplete={hadleColorChangeComplete}
                 color={editTagFields.color}
@@ -146,6 +142,7 @@ const EditTagRow = ({ tag, setEditingRow, setData }: Props) => {
         </div>
         <div className="buttons">
           <button onClick={handleSubmit}>Save</button>
+          {/* Closes edit row */}
           <button onClick={() => setEditingRow(-1)}>Cancel</button>
         </div>
       </StyledEditTagRow>

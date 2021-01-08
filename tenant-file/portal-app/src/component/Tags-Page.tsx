@@ -25,12 +25,9 @@ const StyledTagsDisplay = styled.div`
   }
 
   .header {
+    display: flex;
     background-color: rgba(0, 0, 0, 0.08);
     border-radius: 8px;
-  }
-
-  .header {
-    display: flex;
 
     & > * {
       flex: 1;
@@ -137,7 +134,9 @@ type Tag = {
 };
 
 const Tags = () => {
+  // Sample data stored here. Can be swapped with redux or other method later.
   const [data, setData] = useState(sampleData);
+  // Editing row shows on whichever tag id is stored in this state. Setting to -1 shows no editing row.
   const [editingRow, setEditingRow] = useState(-1);
   const [isAddTagShowing, setIsAddTagShowing] = useState(false);
 
@@ -148,10 +147,10 @@ const Tags = () => {
   function handleDelete(tagId: number) {
     if (window.confirm('Do you really want to delete this tag?')) {
       // Clever and clean solution for deleting tag here
-      window.alert(`deleted tag with id of ${tagId}`);
       setData((prevState) => {
         return prevState.filter((item) => item.id !== tagId);
       });
+      window.alert(`deleted tag with id of ${tagId}`);
     }
   }
 
@@ -168,10 +167,8 @@ const Tags = () => {
             {tag.name}
           </button>
         </div>
-
         <div className="description">{tag.description}</div>
         <div className="photoCount">{tag.photoCount}</div>
-
         <div className="buttons">
           <button onClick={() => setEditingRow(tag.id)}>Edit</button>
           <button onClick={() => handleDelete(tag.id)}>Delete</button>
@@ -184,7 +181,7 @@ const Tags = () => {
     <StyledTagsDisplay>
       <div className="display">
         <div className="header">
-          <div className="title">{data.length} labels</div>
+          <div className="title">{data.length} Tags</div>
           <div className="add">
             <button onClick={toggleAddTag}>+</button>
           </div>
