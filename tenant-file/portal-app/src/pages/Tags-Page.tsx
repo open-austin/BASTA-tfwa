@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EditTagRow from '../component/edit-tag-row';
 import AddTagRow from '../component/add-tag-row';
-import TagButton from '../component/tag';
+import TagRow from '../component/tag-row';
 import StyledTagsDisplay from '../component/styles/TagsPage';
 import { Tag } from '../types/tag';
 import { sampleData } from '../utility';
@@ -27,21 +27,7 @@ const Tags = () => {
     }
   }
 
-  function renderTagRow(tag: Tag) {
-    return (
-      <div className="flex-row" key={tag.id}>
-        <div className="label">
-          <TagButton tag={tag} />
-        </div>
-        <div className="description">{tag.description}</div>
-        <div className="photoCount">{tag.photoCount}</div>
-        <div className="buttons">
-          <button onClick={() => setEditingRow(tag.id)}>Edit</button>
-          <button onClick={() => handleDelete(tag.id)}>Delete</button>
-        </div>
-      </div>
-    );
-  }
+  function renderTagRow(tag: Tag) {}
 
   return (
     <StyledTagsDisplay>
@@ -66,7 +52,11 @@ const Tags = () => {
                 setData={setData}
               />
             ) : (
-              renderTagRow(tag)
+              <TagRow
+                tag={tag}
+                setEditingRow={setEditingRow}
+                handleDelete={handleDelete}
+              />
             );
           })}
         </div>
