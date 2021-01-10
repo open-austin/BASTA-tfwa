@@ -3,7 +3,6 @@ import EditTagRow from '../component/edit-tag-row';
 import AddTagRow from '../component/add-tag-row';
 import TagRow from '../component/tag-row';
 import StyledTagsDisplay from '../component/styles/TagsPage';
-import { Tag } from '../types/tag';
 import { sampleData } from '../utility';
 
 const Tags = () => {
@@ -26,8 +25,6 @@ const Tags = () => {
       window.alert(`deleted tag with id of ${tagId}`);
     }
   }
-
-  function renderTagRow(tag: Tag) {}
 
   return (
     <StyledTagsDisplay>
