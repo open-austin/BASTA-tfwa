@@ -34,7 +34,7 @@ interface Image {
 const ImageFeed = () => {
   // TODO: correct type - when pulling from back end, set type to string[]
   const [images, setImages] = useState<Image[]>([]);
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<keyof Image>('id');
   const [sortOrder, setSortOrder] = useState(1);
   useEffect(() => {
     async function getImages() {
@@ -46,24 +46,37 @@ const ImageFeed = () => {
     getImages();
   }, []);
 
-  function sortImages(field: keyof Image, order: number) {
+  function sortImages() {
     // Correct types here when incorperating images from back end
     const sortedImages = [...images].sort((a: Image, b: Image) => {
-      if (a[field] > b[field]) {
-        return 1;
-      } else if (a[field] < b[field]) {
-        return -1;
+      if (a[sortField] > b[sortField]) {
+        return 1 * sortOrder;
+      } else if (a[sortField] < b[sortField]) {
+        return -1 * sortOrder;
       } else {
         return 0;
       }
     });
-    setImages(sortedImages);
+    return sortedImages;
   }
 
   return (
     <StyledImageFeed>
-      <button onClick={() => sortImages('author', 1)}>Sort</button>
-      {images.map((image) => {
+      <button
+        onClick={() => {
+          setSortField('author');
+        }}
+      >
+        Sort
+      </button>
+      <button
+        onClick={() => {
+          setSortOrder(sortOrder * -1);
+        }}
+      >
+        Order
+      </button>
+      {sortImages().map((image) => {
         return (
           <div className="image_container">
             <img src={image.download_url} alt="" style={{ width: '100%' }} />
