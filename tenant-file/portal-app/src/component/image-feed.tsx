@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+interface Props {
+  sortOrder: number;
+}
+
 const StyledImageFeed = styled.div`
   width: 90%;
   max-width: 1600px;
@@ -16,10 +20,14 @@ const StyledImageFeed = styled.div`
     & i:first-child {
       position: absolute;
       top: 0;
+      color: ${(props: Props) =>
+        props.sortOrder === -1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.5)'};
     }
     & i:last-child {
       position: relative;
       transform: translateY(0.3rem);
+      color: ${(props: Props) =>
+        props.sortOrder === 1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.5)'};
     }
   }
 
@@ -83,7 +91,7 @@ const ImageFeed = () => {
   }
 
   return (
-    <StyledImageFeed>
+    <StyledImageFeed sortOrder={sortOrder}>
       <div className="filters">
         <label htmlFor="sort_field">Sort by:</label>
         <select
