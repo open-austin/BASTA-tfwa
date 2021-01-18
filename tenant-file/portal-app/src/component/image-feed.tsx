@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-interface Props {
-  sortOrder: number;
-}
-
 const StyledImageFeed = styled.div`
   width: 90%;
   max-width: 1600px;
@@ -21,13 +17,13 @@ const StyledImageFeed = styled.div`
       position: absolute;
       top: 0;
       color: ${(props: Props) =>
-        props.sortOrder === -1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.5)'};
+        props.sortOrder === -1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.3)'};
     }
     & i:last-child {
       position: relative;
       transform: translateY(0.3rem);
       color: ${(props: Props) =>
-        props.sortOrder === 1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.5)'};
+        props.sortOrder === 1 ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.3)'};
     }
   }
 
@@ -61,19 +57,11 @@ interface Image {
   download_url: string;
 }
 
-// enum ImageField {
-//   id,
-//   author,
-//   width,
-//   height,
-//   url,
-//   download_url,
-// }
-
-type ImageField = 'id' | 'author';
+interface Props {
+  sortOrder: number;
+}
 
 const ImageFeed = () => {
-  // TODO: correct type - when pulling from back end, set type to string[]
   const [images, setImages] = useState<Image[]>([]);
   const [sortField, setSortField] = useState<string>('id');
   const [sortOrder, setSortOrder] = useState(1);
@@ -102,10 +90,7 @@ const ImageFeed = () => {
   }
 
   function handleFieldChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    // const value: ImageField = `${e.currentTarget.value}`;
-    // console.log(e.currentTarget.value);
-    if ([event.currentTarget.value as ImageField])
-      setSortField(event.currentTarget.value);
+    setSortField(event.currentTarget.value);
   }
 
   return (
