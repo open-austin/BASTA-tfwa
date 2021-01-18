@@ -6,6 +6,10 @@ const StyledImageFeed = styled.div`
   max-width: 1600px;
   margin: 0 auto;
 
+  .filters label {
+    margin-right: 1rem;
+  }
+
   .change_order {
     position: relative;
     width: 2rem;
