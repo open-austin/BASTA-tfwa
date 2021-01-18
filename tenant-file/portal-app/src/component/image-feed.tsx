@@ -61,10 +61,21 @@ interface Image {
   download_url: string;
 }
 
+// enum ImageField {
+//   id,
+//   author,
+//   width,
+//   height,
+//   url,
+//   download_url,
+// }
+
+type ImageField = 'id' | 'author';
+
 const ImageFeed = () => {
   // TODO: correct type - when pulling from back end, set type to string[]
   const [images, setImages] = useState<Image[]>([]);
-  const [sortField, setSortField] = useState<keyof Image>('id');
+  const [sortField, setSortField] = useState<string>('id');
   const [sortOrder, setSortOrder] = useState(1);
   useEffect(() => {
     async function getImages() {
@@ -79,9 +90,9 @@ const ImageFeed = () => {
   function sortImages() {
     // Correct types here when incorperating images from back end
     const sortedImages = [...images].sort((a: Image, b: Image) => {
-      if (a[sortField] > b[sortField]) {
+      if (a[sortField as keyof Image] > b[sortField as keyof Image]) {
         return 1 * sortOrder;
-      } else if (a[sortField] < b[sortField]) {
+      } else if (a[sortField as keyof Image] < b[sortField as keyof Image]) {
         return -1 * sortOrder;
       } else {
         return 0;
@@ -90,40 +101,33 @@ const ImageFeed = () => {
     return sortedImages;
   }
 
+  function handleFieldChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    // const value: ImageField = `${e.currentTarget.value}`;
+    // console.log(e.currentTarget.value);
+    if ([event.currentTarget.value as ImageField])
+      setSortField(event.currentTarget.value);
+  }
+
   return (
     <StyledImageFeed sortOrder={sortOrder}>
       <div className="filters">
         <label htmlFor="sort_field">Sort by:</label>
         <select
           name="sort_field"
-          onChange={() => {
-            setSortField('author');
-          }}
+          onChange={handleFieldChange}
+          value={sortField}
         >
-          <option value="Date Added" selected>
-            Date Added
-          </option>
-          <option value="id">Id</option>
-          <option value="name">Name</option>
+          <option value={'id'}>Id</option>
+          <option value={'author'}>Author</option>
         </select>
-        <button className="change_order">
-          <i className="las la-angle-up"></i>
-          <i className="las la-angle-down"></i>
-        </button>
-
         <button
-          onClick={() => {
-            setSortField('author');
-          }}
-        >
-          Sort
-        </button>
-        <button
+          className="change_order"
           onClick={() => {
             setSortOrder(sortOrder * -1);
           }}
         >
-          Order
+          <i className="las la-angle-up"></i>
+          <i className="las la-angle-down"></i>
         </button>
       </div>
       <div className="grid">
