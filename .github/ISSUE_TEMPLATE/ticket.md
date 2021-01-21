@@ -2,7 +2,7 @@
 name: Ticket
 about: File a ticket for the project
 title: "[Dev] Ticket Name"
-labels: ''
+labels: Not Ready
 assignees: ''
 
 ---
