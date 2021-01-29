@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
+import { useMutation, gql } from '@apollo/client';
 
 const StyledFileUpload = styled.div`
   border: 8px dashed grey;
@@ -22,10 +23,26 @@ const StyledFileUpload = styled.div`
   }
 `;
 
+// Posssible query shape
+const UPLOAD_FILE = gql`
+  mutation SingleUpload($file: Upload!) {
+    singleUpload(file: $file) {
+      filename
+      mimetype
+      encoding
+    }
+  }
+`;
+
 const FileUpload = () => {
+  const [uploadFile, { data }] = useMutation(UPLOAD_FILE);
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
+    // uploadFile(acceptedFiles);
+    console.log(acceptedFiles);
+    window.alert(`uploading ${acceptedFiles[0].name}`);
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
@@ -36,7 +53,7 @@ const FileUpload = () => {
       >
         <input {...getInputProps()} />
         <i className="las la-cloud-upload-alt"></i>
-        <p>Drag & Drop or Click to Upload</p>
+        <p>Drag n Drop or Click to Upload</p>
       </StyledFileUpload>
     </>
   );
