@@ -133,7 +133,8 @@ const TenantList: React.FC = () => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          return <TenantTableCollapse row={row} key={row.original.id}/>        })}
+          return <TenantTableCollapse row={row} key={row.original.id} />
+        })}
       </tbody>
     </Table>
   );

@@ -16,6 +16,7 @@ export interface TenantListQuery_tenants_nodes_phones_images {
 export interface TenantListQuery_tenants_nodes_phones {
   __typename: "Phone";
   phoneNumber: string;
+  id: string;
   images: (TenantListQuery_tenants_nodes_phones_images | null)[] | null;
 }
 
