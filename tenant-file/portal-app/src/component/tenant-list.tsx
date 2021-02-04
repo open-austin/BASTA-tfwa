@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import { TenantListQuery } from "./__generated__/TenantListQuery";
+import { TenantListQuery } from "../types/TenantListQuery";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import axios from "axios";
