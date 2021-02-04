@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { useMutation, gql } from '@apollo/client';
 
 const StyledFileUpload = styled.div`
   border: 8px dashed grey;
@@ -24,18 +23,19 @@ const StyledFileUpload = styled.div`
 `;
 
 // Posssible query shape
-const UPLOAD_FILE = gql`
-  mutation SingleUpload($file: Upload!) {
-    singleUpload(file: $file) {
-      filename
-      mimetype
-      encoding
-    }
-  }
-`;
+// const UPLOAD_FILE = gql`
+//   mutation SingleUpload($file: Upload!) {
+//     singleUpload(file: $file) {
+//       filename
+//       mimetype
+//       encoding
+//     }
+//   }
+// `;
 
 const FileUpload = () => {
-  const [uploadFile, { data }] = useMutation(UPLOAD_FILE);
+  // state for file upload below
+  // const [uploadFile, { data }] = useMutation(UPLOAD_FILE);
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
     // uploadFile(acceptedFiles);
