@@ -19,6 +19,7 @@ const ImageGridStyles = styled.div`
 
 type TenantRow = {
   name: string;
+  id: string;
   phone: string;
   images: string[];
 };
@@ -32,9 +33,7 @@ const TenantTableCollapse = ({ row }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
-  // (RG) will be replaced by actual userId as dataset in each row
-  const mockUserIdNumber = "1234";
+  
   const onViewClick = (userId: string) => {
     history.push(`/dashboard/tenant/${userId}`);
   };
@@ -56,7 +55,7 @@ const TenantTableCollapse = ({ row }: Props) => {
         })}
         <td></td>
         <td>
-          <button onClick={() => onViewClick(mockUserIdNumber)}>View</button>
+          <button onClick={() => onViewClick(row.original.id)}>View</button>
         </td>
       </tr>
 

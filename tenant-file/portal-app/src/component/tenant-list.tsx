@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import { TenantListQuery } from "./__generated__/TenantListQuery";
+import { TenantListQuery } from "../types/TenantListQuery";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import axios from "axios";
@@ -13,6 +13,7 @@ const TENANT_QUERY = gql`
     tenants(order: { name: ASC }, where: { name: { contains: $name } }) {
       nodes {
         name
+        id
         phones {
           phoneNumber
           images {
@@ -42,6 +43,7 @@ const columns: Column<TenantRow>[] = [
 
 type TenantRow = {
   name: string;
+  id: string;
   phone: string;
   images: string[];
 };
@@ -66,6 +68,7 @@ const TenantList: React.FC = () => {
       if (node?.name && node?.phones[0].phoneNumber) {
         acc.push({
           name: node.name,
+          id: node.id,
           phone: node.phones[0].phoneNumber,
           images:
             node.phones[0].images
@@ -130,7 +133,7 @@ const TenantList: React.FC = () => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          return <TenantTableCollapse row={row} />;
+          return <TenantTableCollapse row={row} key={row.original.id} />
         })}
       </tbody>
     </Table>
