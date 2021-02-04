@@ -22,6 +22,7 @@ export interface TenantListQuery_tenants_nodes_phones {
 export interface TenantListQuery_tenants_nodes {
   __typename: "Tenant";
   name: string;
+  id: string;
   phones: TenantListQuery_tenants_nodes_phones[];
 }
 
