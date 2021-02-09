@@ -8,6 +8,7 @@ using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models;
 using TenantFile.Api.Models.Entities;
+using HotChocolate.Types.Relay;
 
 namespace TenantFile.Api.Tenants
 {
@@ -21,6 +22,6 @@ namespace TenantFile.Api.Tenants
     [HotChocolate.Data.UseSorting]
     public IQueryable<Tenant> GetTenants([ScopedService] TenantFileContext tenantContext) => tenantContext.Tenants.AsQueryable();
 
-    public Task<Tenant> GetTenantAsync(int id, TenantByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+    public Task<Tenant> GetTenantAsync([ID(nameof(Tenant))]int id, TenantByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
   }
 }
