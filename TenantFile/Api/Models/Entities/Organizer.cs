@@ -5,12 +5,12 @@ namespace TenantFile.Api.Models.Entities
 {
     public class Organizer
     {
-        
+
         public string Uid { get; set; } = null!;
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<Phone> Phones{ get; set; } = null!;
-        public virtual ICollection<Property> Properties { get; set; } = null!;
+        public ICollection<Phone> Phones { get; set; } = new List<Phone>();
+        public ICollection<Property> Properties { get; set; } = new List<Property>();
 
     }
 }

@@ -15,8 +15,8 @@ namespace TenantFile.Api.Models.Entities
         public DateTime MoveIn { get; set; }
         public DateTime MoveOut { get; set; }
 
-        public virtual Tenant Tenant { get; set; } = null!;
-        public virtual Residence Residence { get; set; } = null!;
+        public Tenant Tenant { get; set; } = null!;
+        public Residence Residence { get; set; } = null!;
 
     }
 
