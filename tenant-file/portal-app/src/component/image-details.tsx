@@ -37,24 +37,10 @@ const ImageDetails: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
         }
     });
 
-    /* if (loading) {
-        setTimeout(console.log("Data is " + data), 3000);
-    } */
+    if (loading) return null;
+    if (error) return <p>Error</p>;
 
-    if (!loading) {
-        console.log("Data done loading and value is " + data.tenant.name);
-    }
-
-    /* if (loading) return null;
-    if (error) return `Error! ${error}`; */
-
-
-
-    /* retrieveImage({
-        variables: {
-            id: match
-        }
-    }); */
+    console.log("Data done loading and value is " + data.tenant.name);
 
     return (
         <div>
@@ -63,17 +49,22 @@ const ImageDetails: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
             </style>
             <section>
                 This is the section.
+                <br></br>
                 Image: 
                 {/* {data.image.name} */}
                 {data.tenant.name}
+                <br></br>
                 Labels:
+                <br></br>
                 Image ID:
                 {match.params.id}
+                <br></br>
                 Date added:
                 [Download button]
             </section>
             <aside>
                 This is the aside.
+                <br></br>
                 [Image here]
             </aside>
         </div>
