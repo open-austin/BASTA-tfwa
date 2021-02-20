@@ -70,31 +70,31 @@ export default () => {
 
                 <h3 style={labelIndentation}>Address Info:</h3>
                 <label style={fieldIndentation} htmlFor="addrLn1">*Address - Line 1:</label>
-                <Field style={fieldIndentation} id="addrLn1" name="addrLn1" />
+                <Field id="addrLn1" name="addrLn1" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="addrLn2">Address - Line 2:</label>
-                <Field style={fieldIndentation} id="addrLn2" name="addrLn2" />
+                <Field id="addrLn2" name="addrLn2" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="addrLn3">Address - Line 3:</label>
-                <Field style={fieldIndentation} id="addrLn3" name="addrLn3" />
+                <Field id="addrLn3" name="addrLn3" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="addrLn4">Address - Line 4:</label>
-                <Field style={fieldIndentation} id="addrLn4" name="addrLn4" />
+                <Field id="addrLn4" name="addrLn4" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="city">*City:</label>
-                <Field style={fieldIndentation} id="city" name="city" />
+                <Field id="city" name="city" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="state">*State:</label>
-                <Field style={fieldIndentation} id="state" name="state" />
+                <Field id="state" name="state" />
                 <br></br>
                 <label style={fieldIndentation} htmlFor="zip">*Zip Code:</label>
-                <Field style={fieldIndentation} id="zip" name="zip" />
+                <Field id="zip" name="zip" />
                 <br></br>
                 <br></br>
 
                 <h3 style={labelIndentation}>Residence/Property Info:</h3>
                 <label style={fieldIndentation} htmlFor="bldgName">*Building Name:</label>
-                <Field style={fieldIndentation} id="bldgName" name="bldgName" />
+                <Field id="bldgName" name="bldgName" />
                 <br></br>
 
                 <button>Click Here to Submit</button>
