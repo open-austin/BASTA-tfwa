@@ -25,6 +25,14 @@ export default () => {
 
     const [addProperty] = useMutation(ADD_PROPERTY);
 
+    const fieldIndentation = {
+        textIndent: '3em'
+    };
+
+    const labelIndentation = {
+        textIndent: '50px'
+    };
+
     return <Formik
         initialValues={{
             addrLn1: '',
@@ -56,32 +64,37 @@ export default () => {
         }>
         {({ errors, touched, validateForm, validateField }) => (
             <Form>
-                <h1>Address Info:</h1>
-                <label htmlFor="addrLn1">*Address - Line 1:</label>
-                <Field id="addrLn1" name="addrLn1" />
-                <br></br>
-                <label htmlFor="addrLn2">Address - Line 2:</label>
-                <Field id="addrLn2" name="addrLn2" />
-                <br></br>
-                <label htmlFor="addrLn3">Address - Line 3:</label>
-                <Field id="addrLn3" name="addrLn3" />
-                <br></br>
-                <label htmlFor="addrLn4">Address - Line 4:</label>
-                <Field id="addrLn4" name="addrLn4" />
-                <br></br>
-                <label htmlFor="city">*City:</label>
-                <Field id="city" name="city" />
-                <br></br>
-                <label htmlFor="state">*State:</label>
-                <Field id="state" name="state" />
-                <br></br>
-                <label htmlFor="zip">*Zip Code:</label>
-                <Field id="zip" name="zip" />
+                <h1 style={labelIndentation}>Add a New Property or Complex to the Tenant File</h1>
+                <h4 style={labelIndentation}>Before adding a property, please make sure it hasn't already been added.</h4>
                 <br></br>
 
-                <h1>Residence/Property Info:</h1>
-                <label htmlFor="bldgName">Building Name:</label>
-                <Field id="bldgName" name="bldgName" />
+                <h3 style={labelIndentation}>Address Info:</h3>
+                <label style={fieldIndentation} htmlFor="addrLn1">*Address - Line 1:</label>
+                <Field style={fieldIndentation} id="addrLn1" name="addrLn1" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="addrLn2">Address - Line 2:</label>
+                <Field style={fieldIndentation} id="addrLn2" name="addrLn2" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="addrLn3">Address - Line 3:</label>
+                <Field style={fieldIndentation} id="addrLn3" name="addrLn3" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="addrLn4">Address - Line 4:</label>
+                <Field style={fieldIndentation} id="addrLn4" name="addrLn4" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="city">*City:</label>
+                <Field style={fieldIndentation} id="city" name="city" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="state">*State:</label>
+                <Field style={fieldIndentation} id="state" name="state" />
+                <br></br>
+                <label style={fieldIndentation} htmlFor="zip">*Zip Code:</label>
+                <Field style={fieldIndentation} id="zip" name="zip" />
+                <br></br>
+                <br></br>
+
+                <h3 style={labelIndentation}>Residence/Property Info:</h3>
+                <label style={fieldIndentation} htmlFor="bldgName">*Building Name:</label>
+                <Field style={fieldIndentation} id="bldgName" name="bldgName" />
                 <br></br>
 
                 <button>Click Here to Submit</button>
