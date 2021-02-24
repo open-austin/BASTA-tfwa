@@ -26,6 +26,18 @@ const ADD_PROPERTY = gql`
     }
 `;
 
+// We probably only want to validate the first address line, not lines 2 through 4.
+function ValidateAddress(addr: any) {
+    let error;
+    if(!addr) {
+        error = "Please enter an address. ";
+    }
+    if(!/^[0-9](.*)[a-zA-Z.]$/.test(addr)) {
+        error = "In the \"Address - Line 1\" field, please make sure to enter a street number and street name. "
+    }
+    return error;
+}
+
 export default () => {
 
     const [addProperty] = useMutation(ADD_PROPERTY);
@@ -51,19 +63,18 @@ export default () => {
         }}
         onSubmit={         
             async e => {
-                addProperty({
+                /* addProperty({
                     variables:
                     {
-                        /* fullName: e.firstName + " " + e.lastName,
-                        houseNumber: parseInt(e.houseNumber),
+                        fullName: e.firstName + " " + e.lastName,
                         street: e.street,
                         city: e.city,
                         state: e.state,
                         zip: parseInt(e.zip),
                         bldgName: e.bldgName,
-                        phoneNumber: e.phoneNumber */
+                        phoneNumber: e.phoneNumber
                     }
-                })
+                }) */
                 setTimeout(() => { }, 1000);
             }
         }>
@@ -81,7 +92,9 @@ export default () => {
 
                 <h3 style={labelIndentation}>Address Info:</h3>
                 <label style={{textIndent: '50px'}} htmlFor="addrLn1">*Address - Line 1:</label>
-                <Field id="addrLn1" name="addrLn1" />
+                <Field id="addrLn1" name="addrLn1" validate={ValidateAddress} />
+                {errors.addrLn1 && touched.addrLn1 && <div>{errors.addrLn1}</div>}
+                {console.log(errors.addrLn1)}
                 <br></br>
                 <label style={{textIndent: '54px'}} htmlFor="addrLn2">Address - Line 2:</label>
                 <Field id="addrLn2" name="addrLn2" />
