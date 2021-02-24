@@ -11,11 +11,29 @@ import { stringify } from "querystring";
 import { Console } from "console";
 //import SelectUSState from "react-select-us-states";
 import Select from "react-select";
+import styled from "styled-components";
 
 // Credit to the documentation for GraphQL, Apollo, and Formik
 // Credit to the "react-select" package: https://react-select.com/home
 // Credit to this list of states + DC: https://gist.github.com/pusherman/3145761
 
+const AddPropertyWrapper = styled.div`
+  margin: 2rem;
+`
+
+const FormContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-auto-flow: column;
+`
+
+const StyledInput = styled.input`
+  margin-bottom: 1rem;
+`
+
+const FormColumn = styled.div`
+  
+`
 
 const ADD_PROPERTY = gql`
     mutation addingAProperty($fullName: String!, $phoneNumber: String!, $houseNumber: Int!, $street: String!, $city: String!, $zip: Int!, $bldgName: String!) {
@@ -50,7 +68,7 @@ export default () => {
         textIndent: '50px'
     };
 
-    return <Formik
+    return <AddPropertyWrapper><Formik
         initialValues={{
             addrLn1: '',
             addrLn2: '',
@@ -85,12 +103,14 @@ export default () => {
                 <h6 style={labelIndentation}>Please do not include a unit/apartment number in the address fields.</h6>
                 <h6 style={labelIndentation}>Unit numbers can be entered in the addresses for specific Residences.</h6>
 
-                <h3 style={labelIndentation}>Property Info:</h3>
+                <FormContainer>
+                    <FormColumn>
+                    <h3 style={labelIndentation}>Property Info:</h3>
                 <label style={{textIndent: '61px'}} htmlFor="bldgName">*Building Name:</label>
                 <Field id="bldgName" name="bldgName" />
-                <br></br>
-
-                <h3 style={labelIndentation}>Address Info:</h3>
+                    </FormColumn>
+                    <FormColumn>
+                    <h3 style={labelIndentation}>Address Info:</h3>
                 <label style={{textIndent: '50px'}} htmlFor="addrLn1">*Address - Line 1:</label>
                 <Field id="addrLn1" name="addrLn1" validate={ValidateAddress} />
                 {errors.addrLn1 && touched.addrLn1 && <div>{errors.addrLn1}</div>}
@@ -106,7 +126,7 @@ export default () => {
                 <Field id="addrLn4" name="addrLn4" />
                 <br></br>
                 <label style={{textIndent: '137px'}} htmlFor="city">*City:</label>
-                <Field id="city" name="city" />
+                <Field id="city" name="city" component={StyledInput} />
                 <br></br>
                 <label style={{textIndent: '127px'}} htmlFor="state">*State:</label>
                 <Field as="select" id="state" name="state">
@@ -165,12 +185,18 @@ export default () => {
                 <br></br>
                 <label style={{textIndent: '99px'}} htmlFor="zip">*Zip Code:</label>
                 <Field id="zip" name="zip" />
+                    </FormColumn>
+                </FormContainer>
+                
+                <br></br>
+
+                
                 <br></br>
                 <br></br>
 
                 <button>Click Here to Submit</button>
             </Form>
         )}
-    </Formik>
+    </Formik></AddPropertyWrapper>
 }
 ReactDOM.render(<form />, document.getElementById('root'));
