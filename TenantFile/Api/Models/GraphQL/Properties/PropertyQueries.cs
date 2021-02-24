@@ -22,7 +22,7 @@ namespace TenantFile.Api.Models.Properties
         [UsePaging]
         [HotChocolate.Data.UseFiltering(typeof(PropertyFilterInputType))]
         [HotChocolate.Data.UseSorting]
-        public IQueryable<Property> GetProperties([ScopedService] TenantFileContext tenantContext) => tenantContext.Properties.AsQueryable();
+        public IQueryable<Property> GetProperties([ScopedService] TenantFileContext tenantContext) => tenantContext.Properties.AsQueryable().OrderBy(p => p.Name);
 
         public Task<Property> GetPropertyAsync([ID(nameof(Property))] int id, PropertyByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
 

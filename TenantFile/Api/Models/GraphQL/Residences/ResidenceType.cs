@@ -25,12 +25,12 @@ namespace TenantFile.Api.Models.Residences
                 .ResolveNode((ctx, id) => ctx.DataLoader<ResidenceByIdDataLoader>().LoadAsync(id, ctx.RequestAborted));
 
             descriptor.Field(r => r.Address)
-                      .ResolveWith<ResidenceResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                       .UseTenantContext<TenantFileContext>()
+                      .ResolveWith<ResidenceResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                       .Name("address");
             descriptor.Field(r => r.Property)
-                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!))
                       .UseTenantContext<TenantFileContext>()
+                      .ResolveWith<ResidenceResolvers>(r => r.GetPropertyAsync(default!, default!, default!))
                       .Name("property");
         }
     }

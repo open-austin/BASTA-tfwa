@@ -26,13 +26,13 @@ namespace TenantFile.Api.Models.Properties
 
             descriptor
                     .Field(p => p.Residences)
-                    .ResolveWith<PropertyResolvers>(r => r.GetResidencesAsync(default!, default!, default!, default!))
                     .UseTenantContext<TenantFileContext>()
+                    .ResolveWith<PropertyResolvers>(r => r.GetResidencesAsync(default!, default!, default!, default!))
                     .Name("residences");
             descriptor
                     .Field(p => p.Address)
-                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                     .UseTenantContext<TenantFileContext>()
+                    .ResolveWith<PropertyResolvers>(r => r.GetAddressAsync(default!, default!, default!))
                     .Name("address");
 
 

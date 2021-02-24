@@ -19,12 +19,20 @@ namespace TenantFile.Api.Models.Phones
   public class PhoneQueries
   {
 
+<<<<<<< Updated upstream
     [UseTenantFileContext]
     [UsePaging]
     [UseProjection]
     [HotChocolate.Data.UseFiltering(typeof(PhoneFilterInputType))]
     [HotChocolate.Data.UseSorting]
     public IQueryable<Phone> GetPhones([ScopedService] TenantFileContext tenantContext) => tenantContext.Phones.AsQueryable();
+=======
+        [UseTenantFileContext]
+        [UsePaging(typeof(NonNullType<PhoneType>))]
+        [HotChocolate.Data.UseFiltering(typeof(PhoneFilterInputType))]
+        [HotChocolate.Data.UseSorting]
+        public IQueryable<Phone> GetPhones([ScopedService] TenantFileContext tenantContext) => tenantContext.Phones.AsQueryable().OrderBy(p => p.PhoneNumber);
+>>>>>>> Stashed changes
 
     [UseTenantFileContext]
     public async Task<List<Phone>> GetTenantlessPhonesAsync(

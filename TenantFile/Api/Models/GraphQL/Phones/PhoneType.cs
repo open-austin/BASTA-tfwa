@@ -25,11 +25,26 @@ namespace TenantFile.Api.Models.Phones
             //   .ResolveNode((ctx, id) => ctx.DataLoader<DataLoaderById<Phone>>().LoadAsync(id, ctx.RequestAborted));
 
             descriptor
+<<<<<<< Updated upstream
                  .Field(p => p.Images)
                 .ResolveWith<PhoneResolvers>(r =>  r.GetImagesAsync(default!, default!, default!, default!))
+=======
+                .Field(p => p.Images)
+>>>>>>> Stashed changes
                 .UseTenantContext<TenantFileContext>()
+                .ResolveWith<PhoneResolvers>(r =>  r.GetImagesAsync(default!, default!, default!, default))
                 .Name("images");
+<<<<<<< Updated upstream
            
+=======
+            descriptor
+                .Field(p => p.Tenants)
+                .UseTenantContext<TenantFileContext>()
+                // .UsePaging<NonNullType<TenantType>>()//You can only use this on one of the 
+                .ResolveWith<PhoneResolvers>(r =>  r.GetTenantsAsync(default!, default!, default!, default))
+                .Name("tenants");
+         
+>>>>>>> Stashed changes
 
         }
     }

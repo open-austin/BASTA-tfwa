@@ -22,7 +22,7 @@ namespace TenantFile.Api.Models.Addresses
         [UsePaging]
         [HotChocolate.Data.UseFiltering(typeof(AddressFilterInputType))]
         [HotChocolate.Data.UseSorting]
-        public IQueryable<Address> GetAddresses([ScopedService] TenantFileContext tenantContext) => tenantContext.Addresses.AsQueryable();
+        public IQueryable<Address> GetAddresses([ScopedService] TenantFileContext tenantContext) => tenantContext.Addresses.AsQueryable().OrderBy(a => a.PostalCode);
 
         public Task<Address> GetAddressAsync([ID(nameof(Address))] int id, AddressByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
 
