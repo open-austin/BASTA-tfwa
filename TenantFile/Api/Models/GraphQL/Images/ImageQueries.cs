@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
+using HotChocolate.Types.Relay;
 using Microsoft.EntityFrameworkCore;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
@@ -23,6 +24,6 @@ namespace TenantFile.Api.Models.Images
         [HotChocolate.Data.UseSorting]
         public IQueryable<Image> GetImages([ScopedService] TenantFileContext tenantContext) => tenantContext.Images.AsNoTracking();
 
-        public Task<Image> GetImageAsync(int id, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+        public Task<Image> GetImageAsync([ID(nameof(Image))] int id, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
     }
 }

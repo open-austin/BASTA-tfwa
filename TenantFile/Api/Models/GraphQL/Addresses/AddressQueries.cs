@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models.Entities;
+using HotChocolate.Types.Relay;
 
 namespace TenantFile.Api.Models.Addresses
 {
@@ -23,7 +24,7 @@ namespace TenantFile.Api.Models.Addresses
         [HotChocolate.Data.UseSorting]
         public IQueryable<Address> GetAddresses([ScopedService] TenantFileContext tenantContext) => tenantContext.Addresses.AsQueryable();
 
-        public Task<Address> GetAddressAsync(int id, AddressByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
+        public Task<Address> GetAddressAsync([ID(nameof(Address))] int id, AddressByIdDataLoader dataLoader, CancellationToken cancellationToken) => dataLoader.LoadAsync(id, cancellationToken);
 
     }
 }
