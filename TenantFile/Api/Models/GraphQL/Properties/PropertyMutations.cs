@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Subscriptions;
 using HotChocolate.Types;
+using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models.Entities;
 using TenantFile.Api.Services;
+using TenantFile.Api.Models.Addresses;
 
 namespace TenantFile.Api.Models.Properties
 {
@@ -18,7 +20,7 @@ namespace TenantFile.Api.Models.Properties
         [UseTenantFileContext]
         public async Task<CreatePropertyPayload> CreateProperty(CreatePropertyInput input,
             [ScopedService] TenantFileContext context)
-       
+
         {
             var property = new Property
             {
@@ -41,9 +43,5 @@ namespace TenantFile.Api.Models.Properties
             return new CreatePropertyPayload(property);
         }
 
-        public Task<Address?> VerifyAddress([Service]IAddressVerificationService service, Address address)
-        {
-            return service.VerifyAddressAsync(address);
-        }
     }
 }

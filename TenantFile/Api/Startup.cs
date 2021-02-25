@@ -70,6 +70,7 @@ namespace TenantFile.Api
                   .AddType<PhoneMutations>()
                   .AddType<PropertyMutations>()
                   .AddType<ResidenceMutations>()
+                  .AddType<AddressMutations>()
               .AddQueryType(d => d.Name("Query"))
                   .AddType<TenantQueries>()
                   .AddType<PropertyQueries>()
