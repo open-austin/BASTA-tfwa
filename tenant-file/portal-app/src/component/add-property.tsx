@@ -33,10 +33,12 @@ const StyledInput = styled.input`
 `
 
 const ADD_PROPERTY = gql`
-    mutation addingAProperty($fullName: String!, $phoneNumber: String!, $houseNumber: Int!, $street: String!, $city: String!, $zip: Int!, $bldgName: String!) {
-        createProperty(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, houseNumber: $houseNumber, street: $street, city: $city, zipCode: $zip, propertyName: $bldgName })
+    mutation addingAProperty($bldgName: String!, $addrLn1: String!, $addrLn2: String!, $addrLn3: String!, $addrLn4: String!, $city: String!, $state: String!, $zip: String!) {
+        createProperty(input: { name: $bldgName, addressInput: { line1: $addrLn1, line2: $addrLn2, line3: $addrLn3, line4: $addrLn4, city: $city, state: $state, postalCode: $zip } })
         {
+            payload {
                 name
+            }
         }
     }
 `;
@@ -70,19 +72,21 @@ export default () => {
         }}
         onSubmit={         
             async e => {
-                /* addProperty({
+                addProperty({
                     variables:
                     {
-                        fullName: e.firstName + " " + e.lastName,
-                        street: e.street,
+                        addrLn1: e.addrLn1,
+                        addrLn2: e.addrLn2,
+                        addrLn3: e.addrLn3,
+                        addrLn4: e.addrLn4,
                         city: e.city,
                         state: e.state,
-                        zip: parseInt(e.zip),
-                        bldgName: e.bldgName,
-                        phoneNumber: e.phoneNumber
+                        zip: e.zip,
+                        bldgName: e.bldgName
                     }
-                }) */
+                }).catch(x => console.log(x))
                 setTimeout(() => { }, 1000);
+                console.log("addrLn1 is: " + e.addrLn1)
             }
         }>
         {({ errors, touched, validateForm, validateField }) => (
@@ -96,23 +100,23 @@ export default () => {
                     <FormColumn>
                         <h3 style={labelIndentation}>Property Info:</h3>
                         <label style={{textIndent: '61px'}} htmlFor="bldgName">*Building Name:</label>
-                        <Field id="bldgName" name="bldgName" component={StyledInput} validate={ValidateRequiredField} />
+                        <Field id="bldgName" name="bldgName" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
                     </FormColumn>
                     <FormColumn>
                         <h3 style={labelIndentation}>Address Info:</h3>
                         <label style={{textIndent: '50px'}} htmlFor="addrLn1">*Address - Line 1:</label>
-                        <Field id="addrLn1" name="addrLn1" component={StyledInput} validate={ValidateRequiredField} />
+                        <Field id="addrLn1" name="addrLn1" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
                         {errors.addrLn1 && touched.addrLn1 && <div>{errors.addrLn1}</div>}
                         <label style={{textIndent: '54px'}} htmlFor="addrLn2">Address - Line 2:</label>
-                        <Field id="addrLn2" name="addrLn2" component={StyledInput} />
+                        <Field id="addrLn2" name="addrLn2" /* component={StyledInput} */ />
                         <label style={{textIndent: '53px'}} htmlFor="addrLn3">Address - Line 3:</label>
-                        <Field id="addrLn3" name="addrLn3" component={StyledInput} />
+                        <Field id="addrLn3" name="addrLn3" /* component={StyledInput} */ />
                         <label style={{textIndent: '53px'}} htmlFor="addrLn4">Address - Line 4:</label>
-                        <Field id="addrLn4" name="addrLn4" component={StyledInput} />
+                        <Field id="addrLn4" name="addrLn4" /* component={StyledInput} */ />
                         <label style={{textIndent: '137px'}} htmlFor="city">*City:</label>
-                        <Field id="city" name="city" component={StyledInput} validate={ValidateRequiredField} />
+                        <Field id="city" name="city" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
                         <label style={{textIndent: '127px'}} htmlFor="state">*State:</label>
-                        <Field as="select" id="state" name="state" validate={ValidateRequiredField}>
+                        <Field as="select" id="state" name="state" /* validate={ValidateRequiredField} */>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -166,11 +170,13 @@ export default () => {
                             <option value="WY">Wyoming</option>
                         </Field>
                         <label style={{textIndent: '99px'}} htmlFor="zip">*Zip Code:</label>
-                        <Field id="zip" name="zip" component={StyledInput} validate={ValidateRequiredField} />
+                        <Field id="zip" name="zip" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
+
+                        <button>Click Here to Submit</button>
                     </FormColumn>
                 </FormContainer>
 
-                <button>Click Here to Submit</button>
+                
             </Form>
         )}
     </Formik></AddPropertyWrapper>
