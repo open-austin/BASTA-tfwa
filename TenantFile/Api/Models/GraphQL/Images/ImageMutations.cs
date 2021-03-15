@@ -13,19 +13,37 @@ namespace TenantFile.Api.Models.Images
     [ExtendObjectType(Name = "Mutation")]
     public class ImageMutations
     {/// <summary>
-    /// Intended for use by Organizer uploading Images via dashboard, not for SMS/Twilio uploads
-    /// </summary>
-    /// <param name="input"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
+     /// Intended for use by Organizer uploading Images via dashboard, not for SMS/Twilio uploads
+     /// The relationshiup of the image and the residence is implied as of 2/11 would need to add a Property on the image or Residence Entity
+     /// </summary>
+     /// <param name="input"></param>
+     /// <param name="context"></param>
+     /// <returns></returns>
         [UseTenantFileContext]
 
         public async Task<AddImagePayload> AddImageAsync(
         AddImageInput input,
         [ScopedService] TenantFileContext context)
         {
-            var image = new Image{ Name = input.FileName };
+            var (fileName, thumb, tenantId, residenceId, labels) = input;
+
+            var image = new Image
+            {
+                Name = fileName,
+                Labels = labels,
+                ThumbnailName = thumb,
+
+            };
             context.Images.Add(image);
+            
+            var phones
+             = context.Phones.AsQueryable()
+                .Where(p => p.Tenants.Select(t => t.Id).Contains(tenantId)).ToList();
+                phones.ForEach(p => p.Images.Add(image));
+
+
+
+
             await context.SaveChangesAsync();
             return new AddImagePayload(image);
         }

@@ -14,6 +14,6 @@ namespace TenantFile.Api.Models.Entities
         public int? ResidenceId { get; set; }
         public Residence? CurrentResidence { get; set; }
 
-        public virtual ICollection<Phone> Phones { get; set; } = null!;
+        public ICollection<Phone> Phones { get; set; } = new List<Phone>();
     }
 }
