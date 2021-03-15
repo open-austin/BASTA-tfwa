@@ -1,13 +1,17 @@
-﻿using TenantFile.Api.Models.Entities;
+﻿using HotChocolate.Types.Relay;
+using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Images
 {
     public record AddImageInput(
         string FileName,
-        Tenant Tenant,
-        Residence Residence,
+        string ThumbnailName,
+        [ID(nameof(Tenant))]
+        int Tenant,
+        [ID(nameof(Residence))]
+        int Residence,
         ImageLabel[] Labels
 
         );
-  
+
 }

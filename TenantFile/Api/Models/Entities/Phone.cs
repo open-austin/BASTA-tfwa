@@ -8,12 +8,12 @@ namespace TenantFile.Api.Models.Entities
 {
     public class Phone : IEntity
     {
-        
+
         public int Id { get; set; }
         public string PhoneNumber { get; set; } = null!;
 
-        public virtual ICollection<Tenant> Tenants { get; set; } = null!;
-        public virtual ICollection<Image> Images { get; set; } = null!;
+        public ICollection<Tenant> Tenants { get; set; } = new List<Tenant>();
+        public ICollection<Image> Images { get; set; } = new List<Image>();
 
     }
 }

@@ -61,20 +61,20 @@ Most team members use the following tools. Required tools are noted.
 - dotnet: Required to compile and run the API. Download [here](https://dotnet.microsoft.com/download)
 - nvm: A highly recommended version manager for node. Download [here](https://github.com/nvm-sh/nvm)
   - If you don't use nvm, then acquiring node directly is required. Download [here](https://nodejs.org/en/download/)
+
+Development on the backend requires:
+- Docker: Used for having a more easily setup postgres development environment. Install from [here](https://docs.docker.com/get-docker/)
 - gcloud: A recommended tool to interact with the google cloud platform. Instruction to install are [here](https://cloud.google.com/sdk/docs#install_the_latest_cloud_tools_version_cloudsdk_current_version)
+
+## Running the Server Locally
+
+You will need a database running locally for the server to connect to. You can run the local server by executing the `./startup.sh` script in the `local-development` folder.
 
 ## Google Cloud Account
 
 You will need a Google Cloud account to interact with several services that we use (primarily the database). 
 
 Once you have a Google Cloud account, follow the instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set up local application credentials. This is currently necessary to run the API.
-
-## Connecting to the Google Cloud Dev Postgres instance
-
-1. Install the proxy according to your OS: https://cloud.google.com/sql/docs/postgres/connect-external-app#install
-1. Make sure you have properly set up your `GOOGLE_APPLICATION_CREDENTIALS` environment variable
-1. Start the proxy with `./cloud_sql_proxy -instances=tenant-file-fc6de:us-central1:tx-tenant-dev=tcp:5432`
-1. You should be able to access the database at 127.0.0.1:5432 now
 
 ## Database Migrations
 

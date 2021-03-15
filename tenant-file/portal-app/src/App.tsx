@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -12,8 +12,8 @@ import Admin from "./component/admin";
 import Dashboard from "./component/dashboard";
 import Properties from "./component/properties";
 import Home from "./component/home";
-import TenantDetails from "./component/tenant-details";
-import ImageDetails from "./component/image-details";
+import TenantDetails from './component/tenant-details';
+import FileUpload from './component/file-upload';
 import AddProperty from "./component/add-property";
 
 function App() {
@@ -47,6 +47,9 @@ function App() {
         </Route>
         <Route path="/home">
           <Home />
+        </Route>
+        <Route exact path="/upload">
+          <FileUpload />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
