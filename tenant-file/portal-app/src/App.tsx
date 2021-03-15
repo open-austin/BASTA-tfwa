@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
-import { Switch, Route, Redirect } from "react-router-dom";
-import Login from "./component/login";
-import Layout from "./component/layout";
-import PrivateRoute from "./component/private-route";
-import DisplayImages from "./component/display-images";
-import Admin from "./component/admin";
-import Dashboard from "./component/dashboard";
-import Properties from "./component/properties";
-import Home from "./component/home";
-import TenantDetails from "./component/tenant-details";
-import ImageDetails from "./component/image-details";
-import AddProperty from "./component/add-property";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Login from './component/login';
+import Layout from './component/layout';
+import PrivateRoute from './component/private-route';
+import DisplayImages from './component/display-images';
+import Admin from './component/admin';
+import Dashboard from './component/dashboard';
+import Properties from './component/properties';
+import Home from './component/home';
+import TenantDetails from './component/tenant-details';
+import FileUpload from './component/file-upload';
+import AddProperty from './component/add-property';
 
 function App() {
   return (
@@ -34,11 +34,6 @@ function App() {
           path="/dashboard/tenant/:id"
           component={TenantDetails}
         ></PrivateRoute>
-        <PrivateRoute
-          path="/image/:id"
-          //path="/image"
-          component={ImageDetails}
-        ></PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>
@@ -47,6 +42,9 @@ function App() {
         </Route>
         <Route path="/home">
           <Home />
+        </Route>
+        <Route exact path="/upload">
+          <FileUpload />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
