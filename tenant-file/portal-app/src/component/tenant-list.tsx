@@ -23,7 +23,6 @@ const TENANT_QUERY = gql`
         }
       }
     }
-  }
 `;
 
 const columns: Column<TenantRow>[] = [
@@ -64,14 +63,14 @@ const TenantList: React.FC = () => {
   });
   console.log("ROWDATA", loading, error, data);
   const rowData =
-    data?.tenants?.nodes?.reduce((acc, node) => {
-      if (node?.name && node?.phones[0].phoneNumber) {
+    data?.tenants?.nodes?.reduce((acc, curr) => {
+      if (curr?.name && curr?.phones[0].phoneNumber) {
         acc.push({
-          name: node.name,
-          id: node.id,
-          phone: node.phones[0].phoneNumber,
+          name: curr.name,
+          id: curr.id,
+          phone: curr.phones[0].phoneNumber,
           images:
-            node.phones[0].images
+            curr.phones[0].images
               ?.filter((x) => x)
               .map((x) => x!.thumbnailName) ?? [],
         });

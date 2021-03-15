@@ -30,6 +30,7 @@
     "react-redux-firebase": "^3.7.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-select": "^4.1.0",
     "react-spinners": "^0.8.3",
     "react-table": "^7.5.0",
     "reactstrap": "^8.4.1",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-select": "^4.0.13",
     "@types/react-table": "^7.0.20",
     "miragejs": "^0.1.36"
   }

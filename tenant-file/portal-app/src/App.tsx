@@ -13,6 +13,8 @@ import Dashboard from "./component/dashboard";
 import Properties from "./component/properties";
 import Home from "./component/home";
 import TenantDetails from "./component/tenant-details";
+import ImageDetails from "./component/image-details";
+import AddProperty from "./component/add-property";
 
 function App() {
   return (
@@ -32,6 +34,11 @@ function App() {
           path="/dashboard/tenant/:id"
           component={TenantDetails}
         ></PrivateRoute>
+        <PrivateRoute
+          path="/image/:id"
+          //path="/image"
+          component={ImageDetails}
+        ></PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>
@@ -43,6 +50,9 @@ function App() {
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+        </Route>
+        <Route path="/add-property">
+          <AddProperty />
         </Route>
       </Switch>
     </Layout>
