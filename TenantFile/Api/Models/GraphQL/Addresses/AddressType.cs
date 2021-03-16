@@ -26,7 +26,6 @@ namespace TenantFile.Api.Models.Addresses
     public class AddressResolvers
     {
         public async Task<Address> GetAddress(Address address,
-            //[ScopedService] TenantFileContext context,
             AddressByIdDataLoader dataLoader,
             CancellationToken cancellationToken)
         {

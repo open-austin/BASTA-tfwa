@@ -12,11 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using TenantFile.Api.Models;
 using TenantFile.Api.Services;
-using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Voyager;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using TenantFile.Api.Models.Tenants;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Tenants;
@@ -26,30 +24,20 @@ using TenantFile.Api.Models.Residences;
 using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Addresses;
 using HotChocolate.Execution.Options;
-using TenantFile.Api.Models.Entities;
-//using TenantFile.Api.Models.ImageLabels;
+using Npgsql;
 
 namespace TenantFile.Api
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
+    public Startup(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IConfiguration configuration)
     {
       Configuration = configuration;
-
-      var connectionString =
-          new NpgsqlConnectionStringBuilder(
-              Configuration["LocalSQL:ConnectionString"])
-          {
-            // Connecting to a local proxy that does not support ssl.
-            SslMode = SslMode.Disable
-          };
-      NpgsqlConnection connection =
-          new NpgsqlConnection(connectionString.ConnectionString);
+      _currentEnvironment = env;
     }
 
-
     public IConfiguration Configuration { get; }
+    private readonly IWebHostEnvironment _currentEnvironment;
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -59,8 +47,21 @@ namespace TenantFile.Api
         Credential = Google.Apis.Auth.OAuth2.GoogleCredential.GetApplicationDefault()
       });
       services.AddScoped<TenantFileContext>();
-      services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(Configuration["LocalSQL:ConnectionString"])
-              //.UseSnakeCaseNamingConvention()
+
+      // If we are in development, we want to use our dockerized postgres which has known parameters.
+      // Otherwise, we use the connection that will be fed to us by gcloud (don't question the name, we'll fix that
+      // later
+      // TODO: Get a better configuration name
+      var connectionString = "";
+      if (_currentEnvironment.IsDevelopment())
+      {
+        connectionString = "Server=127.0.0.1; Port=5432; User Id=postgres; Password=example";
+      } else if (_currentEnvironment.IsProduction())
+      {
+        connectionString = Configuration["LocalSQL:ConnectionString"];
+      }
+
+      services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(connectionString)
               .LogTo(Console.WriteLine, LogLevel.Information))
         .AddGraphQLServer()
               .AddApolloTracing(TracingPreference.Always)
@@ -70,6 +71,7 @@ namespace TenantFile.Api
                   .AddType<PhoneMutations>()
                   .AddType<PropertyMutations>()
                   .AddType<ResidenceMutations>()
+                  .AddType<AddressMutations>()
               .AddQueryType(d => d.Name("Query"))
                   .AddType<TenantQueries>()
                   .AddType<PropertyQueries>()
@@ -104,33 +106,6 @@ namespace TenantFile.Api
       services.AddSingleton<IAddressVerificationService>(s => new AddressVerificationService(Configuration["USPSUserName"]));
       services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
       services.AddCors();
-
-      #region old commentted code  
-      // services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
-      //    builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
-      //                                 "http://localhost:3000",
-      //                                 "http://api.tfwa.jacobcasper.com",
-      //                                 "http://tfwa.jacobcasper.com",
-      //                                 "https://api.tfwa.jacobcasper.com",
-      //                                 "https://tfwa.jacobcasper.com")
-      //     .AllowAnyMethod()
-      //     .AllowAnyHeader().AllowCredentials()));
-      // services.AddCors(options =>
-      // {
-      //     options.AddDefaultPolicy(
-      //         builder =>
-      //         {
-      //             builder.WithOrigins("https://tenant-file-fc6de.firebaseapp.com",
-      //                                 "http://localhost:3000",
-      //                                 "http://api.tfwa.jacobcasper.com",
-      //                                 "http://tfwa.jacobcasper.com",
-      //                                 "https://api.tfwa.jacobcasper.com",
-      //                                 "https://tfwa.jacobcasper.com")
-      //                                 .AllowAnyMethod()
-      //                                 .AllowAnyHeader();
-      //         });
-      // });
-      #endregion
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       .AddJwtBearer(options =>
@@ -183,21 +158,9 @@ namespace TenantFile.Api
 
       app.UseEndpoints(endpoints =>
       {
-        // endpoints.MapGet("/", async context =>
-        // {
-        //     var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
-        //     await context.Response.WriteAsync($"Hello {target}!\n");
-        // });
-
         endpoints.MapGraphQL(); //replaces app.UseGraphQL()
 
-        endpoints.MapGet("/", context =>
-       {
-
-         //await context.WebSockets.AcceptWebSocketAsync();  
-         //context.Response.Redirect("/playground");
-         return Task.CompletedTask;
-       });
+        endpoints.MapGet("/", context => Task.CompletedTask);
         endpoints.MapControllers();
       });
     }

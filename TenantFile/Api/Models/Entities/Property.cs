@@ -5,16 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using TenantFile.Api.Common;
 using TenantFile.Api.Models.Entities;
 
-namespace TenantFile.Api.Models.Entities    
+namespace TenantFile.Api.Models.Entities
 {
     public class Property : IEntity
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int AddressId { get; set; } 
-        public virtual Address Address { get; set; } = null!;
+        public int AddressId { get; set; }
+        public Address Address { get; set; } = null!;
 
-        public virtual ICollection<Residence> Residences { get; set; } = null!;
+        public ICollection<Residence> Residences { get; set; } = new List<Residence>();
         //public virtual Complex Complex { get; set; } = null!;
     }
 }
