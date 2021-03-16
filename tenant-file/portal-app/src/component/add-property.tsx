@@ -2,17 +2,15 @@ import React from "react";
 
 import ReactDOM from "react-dom";
 
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form } from "formik";
 
-import { gql, useMutation } from '@apollo/client'
-import { Input } from "reactstrap";
-import { fieldNameFromStoreName } from "@apollo/client/cache/inmemory/helpers";
-import { stringify } from "querystring";
-import { Console } from "console";
+import { gql, useMutation } from '@apollo/client';
+
 import styled from "styled-components";
 
 // Credit to the documentation for GraphQL, Apollo, and Formik
 // Credit to this list of states + DC: https://gist.github.com/pusherman/3145761
+
 
 const AddPropertyWrapper = styled.div`
   margin: 2rem;
@@ -28,10 +26,6 @@ const FormColumn = styled.div`
   
 `
 
-const StyledInput = styled.input`
-  margin-bottom: 0.5rem;
-`
-
 const ADD_PROPERTY = gql`
     mutation addingAProperty($bldgName: String!, $addrLn1: String!, $addrLn2: String!, $addrLn3: String!, $addrLn4: String!, $city: String!, $state: String!, $zip: String!) {
         createProperty(input: { name: $bldgName, addressInput: { line1: $addrLn1, line2: $addrLn2, line3: $addrLn3, line4: $addrLn4, city: $city, state: $state, postalCode: $zip } })
@@ -43,13 +37,13 @@ const ADD_PROPERTY = gql`
     }
 `;
 
-function ValidateRequiredField(input: any) {
+/* function ValidateRequiredField(input: any) {
     let error;
     if(!input) {
         error = "Please enter an input. ";
     }
     return error;
-}
+} */
 
 export default () => {
 
@@ -176,9 +170,9 @@ export default () => {
                     </FormColumn>
                 </FormContainer>
 
-                
+
             </Form>
         )}
     </Formik></AddPropertyWrapper>
 }
-ReactDOM.render(<form />, document.getElementById('root'));
+ReactDOM.render(<form />, document.getElementById('root')); 
