@@ -14,6 +14,8 @@ import Properties from './component/properties';
 import Home from './component/home';
 import TenantDetails from './component/tenant-details';
 import FileUpload from './component/file-upload';
+import AddProperty from './component/add-property';
+
 
 function App() {
   return (
@@ -47,6 +49,9 @@ function App() {
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+        </Route>
+        <Route path="/add-property">
+          <AddProperty />
         </Route>
       </Switch>
     </Layout>
