@@ -1,0 +1,71 @@
+{
+  "name": "tenant-file-portal",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.3.6",
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@reduxjs/toolkit": "^1.3.6",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/reactstrap": "^8.4.2",
+    "@types/styled-components": "^5.1.3",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "firebase": "^7.14.3",
+    "formik": "^2.1.4",
+    "graphql": "^15.3.0",
+    "line-awesome": "^1.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-dropzone": "^11.2.4",
+    "react-firebaseui": "^4.1.0",
+    "react-redux": "^7.2.0",
+    "react-redux-firebase": "^3.7.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-select": "^4.1.0",
+    "react-spinners": "^0.8.3",
+    "react-table": "^7.5.0",
+    "reactstrap": "^8.4.1",
+    "redux-logger": "^3.0.6",
+    "styled-components": "^5.1.1",
+    "subscriptions-transport-ws": "^0.9.17",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.ts*",
+    "generate": "apollo client:codegen ./src/types --target=typescript --localSchemaFile=graphql-schema.json --outputFlat"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-select": "^4.0.13",
+    "@types/react-table": "^7.0.20",
+    "miragejs": "^0.1.36"
+  }
+}
