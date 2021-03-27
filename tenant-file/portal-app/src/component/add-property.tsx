@@ -37,14 +37,6 @@ const ADD_PROPERTY = gql`
     }
 `;
 
-/* function ValidateRequiredField(input: any) {
-    let error;
-    if(!input) {
-        error = "Please enter an input. ";
-    }
-    return error;
-} */
-
 export default () => {
 
     const [addProperty] = useMutation(ADD_PROPERTY);
@@ -94,23 +86,23 @@ export default () => {
                     <FormColumn>
                         <h3 style={labelIndentation}>Property Info:</h3>
                         <label style={{textIndent: '61px'}} htmlFor="bldgName">*Building Name:</label>
-                        <Field id="bldgName" name="bldgName" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
+                        <Field id="bldgName" name="bldgName" />
                     </FormColumn>
                     <FormColumn>
                         <h3 style={labelIndentation}>Address Info:</h3>
                         <label style={{textIndent: '50px'}} htmlFor="addrLn1">*Address - Line 1:</label>
-                        <Field id="addrLn1" name="addrLn1" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
+                        <Field id="addrLn1" name="addrLn1" />
                         {errors.addrLn1 && touched.addrLn1 && <div>{errors.addrLn1}</div>}
                         <label style={{textIndent: '54px'}} htmlFor="addrLn2">Address - Line 2:</label>
-                        <Field id="addrLn2" name="addrLn2" /* component={StyledInput} */ />
+                        <Field id="addrLn2" name="addrLn2" />
                         <label style={{textIndent: '53px'}} htmlFor="addrLn3">Address - Line 3:</label>
-                        <Field id="addrLn3" name="addrLn3" /* component={StyledInput} */ />
+                        <Field id="addrLn3" name="addrLn3" />
                         <label style={{textIndent: '53px'}} htmlFor="addrLn4">Address - Line 4:</label>
-                        <Field id="addrLn4" name="addrLn4" /* component={StyledInput} */ />
+                        <Field id="addrLn4" name="addrLn4" />
                         <label style={{textIndent: '137px'}} htmlFor="city">*City:</label>
-                        <Field id="city" name="city" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
+                        <Field id="city" name="city" />
                         <label style={{textIndent: '127px'}} htmlFor="state">*State:</label>
-                        <Field as="select" id="state" name="state" /* validate={ValidateRequiredField} */>
+                        <Field as="select" id="state" name="state" />
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -164,7 +156,7 @@ export default () => {
                             <option value="WY">Wyoming</option>
                         </Field>
                         <label style={{textIndent: '99px'}} htmlFor="zip">*Zip Code:</label>
-                        <Field id="zip" name="zip" /* component={StyledInput} */ /* validate={ValidateRequiredField} */ />
+                        <Field id="zip" name="zip" />
 
                         <button>Click Here to Submit</button>
                     </FormColumn>
