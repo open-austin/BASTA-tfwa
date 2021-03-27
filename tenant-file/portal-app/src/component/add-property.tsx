@@ -102,7 +102,7 @@ export default () => {
                         <label style={{textIndent: '137px'}} htmlFor="city">*City:</label>
                         <Field id="city" name="city" />
                         <label style={{textIndent: '127px'}} htmlFor="state">*State:</label>
-                        <Field as="select" id="state" name="state" />
+                        <Field as="select" id="state" name="state">
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
