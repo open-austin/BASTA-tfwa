@@ -167,4 +167,3 @@ export default () => {
         )}
     </Formik></AddPropertyWrapper>
 }
-ReactDOM.render(<form />, document.getElementById('root'));
