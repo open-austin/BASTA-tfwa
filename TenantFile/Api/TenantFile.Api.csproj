@@ -66,8 +66,6 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
-    <PackageReference Include="Twilio" Version="5.50.0" />
-    <PackageReference Include="Twilio.AspNet.Core" Version="5.37.2" />
     <PackageReference Include="HotChocolate" Version="11.0.9" />
     <PackageReference Include="HotChocolate.Subscriptions" Version="11.0.9" />
   </ItemGroup>
