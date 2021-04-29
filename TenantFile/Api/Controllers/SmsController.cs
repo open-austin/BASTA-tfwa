@@ -142,7 +142,7 @@ namespace TenantFile.Api.Controllers
                     newPhone = newPhone,
                     type = flowType,
                     name = GetNamesForPhone(phone),
-                    hasWRR = await HasLabel(phone, "written request for repairs")
+                    hasWRR = await HasLabel(phone, "written request for repairs").ConfigureAwait(false)
 
                 });
             }
@@ -200,7 +200,7 @@ namespace TenantFile.Api.Controllers
         {
             var image = await Google.Cloud.Vision.V1.Image.FetchFromUriAsync(uri);//is image not avalible?  
             var client = ImageAnnotatorClient.Create();
-            var imageLables = new List<ImageLabel>();
+            var imageLabels = new List<ImageLabel>();
 
             //definitions for safe-search
             //https://cloud.google.com/vision/docs/reference/rpc/google.cloud.vision.v1?hl=it#google.cloud.vision.v1.SafeSearchAnnotation 
@@ -220,7 +220,7 @@ namespace TenantFile.Api.Controllers
                     {
                         if (annotation.Description != null)
                         {
-                            imageLables.Add(new ImageLabel("GCPImageAnnotator", annotation.Description, annotation.Score));
+                            imageLabels.Add(new ImageLabel("GCPImageAnnotator", annotation.Description, annotation.Score));
                         }
                     }
                 }
@@ -228,24 +228,24 @@ namespace TenantFile.Api.Controllers
                 else if (completedTask == safeResponse)
                 {
 
-                    imageLables.Add(new ImageLabel("SafeSearch Adult", safeResponse.Result.Adult.ToString()));
-                    imageLables.Add(new ImageLabel("SafeSearch Violence", safeResponse.Result.Violence.ToString()));
-                    imageLables.Add(new ImageLabel("SafeSearch Spoof", safeResponse.Result.Spoof.ToString()));
-                    imageLables.Add(new ImageLabel("SafeSearch Racy", safeResponse.Result.Racy.ToString()));
-                    imageLables.Add(new ImageLabel("SafeSearch Medical", safeResponse.Result.Medical.ToString()));
+                    imageLabels.Add(new ImageLabel("SafeSearch Adult", safeResponse.Result.Adult.ToString()));
+                    imageLabels.Add(new ImageLabel("SafeSearch Violence", safeResponse.Result.Violence.ToString()));
+                    imageLabels.Add(new ImageLabel("SafeSearch Spoof", safeResponse.Result.Spoof.ToString()));
+                    imageLabels.Add(new ImageLabel("SafeSearch Racy", safeResponse.Result.Racy.ToString()));
+                    imageLabels.Add(new ImageLabel("SafeSearch Medical", safeResponse.Result.Medical.ToString()));
                 }
                 visionTasks.Remove(completedTask);
             }
-            var labelDefs = imageLables.Select(l => l.Label);
+            var labelDefs = imageLabels.Select(l => l.Label);
             if (labelDefs.Contains("Text") || labelDefs.Contains("Document"))
             {
                 var textResponse = await client.DetectDocumentTextAsync(image);
-                imageLables.AddRange(FindWordsFromOCR(textResponse, keyWords));
-                imageLables.AddRange(FindPhrasesFromOCR(textResponse, keyPhrases));
+                imageLabels.AddRange(FindWordsFromOCR(textResponse, keyWords));
+                imageLabels.AddRange(FindPhrasesFromOCR(textResponse, keyPhrases));
 
             }
 
-            return imageLables;
+            return imageLabels;
         }
 
         //TODO: stil to implement, need bucket for sequestered content, delete,send custom message though Twilio 
@@ -301,19 +301,25 @@ namespace TenantFile.Api.Controllers
         {
             return System.IO.Path.GetFileName(mediaUrl) + MimeTypeMap.GetExtension(contentType);
         }
-        string SetFlowType(IEnumerable<string> lables) =>
+        string SetFlowType(IEnumerable<string> labels) =>
 
-            lables switch
+            labels switch
             {
                 IEnumerable<string> s when
                  s.Contains("Written Request for Repairs",
                   StringComparer.InvariantCultureIgnoreCase)
                     => "wrr",
                 IEnumerable<string> s when s.Any() => "img",
-        //default: return "No images were attached or we could not identify the image. Please try again";
-        _ => "noImg"
+                //default: return "No images were attached or we could not identify the image. Please try again";
+                _ => "noImg"
             };
 
+        /// <summary>
+        /// If from param is found in the database, return true and assign found phone entity to the out variable
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="from"></param>
+        /// <returns></returns>
         bool TryGetPhoneEntity(out Phone phone, string from)
         {
             var newPhone = false;
@@ -347,12 +353,12 @@ namespace TenantFile.Api.Controllers
                                    .SelectMany(p => p.Tenants.Select(i => i.Name.Split().FirstOrDefault()))));
         }
 
-        Task<bool> HasLabel(Phone phone, string lable)
+        Task<bool> HasLabel(Phone phone, string label)
         {
-            var lableList = context.Phones.AsQueryable().Include(p => p.Images)
+            var labelList = context.Phones.AsQueryable().Include(p => p.Images)
                                    .Where(p => p.Id == phone.Id)
                                    .SelectMany(p => p.Images.SelectMany(i => i.Labels!.Select(l => l.Label.ToLower())));
-            return lableList.ContainsAsync(lable);
+            return labelList.ContainsAsync(label);
         }
 
     }
