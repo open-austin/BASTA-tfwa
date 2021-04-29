@@ -65,12 +65,14 @@ namespace TenantFile.Api.Models.Phones
             CancellationToken cancellationToken)
         {
             int[] tenantIds = await context.Phones.AsQueryable()
+
                                          .Where(p => p.Id == phone.Id)
                                          //.Include(e => e.Tenants)
                                          .SelectMany(p => p.Tenants.Select(i => i.Id))
                                          .ToArrayAsync();
 
             return await dataLoader.LoadAsync(tenantIds, cancellationToken);
+
             
         }
     }
