@@ -4,14 +4,30 @@ import ReactDOM from "react-dom";
 
 import { Formik, Field, Form } from "formik";
 
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client';
 
 const ADD_TENANT = gql`
     mutation addingATenant($fullName: String!, $phoneNumber: String!, $houseNumber: Int!, $street: String!, $city: String!, $zip: Int!, $bldgName: String!) {
-        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, houseNumber: $houseNumber, street: $street, city: $city, zipCode: $zip, propertyName: $bldgName })
+
+        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, currentResidence: { addressInput: { line1: $street, city: $city, state: "TX", postalCode: $zipCode }, propertyId: 123 } } )
         {
+            payload {
+                id
                 name
+            }
         }
+    }
+`;
+
+const GET_PROPERTIES = gql`
+    query getProps {
+      properties {
+        edges {
+          node {
+            id
+          }
+        }
+      }
     }
 `;
 
@@ -31,6 +47,8 @@ function ValidatePhoneNumber(number: any) {
 export default () => {
 
     const [addTenant] = useMutation(ADD_TENANT);
+
+    const getProperties = useQuery(GET_PROPERTIES);
 
     return <Formik
         initialValues={{
@@ -92,7 +110,7 @@ export default () => {
                 <Field id="phoneNumber" name="phoneNumber" validate={ValidatePhoneNumber} />
                 {errors.phoneNumber && touched.phoneNumber && <div>{errors.phoneNumber}</div>}
                 <br></br>
-                <button>Click Here to Submit</button>
+                <button type="submit">Click Here to Submit</button>
             </Form>
         )}
     </Formik>
