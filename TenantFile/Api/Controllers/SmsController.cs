@@ -63,31 +63,6 @@ namespace TenantFile.Api.Controllers
 
             return Ok();
         }
-        // [HttpPost("/api/verify")]
-        // public async Task<IActionResult> VerifyWrittenRepairRequest([FromForm] string From, [FromForm] string MediaUrl0, [FromForm] int numMedia)
-        // {
-        //     DateTime timeStamp = DateTime.Now;
-        //     var (phone, _) = GetPhoneEntity(From);
-        //     var filenames = await SaveMediaAsync(numMedia);
-        //     var imageUrlList = new List<string>();
-        //     var imageTypeList = new List<string>();
-        //     for (int i = 0; i < numMedia; i++)
-        //     {
-
-        //         if (Request.Form.TryGetValue($"MediaUrl{numMedia - 1}", out var imageUrl))
-        //         {
-        //             imageUrlList.Add(imageUrl);
-
-        //         }
-        //         if (Request.Form.TryGetValue($"MediaContentType{numMedia - 1}", out var imageType))
-        //         {
-
-        //             imageTypeList.Add(imageType);
-        //         }
-
-        //     }
-
-        // }
 
         [HttpPost("/api/sms")]
         public async Task<IActionResult> SmsWebhook()
