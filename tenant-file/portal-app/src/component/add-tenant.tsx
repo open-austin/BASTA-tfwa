@@ -21,13 +21,12 @@ const ADD_TENANT = gql`
 
 const GET_PROPERTIES = gql`
     query getProps {
-      properties {
-        edges {
-          node {
-            id
-          }
+        properties {
+            nodes {
+                id
+                name
+            }
         }
-      }
     }
 `;
 
@@ -48,7 +47,12 @@ export default () => {
 
     const [addTenant] = useMutation(ADD_TENANT);
 
-    const getProperties = useQuery(GET_PROPERTIES);
+    const { loading, error, data } = useQuery(GET_PROPERTIES);
+
+    if (loading) return null;
+
+    console.log("The properties are: " + data.properties.nodes[0].name);
+    //console.log("The type of the properties attribute is: " + typeof(data.properties));
 
     return <Formik
         initialValues={{
@@ -104,7 +108,16 @@ export default () => {
                 <Field id="zip" name="zip" />
                 <br></br>
                 <label htmlFor="bldgName">*Building Name:</label>
-                <Field id="bldgName" name="bldgName" />
+                <select id="bldgName" name="bldgName">
+                    {/* {data.properties.nodes.map(function (nodes: any) {
+                        return (<option key={nodes[0].id} value={nodes[0].name}>
+                            {nodes[0].name}
+                        </option>)
+                    })} */}
+                    <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
+                            {data.properties.nodes[0].name}
+                    </option>
+                </select>
                 <br></br>
                 <label htmlFor="phoneNumber">*Cell Phone Number:</label>
                 <Field id="phoneNumber" name="phoneNumber" validate={ValidatePhoneNumber} />
