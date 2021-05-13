@@ -20,6 +20,7 @@ using TenantFile.Api.Models.Entities;
 using Google.Cloud.Vision.V1;
 using System;
 using System.Text.Json;
+using TenantFile.Api.Common;
 
 namespace TenantFile.Api.Controllers
 {
@@ -41,28 +42,50 @@ namespace TenantFile.Api.Controllers
             this.keyWords = new List<string>() { };
             this.keyPhrases = new List<string>() { "written request for repairs" };
         }
-
-        [HttpPost("/api/captureNew")]
+        [HttpPost("/api/captureData")]
         public async Task<IActionResult> CaptureTenantData([FromBody] FlowData data)
         {
 
-            TryGetPhoneEntity(out var phone, data.from);
+            //this should never be a newPhone even if this encounter is the first time the Tenant has sent an image because the new Phone would already have been captured and persisted in the early part of the Flow
+            bool newPhone = GetOrCreatePhone(out var phone, data.from);
 
-            var tenant = context.Tenants.AsQueryable().Where(t => t.Phones.Contains(phone)).First();
+            var property = context.Properties.Include(p => p.Address).AsQueryable().Where(p => p.Name == data.propertyName).First();
 
-            tenant.Name = string.Join(" ", data.firstName, data.lastName);
-            tenant.CurrentResidence = new Residence()
+            if (!newPhone)
             {
-                Address = new Address()
+                var newTenant = GetOrCreateTenant(out var tenant, phone);
+                if (newTenant)
                 {
-                    PostalCode = data.zip,
-                    Line2 = data.unitNum
+                    tenant.Name = string.Join(" ", data.firstName, data.lastName);
+                    tenant.CurrentResidence = new Residence()
+                    {
+                        Address = new Address()
+                        {
+                            Line1 = property.Address.Line1,
+                            Line2 = data.unitNum,
+                            City = property.Address.City,
+                            State = property.Address.State,
+                            PostalCode = data.zip
+                        },
+                        Property = property,
+                        PropertyId = property.Id
+                    };
                 }
-            };
+                else
+                {
+                    //TODO: Issue 172, if the Tenant is not new, that means the Tenant asked to update/change their contact info. Should this:
+                    // A: overwrite the contact info
+                    // B: add a new Tenant and associate it with the texting Phone Entity
+
+                }
+            }
+
             await context.SaveChangesAsync();
 
             return Ok();
         }
+
+
 
         [HttpPost("/api/sms")]
         public async Task<IActionResult> SmsWebhook()
@@ -76,7 +99,7 @@ namespace TenantFile.Api.Controllers
             var imageUrlList = new List<string>();
             var imageTypeList = new List<string>();
 
-            var newPhone = TryGetPhoneEntity(out var phone, request["From"].GetString()!);
+            var newPhone = GetOrCreatePhone(out var phone, request["From"].GetString()!);
 
             foreach (var (image, thumbnail, labels) in filenames)
             {
@@ -113,10 +136,10 @@ namespace TenantFile.Api.Controllers
                 return Json(new
                 {
 
-                    language = phone.PreferredLanuage ?? PreferredLanuage.En,
+                    language = phone.PreferredLanguage ?? PreferredLanguage.En,
                     newPhone = newPhone,
                     type = flowType,
-                    name = GetNamesForPhone(phone),
+                    name = GetFirstNamesForPhone(phone),
                     hasWRR = await HasLabel(phone, "written request for repairs").ConfigureAwait(false)
 
                 });
@@ -276,17 +299,19 @@ namespace TenantFile.Api.Controllers
         {
             return System.IO.Path.GetFileName(mediaUrl) + MimeTypeMap.GetExtension(contentType);
         }
-        string SetFlowType(IEnumerable<string> labels) =>
+        FlowPath SetFlowType(IEnumerable<string> labels) =>
 
             labels switch
             {
                 IEnumerable<string> s when
                  s.Contains("Written Request for Repairs",
                   StringComparer.InvariantCultureIgnoreCase)
-                    => "wrr",
-                IEnumerable<string> s when s.Any() => "img",
-                //default: return "No images were attached or we could not identify the image. Please try again";
-                _ => "noImg"
+                    => FlowPath.WrittenRepairRequest,
+
+                IEnumerable<string> s when s.Any() => FlowPath.Image,
+
+
+                _ => FlowPath.NoImage
             };
 
         /// <summary>
@@ -295,17 +320,17 @@ namespace TenantFile.Api.Controllers
         /// <param name="phone"></param>
         /// <param name="from"></param>
         /// <returns></returns>
-        bool TryGetPhoneEntity(out Phone phone, string from)
+        bool GetOrCreatePhone(out Phone phone, string fromNumber)
         {
             var newPhone = false;
-            phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == from)!;
+            phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == fromNumber)!;
 
             if (phone == null)
             {
                 newPhone = true;
                 phone = new Phone
                 {
-                    PhoneNumber = from,
+                    PhoneNumber = fromNumber,
                     Images = new List<Models.Entities.Image>()
                 };
                 context.Phones.Add(phone);
@@ -314,13 +339,34 @@ namespace TenantFile.Api.Controllers
 
             return newPhone;
         }
+        bool GetOrCreateTenant(out Tenant tenant, Phone phone)
+        {
+            var newTenant = false;
+            tenant = context.Tenants.FirstOrDefault(t => t.Phones.Contains(phone))!;
+
+            if (tenant == null)
+            {
+                newTenant = true;
+                tenant = new Tenant
+                {
+                    Phones = new List<Phone>() { phone }
+
+                };
+                context.Tenants.Add(tenant);
+
+            }
+
+            return newTenant;
+        }
+
+
 
         /// <summary>
         /// Since names are a single string, i.e. no first or last name properties /and phone numbers can have multiple Tenants, this query will return the first word before white space for each Tenant and seperate them with an "&"
         /// </summary>
         /// <param name="phone"></param>
         /// <returns></returns>
-        string GetNamesForPhone(Phone phone)
+        string GetFirstNamesForPhone(Phone phone)
         {
             return String.Join("", String.Join(" & ",
                      context.Phones.AsQueryable()

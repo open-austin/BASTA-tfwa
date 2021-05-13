@@ -2,7 +2,7 @@
 {
     public record CreatePhoneInput(
         string PhoneNumber,
-        PreferredLanuage PreferredLanuage
+        PreferredLanguage PreferredLanguage
 
 
     );

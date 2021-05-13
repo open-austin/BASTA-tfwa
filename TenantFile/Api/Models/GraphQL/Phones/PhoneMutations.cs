@@ -20,7 +20,7 @@ namespace TenantFile.Api.Models.Phones
          [ScopedService] TenantFileContext context,
          [Service] ITopicEventSender eventSender)
         {
-            var phone = new Phone { PhoneNumber = input.PhoneNumber, PreferredLanuage = input.PreferredLanuage };
+            var phone = new Phone { PhoneNumber = input.PhoneNumber, PreferredLanguage = input.PreferredLanguage };
             context.Phones.Add(phone);
             context.SaveChanges();
             await eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);

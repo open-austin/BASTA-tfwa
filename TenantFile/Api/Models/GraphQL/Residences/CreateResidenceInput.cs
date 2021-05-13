@@ -1,10 +1,11 @@
-﻿using TenantFile.Api.Models.Addresses;
+﻿using HotChocolate.Types.Relay;
+using TenantFile.Api.Models.Addresses;
 
 namespace TenantFile.Api.Models.Residences
 {
     public record CreateResidenceInput
     (
          CreateAddressInput AddressInput,
-         int? PropertyId
+         [ID(nameof(Properties))]int? PropertyId
     );
 }

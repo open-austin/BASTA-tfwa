@@ -1,6 +1,6 @@
 namespace TenantFile.Api.Models
 {
-    public enum PreferredLanuage
+    public enum PreferredLanguage
     {
         En,
         Es,
