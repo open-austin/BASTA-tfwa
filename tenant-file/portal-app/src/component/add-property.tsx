@@ -1,7 +1,5 @@
 import React from "react";
 
-import ReactDOM from "react-dom";
-
 import { Formik, Field, Form } from "formik";
 
 import { gql, useMutation } from '@apollo/client';
