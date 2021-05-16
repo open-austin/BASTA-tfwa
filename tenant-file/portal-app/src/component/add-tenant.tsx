@@ -55,8 +55,8 @@ export default () => {
     //console.log("The properties are: " + data.properties.nodes[0].name);
     //console.log("The type of the properties attribute is: " + typeof(data.properties));
 
-    const bldgSelectHandler = (values: any) => {
-        console.log("The building ID is: " + values.bldgId);
+    const bldgSelectHandler = (bldgNode: any) => {
+        console.log("The building ID is: " + bldgNode.id);
     };
 
     return <Formik
@@ -115,13 +115,15 @@ export default () => {
                 <br></br>
                 <label htmlFor="bldg">*Building Name:</label>
                 <select id="bldgId" name="bldgId">
-                    {data.properties.nodes.map((bldgNode: any) => (
-                        <option key={bldgNode.id} value={bldgNode.name}>
-                            {bldgNode.name}
-                            {values.bldgId = bldgNode.id}
-                            {bldgSelectHandler(values)}
-                        </option>   
-                    ))}
+                    {data.properties.nodes.map( function (bldgNode: any) {
+                            
+                            values.bldgId = bldgNode.id;
+                            bldgSelectHandler(bldgNode);
+
+                            return (<option key={bldgNode.id} value={bldgNode.name}>
+                                {bldgNode.name}
+                            </option>);
+                    })}
 
                     {/* <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
                             {data.properties.nodes[0].name}
