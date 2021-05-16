@@ -55,6 +55,10 @@ export default () => {
     //console.log("The properties are: " + data.properties.nodes[0].name);
     //console.log("The type of the properties attribute is: " + typeof(data.properties));
 
+    const labelIndentation = {
+        textIndent: '50px'
+    };
+
     const bldgSelectHandler = (bldgNode: any) => {
         console.log("The building ID is: " + bldgNode.id);
     };
@@ -65,6 +69,7 @@ export default () => {
             lastName: '',
             houseNumber: '',
             street: '',
+            unitNumber: '',
             city: '',
             state: '',
             zip: '',
@@ -79,7 +84,7 @@ export default () => {
                     {
                         fullName: e.firstName + " " + e.lastName,
                         houseNumber: parseInt(e.houseNumber),
-                        street: e.houseNumber + " " + e.street,
+                        street: e.houseNumber + " " + e.street + " " + e.unitNumber,
                         city: e.city,
                         state: e.state,
                         zip: e.zip,
@@ -92,6 +97,8 @@ export default () => {
         }>
         {({ errors, touched, validateForm, validateField, values }) => (
             <Form>
+                <h1 style={labelIndentation}>Add a New Tenant to the Tenant File</h1>
+
                 <label htmlFor="firstName">*First Name:</label>
                 <Field id="firstName" name="firstName" />
                 <br></br>
@@ -103,6 +110,9 @@ export default () => {
                 <br></br>
                 <label htmlFor="street">*Street:</label>
                 <Field id="street" name="street" />
+                <br></br>
+                <label htmlFor="unitNumber">Unit Number:</label>
+                <Field id="unitNumber" name="unitNumber" />
                 <br></br>
                 <label htmlFor="city">*City:</label>
                 <Field id="city" name="city" />
