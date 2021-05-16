@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 import { Formik, Field, Form } from "formik";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { ValuesOfCorrectTypeRule } from "graphql";
 
 const ADD_TENANT = gql`
     mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $city: String!, $zip: String!, $bldgId: ID) {
@@ -48,7 +47,7 @@ export default () => {
 
     const [addTenant] = useMutation(ADD_TENANT);
 
-    const { loading, error, data } = useQuery(GET_PROPERTIES);
+    const { loading, data } = useQuery(GET_PROPERTIES);
 
     if (loading) return null;
 
