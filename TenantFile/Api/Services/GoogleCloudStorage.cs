@@ -20,8 +20,8 @@ namespace TenantFile.Api.Services
 
             if (env.IsDevelopment())
             {
-                var googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
-                _storageClient = StorageClient.Create(googleCredential);
+                var credential = GoogleCredential.GetApplicationDefault();
+                _storageClient = StorageClient.Create(credential);
             }
             else
             {

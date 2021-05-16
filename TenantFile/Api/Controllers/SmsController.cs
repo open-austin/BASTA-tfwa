@@ -27,17 +27,24 @@ namespace TenantFile.Api.Controllers
 {
     public class SmsController : TwilioController
     {
-        private readonly ITopicEventSender eventSender;
-        private readonly ILogger<SmsController> logger;
-        private readonly TenantFileContext context;
-        private readonly ICloudStorage storageClient;
+        private readonly ITopicEventSender _eventSender;
+        private readonly ILogger<SmsController> _logger;
+        private readonly TenantFileContext _context;
+        private readonly ICloudStorage _storageClient;
+        private readonly GoogleDriveService _driveService;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context, [Service] ITopicEventSender eventSender)
+        public SmsController(ILogger<SmsController> logger, 
+            ICloudStorage storageClient, 
+            IConfiguration configuration, 
+            TenantFileContext context, 
+            GoogleDriveService driveService,
+            [Service] ITopicEventSender eventSender)
         {
-            this.eventSender = eventSender;
-            this.logger = logger;
-            this.storageClient = storageClient;
-            this.context = context;
+            _eventSender = eventSender;
+            _logger = logger;
+            _storageClient = storageClient;
+            _context = context;
+            _driveService = driveService;
         }
 
         [HttpPost("/api/sms")]
@@ -48,7 +55,7 @@ namespace TenantFile.Api.Controllers
             var filenames = await SaveMediaAsync(numMedia);
 
             //await using TenantFileContext dbContext = dbContextFactory.CreateDbContext();
-            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
+            var phone = _context.Phones.FirstOrDefault(x => x.PhoneNumber == request.From);
 
             bool newPhone = false;
 
@@ -60,7 +67,7 @@ namespace TenantFile.Api.Controllers
                     PhoneNumber = request.From,
                     Images = new List<Models.Entities.Image>()
                 };
-                context.Phones.Add(phone);
+                _context.Phones.Add(phone);
             
             }
   
@@ -78,11 +85,11 @@ namespace TenantFile.Api.Controllers
 
                 });
             }
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             if (newPhone == true)
             {
-                await eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);//ConfigureAwait?
+                await _eventSender.SendAsync(nameof(PhoneSubscriptions.OnNewPhoneReceived), phone.Id);//ConfigureAwait?
             }
             var response = new MessagingResponse();
             var messageBody = numMedia == 0 ? "No images were recieved from your message. Please send us an image of what you are trying to document." :
@@ -91,7 +98,15 @@ namespace TenantFile.Api.Controllers
             return TwiML(response);
         }
 
-
+        [HttpPost("/api/test")]
+        public async Task Test()
+        {
+            Console.WriteLine("TESTING");
+            await _driveService.UploadMedia(
+                "https://image.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg",
+                "image/jpeg", 
+                "+15125555555");
+        }
 
         async Task<IEnumerable<(string image, string thumbnail, ImageLabel[] labels)>> SaveMediaAsync(int numMedia)
         {
@@ -100,12 +115,12 @@ namespace TenantFile.Api.Controllers
             {
                 var mediaUrl = Request.Form[$"MediaUrl{i}"];
                 var imageLabel = GetLabelsAsync(mediaUrl);
-                logger.LogInformation(mediaUrl);
+                _logger.LogInformation(mediaUrl);
                 var contentType = Request.Form[$"MediaContentType{i}"];
 
                 var imagePath = $"images/{GetMediaFileName(mediaUrl, contentType)}";
 
-                await storageClient.UploadToStorageAsync(mediaUrl, imagePath, contentType);
+                await _storageClient.UploadToStorageAsync(mediaUrl, imagePath, contentType);
 
                 var httpClient = new HttpClient();
                 var response = await httpClient.GetAsync(mediaUrl);
@@ -125,7 +140,7 @@ namespace TenantFile.Api.Controllers
 
                 var thumbPath = $"thumbnails/{GetMediaFileName(mediaUrl, contentType)}";
 
-                await storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
+                await _storageClient.UploadStreamToStorageAsync(outputStream, thumbPath, "image/png");
 
                 filenames.Add((imagePath, thumbPath, (await imageLabel).ToArray()));
             }

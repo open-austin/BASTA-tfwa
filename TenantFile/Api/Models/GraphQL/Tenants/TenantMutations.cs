@@ -18,8 +18,8 @@ namespace TenantFile.Api.Models.Tenants
     public async Task<CreateTenantPayload> CreateTenantAsync(
         CreateTenantInput inputTenant,
         [ScopedService] TenantFileContext context,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) 
+    { 
         var (nameInput, phoneInput, residenceInput, residenceIdInput) = inputTenant;
       // See if the phone number exists already
       Phone? phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == inputTenant.PhoneNumber);
@@ -66,6 +66,28 @@ namespace TenantFile.Api.Models.Tenants
       var tenantEntry = context.Tenants.Add(tenant);
       await context.SaveChangesAsync(cancellationToken);
       return new CreateTenantPayload(tenant);
+    }
+
+    [UseTenantFileContext]
+    public async Task<UpdateTenantPayload> UpdateTenantAsync(
+        UpdateTenantInput input,
+        [ScopedService] TenantFileContext context,
+        CancellationToken cancellationToken)
+    {
+        var (tenantId, nameInput, phoneInput, residenceIdInput) = input;
+
+        var tenant = await context.Tenants.FindAsync(tenantId);
+
+        if (tenant == null)
+        {
+            throw new ArgumentException("Unable to find Tenant with this ID");
+        }
+
+        var residence = await context.Residences.FindAsync(residenceIdInput);
+        tenant.CurrentResidence = residence;
+        
+        await context.SaveChangesAsync(cancellationToken);
+        return new UpdateTenantPayload(tenant);
     }
 
   }

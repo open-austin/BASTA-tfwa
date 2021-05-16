@@ -101,10 +101,9 @@ namespace TenantFile.Api
               .AddProjections()
               ;
 
-
-
       services.AddSingleton<IAddressVerificationService>(s => new AddressVerificationService(Configuration["USPSUserName"]));
       services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+      services.AddScoped<GoogleDriveService>();
       services.AddCors();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

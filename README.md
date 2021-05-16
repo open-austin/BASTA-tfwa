@@ -63,16 +63,27 @@ Most team members use the following tools. Required tools are noted.
   - If you don't use nvm, then acquiring node directly is required. Download [here](https://nodejs.org/en/download/)
 
 Development on the backend requires:
+
 - Docker: Used for having a more easily setup postgres development environment. Install from [here](https://docs.docker.com/get-docker/)
 - gcloud: A recommended tool to interact with the google cloud platform. Instruction to install are [here](https://cloud.google.com/sdk/docs#install_the_latest_cloud_tools_version_cloudsdk_current_version)
 
 ## Running the Server Locally
 
+### First Time Setup
+
+1. Make sure you have Docker installed
+1. Run `dotnet tool restore` to get the EF tools
+1. Run `dotnet ef database update` to set up the database
+
+### Each time you want to be running the server
+
 You will need a database running locally for the server to connect to. You can run the local server by executing the `./startup.sh` script in the `local-development` folder.
+
+If you receive an error indicated port `5432` is already allocated, you probably are already running a postgres server, either this one or a different one.
 
 ## Google Cloud Account
 
-You will need a Google Cloud account to interact with several services that we use (primarily the database). 
+You will need a Google Cloud account to interact with several services that we use (primarily the database).
 
 Once you have a Google Cloud account, follow the instructions [here](https://cloud.google.com/docs/authentication/getting-started) to set up local application credentials. This is currently necessary to run the API.
 
