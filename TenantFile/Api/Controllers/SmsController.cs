@@ -45,41 +45,35 @@ namespace TenantFile.Api.Controllers
         [HttpPost("/api/captureData")]
         public async Task<IActionResult> CaptureTenantData([FromBody] FlowData data)
         {
-
-            //this should never be a newPhone even if this encounter is the first time the Tenant has sent an image because the new Phone would already have been captured and persisted in the early part of the Flow
-            bool newPhone = GetOrCreatePhone(out var phone, data.from);
+            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == data.from)!;
 
             var property = context.Properties.Include(p => p.Address).AsQueryable().Where(p => p.Name == data.propertyName).First();
 
-            if (!newPhone)
+            var newTenant = GetOrCreateTenant(out var tenant, phone);
+            if (newTenant)
             {
-                var newTenant = GetOrCreateTenant(out var tenant, phone);
-                if (newTenant)
+                tenant.Name = string.Join(" ", data.firstName, data.lastName);
+                tenant.CurrentResidence = new Residence()
                 {
-                    tenant.Name = string.Join(" ", data.firstName, data.lastName);
-                    tenant.CurrentResidence = new Residence()
+                    Address = new Address()
                     {
-                        Address = new Address()
-                        {
-                            Line1 = property.Address.Line1,
-                            Line2 = data.unitNum,
-                            City = property.Address.City,
-                            State = property.Address.State,
-                            PostalCode = data.zip
-                        },
-                        Property = property,
-                        PropertyId = property.Id
-                    };
-                }
-                else
-                {
-                    //TODO: Issue 172, if the Tenant is not new, that means the Tenant asked to update/change their contact info. Should this:
-                    // A: overwrite the contact info
-                    // B: add a new Tenant and associate it with the texting Phone Entity
-
-                }
+                        Line1 = property.Address.Line1,
+                        Line2 = data.unitNum,
+                        City = property.Address.City,
+                        State = property.Address.State,
+                        PostalCode = data.zip
+                    },
+                    Property = property,
+                    PropertyId = property.Id
+                };
             }
+            else
+            {
+                //TODO: Issue 172, if the Tenant is not new, that means the Tenant asked to update/change their contact info. Should this:
+                // A: overwrite the contact info
+                // B: add a new Tenant and associate it with the texting Phone Entity
 
+            }
             await context.SaveChangesAsync();
 
             return Ok();
