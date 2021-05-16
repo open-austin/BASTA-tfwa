@@ -7,9 +7,9 @@ import { Formik, Field, Form } from "formik";
 import { gql, useMutation, useQuery } from '@apollo/client';
 
 const ADD_TENANT = gql`
-    mutation addingATenant($fullName: String!, $phoneNumber: String!, $houseNumber: Int!, $street: String!, $city: String!, $zip: Int!, $bldgName: String!) {
+    mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $city: String!, $zip: String!, $bldgId: ID) {
 
-        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, currentResidence: { addressInput: { line1: $street, city: $city, state: "TX", postalCode: $zipCode }, propertyId: 123 } } )
+        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, currentResidence: { addressInput: { line1: $street, city: $city, state: "TX", postalCode: $zip }, propertyId: $bldgId } } )
         {
             payload {
                 id
@@ -51,7 +51,7 @@ export default () => {
 
     if (loading) return null;
 
-    console.log("The properties are: " + data.properties.nodes[0].name);
+    //console.log("The properties are: " + data.properties.nodes[0].name);
     //console.log("The type of the properties attribute is: " + typeof(data.properties));
 
     return <Formik
@@ -63,21 +63,22 @@ export default () => {
             city: '',
             state: '',
             zip: '',
-            bldgName: '',
+            bldgId: '',
             phoneNumber: ''
         }}
         onSubmit={         
             async e => {
+                console.log("The ID is: " + e.bldgId);
                 addTenant({
                     variables:
                     {
                         fullName: e.firstName + " " + e.lastName,
                         houseNumber: parseInt(e.houseNumber),
-                        street: e.street,
+                        street: e.houseNumber + " " + e.street,
                         city: e.city,
                         state: e.state,
-                        zip: parseInt(e.zip),
-                        bldgName: e.bldgName,
+                        zip: e.zip,
+                        bldgId: e.bldgId,
                         phoneNumber: e.phoneNumber
                     }
                 })
@@ -107,16 +108,16 @@ export default () => {
                 <label htmlFor="zip">*Zip Code:</label>
                 <Field id="zip" name="zip" />
                 <br></br>
-                <label htmlFor="bldgName">*Building Name:</label>
-                <select id="bldgName" name="bldgName">
-                    {/* {data.properties.nodes.map(function (nodes: any) {
-                        return (<option key={nodes[0].id} value={nodes[0].name}>
-                            {nodes[0].name}
+                <label htmlFor="bldgId">*Building Name:</label>
+                <select id="bldgId" name="bldgId">
+                    {data.properties.nodes.map(function (node: any) {
+                        return (<option key={node.id} value={node.id}>
+                            {node.id}
                         </option>)
-                    })} */}
-                    <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
+                    })}
+                    {/* <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
                             {data.properties.nodes[0].name}
-                    </option>
+                    </option> */}
                 </select>
                 <br></br>
                 <label htmlFor="phoneNumber">*Cell Phone Number:</label>
