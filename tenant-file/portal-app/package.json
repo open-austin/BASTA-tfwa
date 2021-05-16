@@ -2,6 +2,9 @@
   "name": "tenant-file-portal",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "14"
+  },
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@fortawesome/fontawesome-free": "^5.15.1",

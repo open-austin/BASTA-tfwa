@@ -62,6 +62,8 @@ Most team members use the following tools. Required tools are noted.
 - nvm: A highly recommended version manager for node. Download [here](https://github.com/nvm-sh/nvm)
   - If you don't use nvm, then acquiring node directly is required. Download [here](https://nodejs.org/en/download/)
 
+Once `nvm` is installed, you can `cd` into `tenant-file/portal-app` and run `nvm use`. This will install the appropriate version of node (if not already installed), and set your local environment to the specified version. Currently we're using Node v14 LTS.
+
 Development on the backend requires:
 - Docker: Used for having a more easily setup postgres development environment. Install from [here](https://docs.docker.com/get-docker/)
 - gcloud: A recommended tool to interact with the google cloud platform. Instruction to install are [here](https://cloud.google.com/sdk/docs#install_the_latest_cloud_tools_version_cloudsdk_current_version)
