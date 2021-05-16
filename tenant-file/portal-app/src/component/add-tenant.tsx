@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { Formik, Field, Form } from "formik";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { ValuesOfCorrectTypeRule } from "graphql";
 
 const ADD_TENANT = gql`
     mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $city: String!, $zip: String!, $bldgId: ID) {
@@ -54,6 +55,10 @@ export default () => {
     //console.log("The properties are: " + data.properties.nodes[0].name);
     //console.log("The type of the properties attribute is: " + typeof(data.properties));
 
+    const bldgSelectHandler = (values: any) => {
+        console.log("The building ID is: " + values.bldgId);
+    };
+
     return <Formik
         initialValues={{
             firstName: '',
@@ -85,7 +90,7 @@ export default () => {
                 setTimeout(() => { }, 1000);
             }
         }>
-        {({ errors, touched, validateForm, validateField }) => (
+        {({ errors, touched, validateForm, validateField, values }) => (
             <Form>
                 <label htmlFor="firstName">*First Name:</label>
                 <Field id="firstName" name="firstName" />
@@ -108,13 +113,16 @@ export default () => {
                 <label htmlFor="zip">*Zip Code:</label>
                 <Field id="zip" name="zip" />
                 <br></br>
-                <label htmlFor="bldgId">*Building Name:</label>
+                <label htmlFor="bldg">*Building Name:</label>
                 <select id="bldgId" name="bldgId">
-                    {data.properties.nodes.map(function (node: any) {
-                        return (<option key={node.id} value={node.id}>
-                            {node.id}
-                        </option>)
-                    })}
+                    {data.properties.nodes.map((bldgNode: any) => (
+                        <option key={bldgNode.id} value={bldgNode.name}>
+                            {bldgNode.name}
+                            {values.bldgId = bldgNode.id}
+                            {bldgSelectHandler(values)}
+                        </option>   
+                    ))}
+
                     {/* <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
                             {data.properties.nodes[0].name}
                     </option> */}
