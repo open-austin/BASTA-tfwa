@@ -6,6 +6,6 @@ namespace TenantFile.Api.Models.Residences
     public record CreateResidenceInput
     (
          CreateAddressInput AddressInput,
-         [ID(nameof(Properties))]int? PropertyId
+         [ID(nameof(Property))]int? PropertyId
     );
 }
