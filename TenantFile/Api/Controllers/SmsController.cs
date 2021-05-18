@@ -30,10 +30,12 @@ namespace TenantFile.Api.Controllers
         private readonly ILogger<SmsController> logger;
         private readonly TenantFileContext context;
         private readonly ICloudStorage storageClient;
+        private readonly GoogleDriveService driveService;
         private readonly List<string> keyWords;
         private readonly List<string> keyPhrases;
 
-        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context, [Service] ITopicEventSender eventSender)
+
+        public SmsController(ILogger<SmsController> logger, ICloudStorage storageClient, IConfiguration configuration, TenantFileContext context, [Service] ITopicEventSender eventSender, GoogleDriveService driveService)
         {
             this.eventSender = eventSender;
             this.logger = logger;
@@ -41,6 +43,7 @@ namespace TenantFile.Api.Controllers
             this.context = context;
             this.keyWords = new List<string>() { };
             this.keyPhrases = new List<string>() { "written request for repairs" };
+            this.driveService = driveService;
         }
         [HttpPost("/api/captureData")]
         public async Task<IActionResult> CaptureTenantData([FromBody] FlowData data)
@@ -79,7 +82,25 @@ namespace TenantFile.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("/api/survey")]
+        public async Task<IActionResult> SurveyWebhook()
+        {
+            var request = await JsonSerializer.DeserializeAsync<IDictionary<String, JsonElement>>(Request.Body);
 
+            int numMedia = int.Parse((request!["NumMedia"]).GetString()!);
+            var phoneNumber = request["From"].GetString()!;
+
+            var filenames = new List<(string, string, ImageLabel[])>();
+
+            for (var i = 0; i < Math.Min(numMedia, 10); i++)
+            {
+                var imageUrl = request[$"MediaUrl{numMedia - 1}"].GetString()!;
+                var imageType = request[$"MediaContentType{numMedia - 1}"].GetString()!;
+                var progress = await driveService.UploadToSurveyFolder(imageUrl, imageType, phoneNumber);
+
+            }
+            return Ok();
+        }
 
         [HttpPost("/api/sms")]
         public async Task<IActionResult> SmsWebhook()
