@@ -13,7 +13,7 @@ using Google.Apis.Services;
 using Google.Apis.Upload;
 using Microsoft.EntityFrameworkCore;
 using TenantFile.Api.Models;
-using TenantFile.Api.Models.Entities;
+
 using File = Google.Apis.Drive.v3.Data.File;
 
 namespace TenantFile.Api.Services
@@ -44,7 +44,8 @@ namespace TenantFile.Api.Services
         }
         public async Task<IUploadProgress> UploadToSurveyFolder(string fileUrl, string mediaContentType, string phoneNumber)
         {
-            var imageFiles = await GetImageFilesInFolder("1WOul2t2GwTmwq7SzKVngpDildZLMOL2I");
+            var bastaSurveyFolderId = "1mAopWyRImJZThMO75_DP93SqI5wyxwjF";
+            var imageFiles = await GetImageFilesInFolder(bastaSurveyFolderId);
 
             var phonePicIndex = 0;
             if (imageFiles.Files.Count > 0)
@@ -61,12 +62,11 @@ namespace TenantFile.Api.Services
             var file = new File()
             {
                 Name = $"{phoneNumber}-{phonePicIndex}",
-                // Name = $"{phoneNumber}-{DateTime.Now.ToString("MMddyyHmmss")}",
                 MimeType = mediaContentType,
-                Parents = new List<string>() { "1WOul2t2GwTmwq7SzKVngpDildZLMOL2I" },
-                // Parents = new List<string>() { //BASTA"1mAopWyRImJZThMO75_DP93SqI5wyxwjF" },
+                Parents = new List<string>() { bastaSurveyFolderId },
+
             };
-            // var files = folders.Files.Count;
+
             await using var stream = _webClient.OpenRead(fileUrl);
             var request = _driveService.Files.Create(file, stream, mediaContentType);
             return await request.UploadAsync();
