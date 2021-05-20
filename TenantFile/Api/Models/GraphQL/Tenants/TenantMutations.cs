@@ -55,7 +55,9 @@ namespace TenantFile.Api.Models.Tenants
                         State = state,
                         PostalCode = postalCode
 
-                    }
+                    },
+                    PropertyId = residenceInput.PropertyId
+                    
                 };
             }
             else

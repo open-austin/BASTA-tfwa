@@ -8,6 +8,7 @@ namespace TenantFile.Api.Models.Tenants
         string Name,
         string PhoneNumber,
         CreateResidenceInput? CurrentResidence,
-        [ID(nameof(Residence))] int? ResidenceId //this can be handled by the Residence Input if reconfigured
-        ){}
+        [ID(nameof(Residence))] int? ResidenceId
+        )
+    { }
 }

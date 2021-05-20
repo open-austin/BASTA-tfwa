@@ -1,7 +1,9 @@
 ﻿namespace TenantFile.Api.Models.Phones
 {
     public record CreatePhoneInput(
-        string PhoneNumber
-      
+        string PhoneNumber,
+        PreferredLanguage PreferredLanguage
+
+
     );
 }
