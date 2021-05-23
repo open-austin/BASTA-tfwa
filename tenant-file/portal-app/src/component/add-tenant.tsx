@@ -1,15 +1,13 @@
 import React from "react";
 
-import ReactDOM from "react-dom";
-
 import { Formik, Field, Form } from "formik";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 
 const ADD_TENANT = gql`
-    mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $city: String!, $zip: String!, $bldgId: ID) {
+    mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $unitNumber: String!, $city: String!, $zip: String!, $bldgId: ID) {
 
-        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, currentResidence: { addressInput: { line1: $street, city: $city, state: "TX", postalCode: $zip }, propertyId: $bldgId } } )
+        createTenant(inputTenant: { name: $fullName, phoneNumber: $phoneNumber, currentResidence: { addressInput: { line1: $street, line2: $unitNumber, city: $city, state: "TX", postalCode: $zip }, propertyId: $bldgId } } )
         {
             payload {
                 id
@@ -30,8 +28,6 @@ const GET_PROPERTIES = gql`
     }
 `;
 
-// Credit to the Formik documentation - this was largely copied from an example there
-
 function ValidatePhoneNumber(number: any) {
     let error;
     if(!number) {
@@ -49,31 +45,28 @@ export default () => {
 
     const { loading, data } = useQuery(GET_PROPERTIES);
 
-    if (loading) return null;
-
-    //console.log("The properties are: " + data.properties.nodes[0].name);
-    //console.log("The type of the properties attribute is: " + typeof(data.properties));
-
+    
     const labelIndentation = {
         textIndent: '50px'
     };
-
+    
     const bldgSelectHandler = (bldgNode: any) => {
         console.log("The building ID is: " + bldgNode.id);
     };
 
+    if (loading) return <p>Loading...</p>;
+    
     return <Formik
-        initialValues={{
-            firstName: '',
-            lastName: '',
-            houseNumber: '',
-            street: '',
-            unitNumber: '',
-            city: '',
-            state: '',
-            zip: '',
-            bldgId: '',
-            phoneNumber: ''
+    initialValues={{
+        firstName: '',
+        lastName: '',
+        street: '',
+        unitNumber: '',
+        city: '',
+        state: '',
+        zip: '',
+        bldgId: '',
+        phoneNumber: ''
         }}
         onSubmit={         
             async e => {
@@ -82,8 +75,8 @@ export default () => {
                     variables:
                     {
                         fullName: e.firstName + " " + e.lastName,
-                        houseNumber: parseInt(e.houseNumber),
-                        street: e.houseNumber + " " + e.street + " " + e.unitNumber,
+                        street: e.street,
+                        unitNumber: e.unitNumber,
                         city: e.city,
                         state: e.state,
                         zip: e.zip,
@@ -103,9 +96,6 @@ export default () => {
                 <br></br>
                 <label htmlFor="lastName">*Last Name:</label>
                 <Field id="lastName" name="lastName" />
-                <br></br>
-                <label htmlFor="houseNumber">*House Number:</label>
-                <Field id="houseNumber" name="houseNumber" />
                 <br></br>
                 <label htmlFor="street">*Street:</label>
                 <Field id="street" name="street" />
@@ -134,9 +124,6 @@ export default () => {
                             </option>);
                     })}
 
-                    {/* <option key={data.properties.nodes[0].id} value={data.properties.nodes[0].name}>
-                            {data.properties.nodes[0].name}
-                    </option> */}
                 </select>
                 <br></br>
                 <label htmlFor="phoneNumber">*Cell Phone Number:</label>
@@ -148,4 +135,3 @@ export default () => {
         )}
     </Formik>
 }
-ReactDOM.render(<form />, document.getElementById('root'));
