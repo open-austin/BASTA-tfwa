@@ -32,8 +32,8 @@
     <PackageReference Include="EFCore.NamingConventions" Version="5.0.2" />
     <PackageReference Include="FirebaseAdmin" Version="2.0.0" />
       <PackageReference Include="Google.Apis.Drive.v3" Version="1.50.0.2250" />
-    <PackageReference Include="Google.Apis.SecretManager.v1" Version="1.51.0.2258" />
-    <PackageReference Include="Google.Cloud.Firestore" Version="2.0.0-beta02" />
+    <!-- <PackageReference Include="Google.Apis.SecretManager.v1" Version="1.51.0.2258" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="2.0.0-beta02" /> -->
     <PackageReference Include="Google.Cloud.Language.V1" Version="2.1.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.3.0" />
     <PackageReference Include="Google.Cloud.Vision.V1" Version="2.1.0" />
