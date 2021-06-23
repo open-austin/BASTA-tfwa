@@ -51,8 +51,11 @@ Here's the link to our [Google Drive folder](https://drive.google.com/open?id=1T
 ### What help do you need now?
 
 Front-end design
+
 User testing 
+
 Project management
+
 Developers familiar with our tech stack:
 
 Frontend Client:
