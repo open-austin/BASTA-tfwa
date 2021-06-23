@@ -7,26 +7,30 @@ Web application to help tenants keep track of documents related to their rental 
 Tenants, especially low-income tenants, and advocates need to be save and organize records related to units and complexes.
 Records include photos, receipts, the lease terms, notes from the landlord, fees/fines, and incident reports. We're looking for an accessible platform designed for those that BASTA works with -- easy to text or upload in, making metadata clear, and with flexible security settings.
 
-That would be version 1.
+We have managed to get to a point where tenants can send a photo to a phone number and it ends up on Google Drive. We are designing around tenants sending photos of apartment conditions, since the stakes for security are lower.
+
+Next, we're working on implementing a Twilio conversation. Tenants can send in a form, documentation, and add their contact information. 
+
+After that, we're building out the retrieval platform. Rather than Google Drive, we're building a custom web platform where organizers and tenants can retrieve the photos they have sent.
 
 For later versions:
-Eventually, we'd also like to be able to auto-generate forms and complaints for repair requests and code complaints.
-Include nudges/to-do lists to let tenants and others know when to submit records or take other actions.
-Incorporate Appraisal District and Census datasets.
-Display data publicly on a map / something visually appealing.
+* Eventually, we'd also like to be able to auto-generate forms and complaints for repair requests and code complaints.
+* Include nudges/to-do lists to let tenants and others know when to submit records or take other actions.
+* Incorporate Appraisal District and Census datasets.
+* Display data publicly on a map / something visually appealing.
 
 Document types:
-Leases
-Notices
-Photos of conditions
-Apartment Newsletters
-Bills (Utility, Rent, etc)
-Lease Violations
-Court summons
-Petitions
-Letters/notes to MGMT
-Receipts
-Checks
+* Leases
+* Notices
+* **Photos of conditions**
+* Apartment Newsletters
+* Bills (Utility, Rent, etc)
+* Lease Violations
+* Court summons
+* Petitions
+* Letters/notes to MGMT
+* Receipts
+* Checks
 
 ### Who will benefit (directly and indirectly) from your project?
 
@@ -46,13 +50,14 @@ Here's the link to our [Google Drive folder](https://drive.google.com/open?id=1T
 
 ### What help do you need now?
 
-We're relatively new to legit web development, so we need help with...everything! We want to think through the most reasonable way to get this set up in stages -- first being very simple, then building out from there.
+Front-end design
+User testing 
+Project management
+Developers familiar with ???
 
 ### What are the next steps (validation, research, coding, design)?
 
-### How can we contact you outside of Github(list social media or places you're present)?
-
-@e_shackney on twitter
+TBD.
 
 ## Required and Recommended local tools
 
