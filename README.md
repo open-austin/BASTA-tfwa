@@ -53,7 +53,24 @@ Here's the link to our [Google Drive folder](https://drive.google.com/open?id=1T
 Front-end design
 User testing 
 Project management
-Developers familiar with ???
+Developers familiar with our tech stack:
+
+Frontend Client:
+  * React.JS
+  * Redux
+  * GraphQL
+  * Apollo Client - state management with GraphQL
+  * Typescript
+  * Axios
+  * Firebase (authentication)
+  * Formik
+  * FontAwesome
+  * Styled Components
+
+Backend:
+  * API - C#/ASP.NET core
+  * Database - Postgres hosted on Google Cloud Platform
+  * Authentication - Firebase
 
 ### What are the next steps (validation, research, coding, design)?
 
