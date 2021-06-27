@@ -1,56 +1,42 @@
-# Tenant File App Portal
+# Tenant File Frontend
 
-You can compile this to a set of deliverable static assets following the `yarn build` steps below.
+## Before running the react-app locally
 
----
+- You will need node to run the frontend. Currently we're using Node v14 LTS.
 
----
+  - On macOS and Linux: we recommend using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating), a version manager for node. Once nvm is installed, you can cd into `/BASTA-tfwa/tenant-file/portal-app` and run nvm use. This will install the appropriate version of node (if not already installed), and set your local environment to the specified version.
+  - On Windows: node can be downloaded [directly](https://nodejs.org/en/download/) or a seperate [implementation](https://github.com/coreybutler/nvm-windows#this-is-not-the-same-thing-as-nvm) of nvm is available  
 
----
+- Create a new file named `.env` in `/BASTA-tfwa/tenant-file/portal-app`. This will hold the development environment variables that the app will use to identify the Google Cloud Platform app. It should have this shape:
+  >
 
-## Below lies CRA boilerplate README
+```txt
+NODE_ENV=development
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_PROJECT_ID=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_APP_ID=
+REACT_APP_GA_MEASUREMENT_ID=
+REACT_APP_API_URL=http://localhost:8080
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- After setting any environment variable, as you are doing above, you will likely need to close all instances of your code editor for the updates to be propagated
+  - To find these values, go to <https://console.firebase.google.com/> and find the project settings then populate them into the `.env` file
+- Before running the app for the first time, run command `npm install`
+- Run `npm start` to launch the dev version of the app
+- Front-end will be running on <http://localhost:3000>
 
-## Available Scripts
+## Using the graphql playground
 
-In the project directory, you can run:
+You can explore the graphql schema and execute database actions by navigation in your browser to <http://localhost:8080/graphql>.
 
-### `yarn start`
+You can use the built in text editor that comes with the grahql server we are using, [Hot Chocolate](https://github.com/ChilliCream/hotchocolate#chillicream-graphql-platform), called Banana Cake Pop to compose queries and mutaions.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![BCPScreen](../../.github/assets/LabelsForWRR.png)
+For example, this query loads the name, city, phone numbers, and labels for all the images of any Tenant whom has the characters "bock" in their name.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The left panel is the text editor, which generally has the same key-bindings as VS Code! The right displays the results of the database action.
 
-### `yarn test`
+To browse the schema, select the book icon on the left nav bar.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![BCPScheme](../../.github/assets/LocalQL.png)
