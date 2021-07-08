@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import firebase from 'firebase';
+import firebase from "firebase";
 import "@firebase/storage";
 
 interface ImageProps {
   name: string;
-  storage: firebase.storage.Storage
+  storage: firebase.storage.Storage;
 }
 const Image: React.FC<ImageProps> = ({ name, storage }) => {
-  console.log(`name ${name}`)
+  console.log(`name ${name}`);
   const [url, setUrl] = useState("");
- 
+
   useEffect(() => {
     const onFileChange = async () => {
-      const storageRef = storage.ref()
-      const promise = storageRef.child(name)
-      setUrl(await promise.getDownloadURL())
+      const storageRef = storage.ref();
+      const promise = storageRef.child(name);
+      setUrl(await promise.getDownloadURL());
     };
     onFileChange();
-  }, [name]);
+  }, [name, storage]);
 
-  return <img src={url} />;
+  return <img src={url} alt="" />;
 };
-       
+
 export default Image;
