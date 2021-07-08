@@ -12,7 +12,7 @@ import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { rrfProps } from "./component/firebase";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL,
+  uri: `${process.env.REACT_APP_API_URL}/graphql`,
   cache: new InMemoryCache(),
 });
 
