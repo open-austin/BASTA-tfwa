@@ -15,15 +15,23 @@ const TENANT_QUERY = gql`
         name
         id
         phones {
-          phoneNumber
-          images {
-            thumbnailName
-            name
+          nodes {
+            phoneNumber
+            images {
+              thumbnailName
+              name
+              labels {
+                label
+                confidence
+                source
+              }
+            }
           }
         }
       }
     }
   }
+  
 `;
 
 const columns: Column<TenantRow>[] = [
@@ -59,19 +67,22 @@ const TenantList: React.FC = () => {
   };
 
   console.log(process.env.REACT_APP_API_URL);
+  
   const { loading, error, data } = useQuery<TenantListQuery>(TENANT_QUERY, {
     variables: queryVariables,
   });
   console.log("ROWDATA", loading, error, data);
+
+
   const rowData =
     data?.tenants?.nodes?.reduce((acc, node) => {
-      if (node?.name && node?.phones[0].phoneNumber) {
+      if (node?.name && node?.phones?.nodes?.[0].phoneNumber) {
         acc.push({
           name: node.name,
           id: node.id,
-          phone: node.phones[0].phoneNumber,
+          phone: node.phones.nodes[0].phoneNumber,
           images:
-            node.phones[0].images
+          node?.phones?.nodes?.[0].images
               ?.filter((x) => x)
               .map((x) => x!.thumbnailName) ?? [],
         });

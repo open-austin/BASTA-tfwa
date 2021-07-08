@@ -4,6 +4,9 @@ import { Cell, Row } from "react-table";
 import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
+import firebase from 'firebase';
+import "@firebase/storage";
+
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -27,61 +30,67 @@ type TenantRow = {
 type Props = {
   row: Row<TenantRow>;
 };
-
+const storage = firebase.app().storage();
+;
 const TenantTableCollapse = ({ row }: Props) => {
   let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-  
+
   const onViewClick = (userId: string) => {
     history.push(`/dashboard/tenant/${userId}`);
   };
-
-  return (
-    <>
-      <tr {...row.getRowProps()} onClick={toggle}>
-        {row.cells.map((cell: Cell<TenantRow, any>, index: number) => {
-          return (
-            <td {...cell.getCellProps()}>
-              {console.log(row, cell)}
-              {cell.column.Header === "Images" ? (
-                <Image name={cell.value[0]} />
+    return (
+      <>
+        <tr {...row.getRowProps()} onClick={toggle}>
+          {row.cells.map((cell: Cell<TenantRow, any>, index: number) => {
+            return (
+              <td {...cell.getCellProps()}>
+               
+                {cell.column.Header === "Images" ? (
+                  <Image storage={storage}  name={cell.value[0]} />
+               
+                ) : (               
+                  cell.render("Cell")
+                )}
+              </td>
+            );}
+          )}
+         
+          <td>
+            <button
+              className="btn btn-secondary"
+              onClick={() => onViewClick(row.original.id)}
+            >
+              View
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td
+            colSpan={3}
+            className="text-center"
+            style={isOpen ? {} : { padding: 0 }}
+          >
+            <Collapse isOpen={isOpen}>
+              {row.cells[2].value.length ? (
+                <ImageGridStyles>
+                  {row.cells[2].value.map((i: string) => (
+                    <>
+                      <Image storage={storage} name={i} />
+                                      
+                    </>
+                  ))}
+                </ImageGridStyles>
               ) : (
-                cell.render("Cell")
+                "No images to show."
               )}
-            </td>
-          );
-        })}
-        <td></td>
-        <td>
-          <button onClick={() => onViewClick(row.original.id)}>View</button>
-        </td>
-      </tr>
-
-      <tr>
-        <td
-          colSpan={3}
-          className="text-center"
-          style={isOpen ? {} : { padding: 0 }}
-        >
-          <Collapse isOpen={isOpen}>
-            {row.cells[2].value.length ? (
-              <ImageGridStyles>
-                {row.cells[2].value.map((i: string) => (
-                  <>
-                    <Image name={i} />
-                  </>
-                ))}
-              </ImageGridStyles>
-            ) : (
-              "No images to show."
-            )}
-          </Collapse>
-        </td>
-      </tr>
-    </>
-  );
-};
+            </Collapse>
+          </td>
+        </tr>
+      </>
+    );
+    };
 
 export default TenantTableCollapse;

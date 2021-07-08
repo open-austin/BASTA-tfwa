@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { getToken } from "./firebase";
+import firebase from "firebase";
+import "@firebase/storage";
 
 interface ImageProps {
   name: string;
+  storage: firebase.storage.Storage;
 }
-
-const Image: React.FC<ImageProps> = ({ name }) => {
+const Image: React.FC<ImageProps> = ({ name, storage }) => {
+  console.log(`name ${name}`);
   const [url, setUrl] = useState("");
+
   useEffect(() => {
-    const func = async () => {
-      const token = await getToken();
-      const imageResponse = await axios
-        .get(`${process.env.REACT_APP_API_URL}/api/image?name=${name}`, {
-          responseType: "arraybuffer",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((x) => x.data);
-      const base64 = Buffer.from(imageResponse, "binary").toString("base64");
-      setUrl("data:image/png;base64," + base64);
-      //   const blob = new Blob([imageResponse], { type: "image/png" });
-      //   console.log("RESPONSE", blob);
-      //   setUrl(window.URL.createObjectURL(blob));
+    const onFileChange = async () => {
+      const storageRef = storage.ref();
+      const promise = storageRef.child(name);
+      setUrl(await promise.getDownloadURL());
     };
-    func();
-  }, [name]);
-  // eslint-disable-next-line jsx-a11y/alt-text
-  return <img src={url} />;
+    onFileChange();
+  }, [name, storage]);
+
+  return <img src={url} alt="" />;
 };
 
 export default Image;
