@@ -6,7 +6,7 @@ import Image from "./image";
 import styled from "styled-components";
 import firebase from "firebase";
 import "@firebase/storage";
-import { callbackify } from "util";
+
 
 const ImageGridStyles = styled.div`
   display: grid;

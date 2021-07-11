@@ -41,23 +41,15 @@ const PhoneTableCollapse = ({ row }: Props) => {
     history.push(`/dashboard/tenant/${userId}`);
   };
 
-  const getUniqueRandomArray = (length: number) => {
-    const arr: number[] = [];
-    while (arr.length < length) {
-      var r = Math.floor(Math.random() * 100) + 1;
-      if (arr.indexOf(r) === -1) arr.push(r);
-    }
-    return arr;
-  };
   return (
     <>
       <tr {...row.getRowProps()} onClick={toggle}>
         {row.cells.map((cell: Cell<PhoneRow, any>, index: number) => {
-          const arr = getUniqueRandomArray(row.cells.length);
           return (
             <>
               <td {...cell.getCellProps()}>
-                {cell.column.Header === "Name" && row.original.tenantId === "" ? (
+                {cell.column.Header === "Name" &&
+                row.original.tenantId === "" ? (
                   <button className="btn btn-info">Register Tenant</button>
                 ) : (
                   <></>
@@ -68,7 +60,10 @@ const PhoneTableCollapse = ({ row }: Props) => {
                     name={cell.value?.[1]?.[1]}
                     id={
                       "image" +
-                      (cell.value?.[1]?.[0].replace("=",'') + row.original.tenantId).replace("=",'')
+                      (
+                        cell.value?.[1]?.[0].replace("=", "") +
+                        row.original.tenantId
+                      ).replace("=", "")
                     }
                     labels={
                       cell.value
@@ -108,13 +103,15 @@ const PhoneTableCollapse = ({ row }: Props) => {
               <ImageGridStyles>
                 {row.cells[3].value.map(
                   (i: [string, string], index: number) => {
-                    const arr = getUniqueRandomArray(row.cells[3].value.length);
                     return (
                       <>
                         <Image
                           storage={storage}
                           name={i[1]}
-                          id={`image${i[0].replace("=",'')+ row.original.tenantId.replace("=",'')}`}
+                          id={`image${
+                            i[0].replace("=", "") +
+                            row.original.tenantId.replace("=", "")
+                          }`}
                           labels={
                             row.original.labels !== undefined
                               ? (row.original.labels
