@@ -15,6 +15,7 @@
         "kind": "OBJECT",
         "name": "Mutation",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "addImage",
@@ -32,7 +33,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -63,7 +66,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -94,7 +99,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -125,7 +132,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -136,33 +145,6 @@
                 "name": "CreatePropertyPayload",
                 "ofType": null
               }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "verifyAddress",
-            "description": null,
-            "args": [
-              {
-                "name": "address",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "AddressInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Address",
-              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -183,7 +165,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -192,6 +176,39 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "CreateResidencePayload",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "verifyAddress",
+            "description": null,
+            "args": [
+              {
+                "name": "address",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "VerifyAddressInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "VerifyAddressPayload",
                 "ofType": null
               }
             },
@@ -208,6 +225,7 @@
         "kind": "OBJECT",
         "name": "Query",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "node",
@@ -225,7 +243,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -248,7 +268,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -258,7 +280,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -268,7 +292,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -278,7 +304,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -288,7 +316,9 @@
                   "name": "TenantFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -306,7 +336,9 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -329,11 +361,13 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -360,7 +394,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -370,7 +406,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -380,7 +418,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -390,7 +430,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -400,7 +442,9 @@
                   "name": "PropertyFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -418,7 +462,9 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -441,11 +487,13 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -472,7 +520,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -482,7 +532,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -492,7 +544,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -502,7 +556,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -512,7 +568,9 @@
                   "name": "ResidenceFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -530,7 +588,9 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -553,11 +613,13 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -590,13 +652,15 @@
                       "name": null,
                       "ofType": {
                         "kind": "SCALAR",
-                        "name": "Int",
+                        "name": "ID",
                         "ofType": null
                       }
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -631,7 +695,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -641,7 +707,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -651,7 +719,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -661,7 +731,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -671,7 +743,9 @@
                   "name": "PhoneFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -689,13 +763,48 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
               "kind": "OBJECT",
               "name": "PhoneConnection",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Phone",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -736,7 +845,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -746,7 +857,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -756,7 +869,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -766,7 +881,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -776,7 +893,9 @@
                   "name": "ImageFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -794,7 +913,9 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -817,11 +938,13 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -848,7 +971,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "after",
@@ -858,7 +983,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "last",
@@ -868,7 +995,9 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "before",
@@ -878,7 +1007,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "where",
@@ -888,7 +1019,9 @@
                   "name": "AddressFilterInput",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "order",
@@ -906,7 +1039,9 @@
                     }
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -929,11 +1064,13 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -958,6 +1095,7 @@
         "kind": "OBJECT",
         "name": "Subscription",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "onNewPhoneReceived",
@@ -985,6 +1123,7 @@
         "kind": "OBJECT",
         "name": "__Directive",
         "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -1088,6 +1227,7 @@
         "kind": "ENUM",
         "name": "__DirectiveLocation",
         "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1213,6 +1353,7 @@
         "kind": "OBJECT",
         "name": "__EnumValue",
         "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -1280,6 +1421,7 @@
         "kind": "OBJECT",
         "name": "__Field",
         "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -1321,7 +1463,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1398,6 +1542,7 @@
         "kind": "OBJECT",
         "name": "__InputValue",
         "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -1493,6 +1638,7 @@
         "kind": "OBJECT",
         "name": "__Schema",
         "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "description",
@@ -1604,6 +1750,7 @@
         "kind": "OBJECT",
         "name": "__Type",
         "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "kind",
@@ -1669,7 +1816,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1740,7 +1889,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1771,7 +1922,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1812,6 +1965,7 @@
         "kind": "ENUM",
         "name": "__TypeKind",
         "description": "An enum describing what kind of type a given `__Type` is.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1871,7 +2025,24 @@
         "kind": "OBJECT",
         "name": "Phone",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "images",
             "description": null,
@@ -1889,15 +2060,15 @@
             "deprecationReason": null
           },
           {
-            "name": "id",
+            "name": "tenants",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
+                "kind": "OBJECT",
+                "name": "Tenant",
                 "ofType": null
               }
             },
@@ -1921,32 +2092,26 @@
             "deprecationReason": null
           },
           {
-            "name": "tenants",
+            "name": "preferredLanguage",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Tenant",
-                    "ofType": null
-                  }
-                }
-              }
+              "kind": "ENUM",
+              "name": "PreferredLanguage",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           }
         ],
         "inputFields": null,
-        "interfaces": [],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Node",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -1954,6 +2119,7 @@
         "kind": "OBJECT",
         "name": "Tenant",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -1984,17 +2150,62 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "phones",
             "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+            "args": [
+              {
+                "name": "first",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "after",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PhoneConnection",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2005,31 +2216,23 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "ID",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "phones",
+            "name": "name",
             "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Phone",
-                    "ofType": null
-                  }
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               }
             },
             "isDeprecated": false,
@@ -2051,6 +2254,7 @@
         "kind": "OBJECT",
         "name": "Address",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2196,6 +2400,7 @@
         "kind": "OBJECT",
         "name": "Image",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2281,6 +2486,7 @@
         "kind": "OBJECT",
         "name": "Property",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2370,6 +2576,7 @@
         "kind": "OBJECT",
         "name": "Residence",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2383,6 +2590,34 @@
                 "name": "ID",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addressId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "propertyId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2410,34 +2645,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "propertyId",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "addressId",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2455,6 +2662,7 @@
         "kind": "INTERFACE",
         "name": "Node",
         "description": "The node interface is implemented by entities that have a global unique identifier.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2477,6 +2685,11 @@
         "interfaces": [],
         "enumValues": null,
         "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Phone",
+            "ofType": null
+          },
           {
             "kind": "OBJECT",
             "name": "Tenant",
@@ -2508,6 +2721,7 @@
         "kind": "SCALAR",
         "name": "String",
         "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2518,6 +2732,7 @@
         "kind": "SCALAR",
         "name": "Boolean",
         "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2528,6 +2743,7 @@
         "kind": "SCALAR",
         "name": "Int",
         "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2538,6 +2754,7 @@
         "kind": "SCALAR",
         "name": "ID",
         "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2545,9 +2762,78 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "PhoneConnection",
+        "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "pageInfo",
+            "description": "Information to aid in pagination.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PageInfo",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "edges",
+            "description": "A list of edges.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PhoneEdge",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "nodes",
+            "description": "A flattened list of the nodes.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Phone",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "ApplyPolicy",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2569,8 +2855,145 @@
       },
       {
         "kind": "OBJECT",
+        "name": "PageInfo",
+        "description": "Information about pagination in a connection.",
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "hasNextPage",
+            "description": "Indicates whether more edges exist following the set defined by the clients arguments.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "hasPreviousPage",
+            "description": "Indicates whether more edges exist prior the set defined by the clients arguments.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "startCursor",
+            "description": "When paginating backwards, the cursor to continue.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "endCursor",
+            "description": "When paginating forwards, the cursor to continue.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PhoneEdge",
+        "description": "An edge in a connection.",
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "cursor",
+            "description": "A cursor for use in pagination.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "node",
+            "description": "The item at the end of the edge.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Phone",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "PreferredLanguage",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "EN",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ES",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "ImageLabel",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "source",
@@ -2626,6 +3049,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TenantFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2644,7 +3068,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -2662,7 +3088,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2672,7 +3100,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "residenceId",
@@ -2682,7 +3112,9 @@
               "name": "ComparableNullableOfInt32OperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "currentResidence",
@@ -2692,7 +3124,9 @@
               "name": "ResidenceFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phones",
@@ -2702,7 +3136,9 @@
               "name": "ListFilterInputTypeOfPhoneFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2713,6 +3149,7 @@
         "kind": "INPUT_OBJECT",
         "name": "TenantSortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2723,7 +3160,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2733,7 +3172,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "residenceId",
@@ -2743,7 +3184,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "currentResidence",
@@ -2753,7 +3196,9 @@
               "name": "ResidenceSortInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2764,6 +3209,7 @@
         "kind": "OBJECT",
         "name": "TenantConnection",
         "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageInfo",
@@ -2831,6 +3277,7 @@
         "kind": "INPUT_OBJECT",
         "name": "PropertyFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2849,7 +3296,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -2867,7 +3316,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2877,7 +3328,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "addressId",
@@ -2887,7 +3340,9 @@
               "name": "ComparableInt32OperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "address",
@@ -2897,7 +3352,9 @@
               "name": "AddressFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "residences",
@@ -2907,7 +3364,9 @@
               "name": "ListFilterInputTypeOfResidenceFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2918,6 +3377,7 @@
         "kind": "INPUT_OBJECT",
         "name": "PropertySortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -2928,7 +3388,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -2938,7 +3400,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "addressId",
@@ -2948,7 +3412,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "address",
@@ -2958,7 +3424,9 @@
               "name": "AddressSortInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -2969,6 +3437,7 @@
         "kind": "OBJECT",
         "name": "PropertyConnection",
         "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageInfo",
@@ -3036,6 +3505,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ResidenceFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3054,7 +3524,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -3072,7 +3544,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "property",
@@ -3082,7 +3556,9 @@
               "name": "PropertyFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "addressId",
@@ -3092,7 +3568,9 @@
               "name": "ComparableInt32OperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "address",
@@ -3102,7 +3580,9 @@
               "name": "AddressFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3113,6 +3593,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ResidenceSortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3123,7 +3604,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "propertyId",
@@ -3133,7 +3616,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "property",
@@ -3143,7 +3628,9 @@
               "name": "PropertySortInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "addressId",
@@ -3153,7 +3640,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "address",
@@ -3163,7 +3652,9 @@
               "name": "AddressSortInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3174,6 +3665,7 @@
         "kind": "OBJECT",
         "name": "ResidenceConnection",
         "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageInfo",
@@ -3241,6 +3733,7 @@
         "kind": "INPUT_OBJECT",
         "name": "PhoneFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3259,7 +3752,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -3277,7 +3772,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phoneNumber",
@@ -3287,7 +3784,21 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "preferredLanguage",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableOfPreferredLanguageOperationFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "tenants",
@@ -3297,7 +3808,9 @@
               "name": "ListFilterInputTypeOfTenantFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "images",
@@ -3307,7 +3820,9 @@
               "name": "ListFilterInputTypeOfImageFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3318,6 +3833,7 @@
         "kind": "INPUT_OBJECT",
         "name": "PhoneSortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3328,7 +3844,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phoneNumber",
@@ -3338,7 +3856,21 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "preferredLanguage",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortEnumType",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3346,76 +3878,10 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
-        "name": "PhoneConnection",
-        "description": "A connection to a list of items.",
-        "fields": [
-          {
-            "name": "pageInfo",
-            "description": "Information to aid in pagination.",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "PageInfo",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "edges",
-            "description": "A list of edges.",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PhoneEdge",
-                  "ofType": null
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "nodes",
-            "description": "A flattened list of the nodes.",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Phone",
-                  "ofType": null
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "INPUT_OBJECT",
         "name": "ImageFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3434,7 +3900,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -3452,7 +3920,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -3462,7 +3932,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "thumbnailName",
@@ -3472,7 +3944,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "labels",
@@ -3482,7 +3956,9 @@
               "name": "ListFilterInputTypeOfImageLabelFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3493,6 +3969,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ImageSortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3503,7 +3980,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -3513,7 +3992,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "thumbnailName",
@@ -3523,7 +4004,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3534,6 +4017,7 @@
         "kind": "OBJECT",
         "name": "ImageConnection",
         "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageInfo",
@@ -3601,6 +4085,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AddressFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3619,7 +4104,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -3637,7 +4124,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line1",
@@ -3647,7 +4136,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line2",
@@ -3657,7 +4148,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line3",
@@ -3667,7 +4160,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line4",
@@ -3677,7 +4172,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "city",
@@ -3687,7 +4184,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "state",
@@ -3697,7 +4196,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "postalCode",
@@ -3707,7 +4208,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "validationMessage",
@@ -3717,7 +4220,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3728,6 +4233,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AddressSortInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3738,7 +4244,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line1",
@@ -3748,7 +4256,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line2",
@@ -3758,7 +4268,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line3",
@@ -3768,7 +4280,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line4",
@@ -3778,7 +4292,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "city",
@@ -3788,7 +4304,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "state",
@@ -3798,7 +4316,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "postalCode",
@@ -3808,7 +4328,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "validationMessage",
@@ -3818,7 +4340,9 @@
               "name": "SortEnumType",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3829,6 +4353,7 @@
         "kind": "OBJECT",
         "name": "AddressConnection",
         "description": "A connection to a list of items.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageInfo",
@@ -3896,6 +4421,7 @@
         "kind": "INPUT_OBJECT",
         "name": "StringOperationFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -3914,7 +4440,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -3932,7 +4460,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "eq",
@@ -3942,7 +4472,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "neq",
@@ -3952,7 +4484,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "contains",
@@ -3962,7 +4496,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ncontains",
@@ -3972,7 +4508,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "in",
@@ -3986,7 +4524,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nin",
@@ -4000,7 +4540,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "startsWith",
@@ -4010,7 +4552,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nstartsWith",
@@ -4020,7 +4564,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "endsWith",
@@ -4030,7 +4576,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nendsWith",
@@ -4040,7 +4588,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4051,6 +4601,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ComparableNullableOfInt32OperationFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4061,7 +4612,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "neq",
@@ -4071,7 +4624,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "in",
@@ -4085,7 +4640,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nin",
@@ -4099,7 +4656,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gt",
@@ -4109,7 +4668,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngt",
@@ -4119,7 +4680,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gte",
@@ -4129,7 +4692,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngte",
@@ -4139,7 +4704,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lt",
@@ -4149,7 +4716,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlt",
@@ -4159,7 +4728,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lte",
@@ -4169,7 +4740,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlte",
@@ -4179,7 +4752,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4190,6 +4765,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ListFilterInputTypeOfPhoneFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4200,7 +4776,9 @@
               "name": "PhoneFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "none",
@@ -4210,7 +4788,9 @@
               "name": "PhoneFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "some",
@@ -4220,7 +4800,9 @@
               "name": "PhoneFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "any",
@@ -4230,7 +4812,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4241,6 +4825,7 @@
         "kind": "ENUM",
         "name": "SortEnumType",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -4262,75 +4847,9 @@
       },
       {
         "kind": "OBJECT",
-        "name": "PageInfo",
-        "description": "Information about pagination in a connection.",
-        "fields": [
-          {
-            "name": "hasNextPage",
-            "description": "Indicates whether more edges exist following the set defined by the clients arguments.",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "hasPreviousPage",
-            "description": "Indicates whether more edges exist prior the set defined by the clients arguments.",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "startCursor",
-            "description": "When paginating backwards, the cursor to continue.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "endCursor",
-            "description": "When paginating forwards, the cursor to continue.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "TenantEdge",
         "description": "An edge in a connection.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "cursor",
@@ -4374,6 +4893,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ComparableInt32OperationFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4384,7 +4904,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "neq",
@@ -4394,7 +4916,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "in",
@@ -4412,7 +4936,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nin",
@@ -4430,7 +4956,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gt",
@@ -4440,7 +4968,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngt",
@@ -4450,7 +4980,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gte",
@@ -4460,7 +4992,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngte",
@@ -4470,7 +5004,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lt",
@@ -4480,7 +5016,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlt",
@@ -4490,7 +5028,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lte",
@@ -4500,7 +5040,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlte",
@@ -4510,7 +5052,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4521,6 +5065,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ListFilterInputTypeOfResidenceFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4531,7 +5076,9 @@
               "name": "ResidenceFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "none",
@@ -4541,7 +5088,9 @@
               "name": "ResidenceFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "some",
@@ -4551,7 +5100,9 @@
               "name": "ResidenceFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "any",
@@ -4561,7 +5112,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4572,6 +5125,7 @@
         "kind": "OBJECT",
         "name": "PropertyEdge",
         "description": "An edge in a connection.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "cursor",
@@ -4615,6 +5169,7 @@
         "kind": "OBJECT",
         "name": "ResidenceEdge",
         "description": "An edge in a connection.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "cursor",
@@ -4656,8 +5211,77 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "NullableOfPreferredLanguageOperationFilterInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "eq",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "PreferredLanguage",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "neq",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "PreferredLanguage",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PreferredLanguage",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "nin",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PreferredLanguage",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "ListFilterInputTypeOfTenantFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4668,7 +5292,9 @@
               "name": "TenantFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "none",
@@ -4678,7 +5304,9 @@
               "name": "TenantFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "some",
@@ -4688,7 +5316,9 @@
               "name": "TenantFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "any",
@@ -4698,7 +5328,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4709,6 +5341,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ListFilterInputTypeOfImageFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4719,7 +5352,9 @@
               "name": "ImageFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "none",
@@ -4729,7 +5364,9 @@
               "name": "ImageFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "some",
@@ -4739,7 +5376,9 @@
               "name": "ImageFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "any",
@@ -4749,7 +5388,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4757,52 +5398,10 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
-        "name": "PhoneEdge",
-        "description": "An edge in a connection.",
-        "fields": [
-          {
-            "name": "cursor",
-            "description": "A cursor for use in pagination.",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "node",
-            "description": "The item at the end of the edge.",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Phone",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "INPUT_OBJECT",
         "name": "ListFilterInputTypeOfImageLabelFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4813,7 +5412,9 @@
               "name": "ImageLabelFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "none",
@@ -4823,7 +5424,9 @@
               "name": "ImageLabelFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "some",
@@ -4833,7 +5436,9 @@
               "name": "ImageLabelFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "any",
@@ -4843,7 +5448,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4854,6 +5461,7 @@
         "kind": "OBJECT",
         "name": "ImageEdge",
         "description": "An edge in a connection.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "cursor",
@@ -4897,6 +5505,7 @@
         "kind": "OBJECT",
         "name": "AddressEdge",
         "description": "An edge in a connection.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "cursor",
@@ -4940,6 +5549,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ImageLabelFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -4958,7 +5568,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "or",
@@ -4976,7 +5588,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "source",
@@ -4986,7 +5600,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "label",
@@ -4996,7 +5612,9 @@
               "name": "StringOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "confidence",
@@ -5006,7 +5624,9 @@
               "name": "ComparableNullableOfSingleOperationFilterInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5017,6 +5637,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ComparableNullableOfSingleOperationFilterInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5027,7 +5648,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "neq",
@@ -5037,7 +5660,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "in",
@@ -5051,7 +5676,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nin",
@@ -5065,7 +5692,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gt",
@@ -5075,7 +5704,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngt",
@@ -5085,7 +5716,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "gte",
@@ -5095,7 +5728,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "ngte",
@@ -5105,7 +5740,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lt",
@@ -5115,7 +5752,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlt",
@@ -5125,7 +5764,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "lte",
@@ -5135,7 +5776,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "nlte",
@@ -5145,7 +5788,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5156,6 +5801,7 @@
         "kind": "SCALAR",
         "name": "Float",
         "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5164,8 +5810,149 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "VerifyAddressInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "line1",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "line2",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "line3",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "line4",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "city",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "state",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postalCode",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "VerifyAddressPayload",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "payload",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "USPSVerifyPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "errors",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserError",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "CreateResidenceInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5180,17 +5967,21 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "propertyId",
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "ID",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5201,6 +5992,7 @@
         "kind": "OBJECT",
         "name": "CreateResidencePayload",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "payload",
@@ -5242,129 +6034,9 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "AddressInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "line1",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "line2",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "line3",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "line4",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "city",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "state",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "postalCode",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "validationMessage",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "CreatePropertyInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5379,7 +6051,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "name",
@@ -5393,7 +6067,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5404,6 +6080,7 @@
         "kind": "OBJECT",
         "name": "CreatePropertyPayload",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "payload",
@@ -5447,6 +6124,7 @@
         "kind": "INPUT_OBJECT",
         "name": "CreatePhoneInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5461,7 +6139,25 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "preferredLanguage",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PreferredLanguage",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5472,6 +6168,7 @@
         "kind": "OBJECT",
         "name": "CreatePhonePayload",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "payload",
@@ -5515,6 +6212,7 @@
         "kind": "INPUT_OBJECT",
         "name": "CreateTenantInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5529,7 +6227,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "phoneNumber",
@@ -5543,7 +6243,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "currentResidence",
@@ -5553,7 +6255,21 @@
               "name": "CreateResidenceInput",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "residenceId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5564,6 +6280,7 @@
         "kind": "OBJECT",
         "name": "CreateTenantPayload",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "payload",
@@ -5607,6 +6324,7 @@
         "kind": "INPUT_OBJECT",
         "name": "AddImageInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5621,7 +6339,25 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "thumbnailName",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "tenant",
@@ -5630,12 +6366,14 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TenantInput",
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "residence",
@@ -5644,12 +6382,14 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ResidenceInput",
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "labels",
@@ -5671,7 +6411,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5682,6 +6424,7 @@
         "kind": "OBJECT",
         "name": "AddImagePayload",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "payload",
@@ -5725,6 +6468,7 @@
         "kind": "INPUT_OBJECT",
         "name": "ImageLabelInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
@@ -5739,7 +6483,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "label",
@@ -5753,7 +6499,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "confidence",
@@ -5763,7 +6511,9 @@
               "name": "Float",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5772,99 +6522,13 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ResidenceInput",
+        "name": "CreateAddressInput",
         "description": null,
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "propertyId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "property",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PropertyInput",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "addressId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "address",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "AddressInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TenantInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "name",
+            "name": "line1",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -5875,49 +6539,93 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "residenceId",
+            "name": "line2",
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "currentResidence",
+            "name": "line3",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ResidenceInput",
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "phones",
+            "name": "line4",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "city",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "PhoneInput",
-                    "ofType": null
-                  }
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "state",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postalCode",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -5928,6 +6636,7 @@
         "kind": "OBJECT",
         "name": "UserError",
         "description": null,
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "message",
@@ -5968,338 +6677,134 @@
         "possibleTypes": null
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "CreateAddressInput",
+        "kind": "OBJECT",
+        "name": "USPSVerifyPayload",
         "description": null,
-        "fields": null,
-        "inputFields": [
+        "specifiedByUrl": null,
+        "fields": [
           {
             "name": "line1",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "line2",
             "description": null,
+            "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
-          },
-          {
-            "name": "line3",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "line4",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "city",
             "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "state",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "postalCode",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "PhoneInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "phoneNumber",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "tenants",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TenantInput",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "images",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "ImageInput",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "PropertyInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "name",
-            "description": null,
+            "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "addressId",
+            "name": "state",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "address",
+            "name": "postalCode",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "AddressInput",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "residences",
+            "name": "returnText",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "ResidenceInput",
-                    "ofType": null
-                  }
-                }
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uSPSError",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "USPSError",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
-        "interfaces": null,
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "ImageInput",
+        "kind": "OBJECT",
+        "name": "USPSError",
         "description": null,
-        "fields": null,
-        "inputFields": [
+        "specifiedByUrl": null,
+        "fields": [
           {
-            "name": "id",
+            "name": "number",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "description",
             "description": null,
+            "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
-          },
-          {
-            "name": "thumbnailName",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "labels",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ImageLabelInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
-        "interfaces": null,
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       }
@@ -6327,7 +6832,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -6353,7 +6860,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -6374,7 +6883,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "if",
@@ -6384,7 +6895,9 @@
               "name": "Boolean",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -6404,7 +6917,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "initialCount",
@@ -6418,7 +6933,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "if",
@@ -6432,7 +6949,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -6454,7 +6973,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "roles",
@@ -6472,7 +6993,9 @@
                 }
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "apply",
@@ -6486,7 +7009,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": "BEFORE_RESOLVER"
+            "defaultValue": "BEFORE_RESOLVER",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -6507,7 +7032,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": "\"No longer supported\""
+            "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       }
