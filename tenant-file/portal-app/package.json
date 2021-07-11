@@ -50,7 +50,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.ts*",
-    "generate": "apollo client:codegen ./src/types --target=typescript --localSchemaFile=graphql-schema.json --outputFlat"
+    "generate": "npx apollo client:codegen ./src/types --target=typescript --localSchemaFile=graphql-schema.json --outputFlat"
   },
   "eslintConfig": {
     "extends": "react-app"
