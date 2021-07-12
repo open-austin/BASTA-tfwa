@@ -37,8 +37,12 @@ const PhoneTableCollapse = ({ row }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const onViewClick = (userId: string) => {
-    history.push(`/dashboard/tenant/${userId}`);
+  const onViewClick = (tenantId: string) => {
+    history.push(`/dashboard/tenant/${tenantId}`);
+  };
+  
+  const onRegisterTenantClick = (phone: string) => {
+    history.push(`/add-tenant/?phone=${phone}`);
   };
 
   return (
@@ -50,7 +54,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
               <td {...cell.getCellProps()}>
                 {cell.column.Header === "Name" &&
                 row.original.tenantId === "" ? (
-                  <button className="btn btn-info">Register Tenant</button>
+                  <button onClick={() => onRegisterTenantClick(row.original.phone)} className="btn btn-info">Register Tenant</button>
                 ) : (
                   <></>
                 )}

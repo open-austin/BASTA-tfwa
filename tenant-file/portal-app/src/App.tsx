@@ -39,8 +39,8 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/add-tenant">
-          <AddTenant />
+        <Route path="/add-tenant/:phone"
+          component={AddTenant}>
         </Route>
         <Route path="/properties">
           <Properties />

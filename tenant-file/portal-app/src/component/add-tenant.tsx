@@ -4,6 +4,11 @@ import { Formik, Field, Form } from "formik";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 
+import {RouteComponentProps} from 'react-router-dom';
+
+type TParams = {
+    phone: string;
+  }
 const ADD_TENANT = gql`
     mutation addingATenant($fullName: String!, $phoneNumber: String!, $street: String!, $unitNumber: String!, $city: String!, $zip: String!, $bldgId: ID) {
 
@@ -39,13 +44,12 @@ function ValidatePhoneNumber(number: any) {
     return error;
 }
 
-export default () => {
+const AddTenant: React.FC<RouteComponentProps<TParams>> = ({match}) => {
 
-    const [addTenant] = useMutation(ADD_TENANT);
+    const [tenantData] = useMutation(ADD_TENANT);
 
     const { loading, data } = useQuery(GET_PROPERTIES);
-
-    
+        
     const labelIndentation = {
         textIndent: '50px'
     };
@@ -66,12 +70,11 @@ export default () => {
         state: '',
         zip: '',
         bldgId: '',
-        phoneNumber: ''
-        }}
+        phoneNumber: match.params.phone? match.params.phone : ''  }}
         onSubmit={         
             async e => {
                 console.log("The ID is: " + e.bldgId);
-                addTenant({
+                tenantData({
                     variables:
                     {
                         fullName: e.firstName + " " + e.lastName,
@@ -135,3 +138,4 @@ export default () => {
         )}
     </Formik>
 }
+export default AddTenant;
