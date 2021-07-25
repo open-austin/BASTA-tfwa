@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -10,7 +10,8 @@ const StyledNav = styled.nav`
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 3;
-
+  top: 0;
+  height: 50px;
   & > * {
     margin: 1rem 0.5rem;
   }

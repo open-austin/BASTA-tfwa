@@ -14,7 +14,7 @@ using TenantFile.Api.Models.Addresses;
 
 namespace TenantFile.Api.Models.Properties
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(OperationTypeNames.Mutation)]
     public class AddressMutations
     {
         public async Task<VerifyAddressPayload> VerifyAddress([Service] IAddressVerificationService service, VerifyAddressInput address)

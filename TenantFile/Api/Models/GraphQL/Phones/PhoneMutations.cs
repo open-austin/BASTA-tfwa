@@ -11,7 +11,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Phones
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(OperationTypeNames.Mutation)]
     public class PhoneMutations
     {
         [UseTenantFileContext]

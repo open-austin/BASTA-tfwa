@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace TenantFile.Api.Tenants
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class TenantQueries
     {
         [UseTenantFileContext]

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Collapse } from "reactstrap";
 import { Cell, Row } from "react-table";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
 import firebase from "firebase";
@@ -18,7 +18,10 @@ const ImageGridStyles = styled.div`
     place-self: center;
   }
 `;
-
+type ActionFunc = {
+  name: string;
+  func: Function;
+};
 type PhoneRow = {
   name: string;
   tenantId: string;
@@ -26,48 +29,56 @@ type PhoneRow = {
   images: [string, string][];
   property: string;
   labels: [string, string[]][];
+  actionFunc: JSX.Element;
 };
-
+// function b64_to_utf8(str: string) {
+//   return decodeURIComponent(escape(window.atob(str)));
+// }
 type Props = {
   row: Row<PhoneRow>;
 };
 const storage = firebase.app().storage();
 const PhoneTableCollapse = ({ row }: Props) => {
-  let history = useHistory();
+  //let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const onViewClick = (tenantId: string) => {
-    history.push(`/dashboard/tenant/${tenantId}`);
-  };
-  
-  const onRegisterTenantClick = (phone: string) => {
-    history.push(`/add-tenant/?phone=${phone}`);
-  };
+  // const onViewClick = (tenantId: string) => {
+  //   history.push(`/dashboard/tenant/${tenantId}`);
+  // };
+
+  // const onRegisterTenantClick = (phone: string) => {
+  //   history.push(`/add-tenant/?phone=${phone}`);
+  // };
 
   return (
     <>
       <tr {...row.getRowProps()} onClick={toggle}>
         {row.cells.map((cell: Cell<PhoneRow, any>, index: number) => {
+          if (
+            cell.column.Header === "Images" &&
+            cell?.value?.[1]?.[0] !== undefined
+          ) {
+            console.log(
+              ` cell.value?.[1]?.[0] ${atob(cell?.value?.[1]?.[0]).replace(
+                "\n",
+                ""
+              )}`
+            );
+            console.log(`atob cell.value?.[1]?.[0] ${cell?.value?.[1]?.[0]}`);
+          }
           return (
             <>
               <td {...cell.getCellProps()}>
-                {cell.column.Header === "Name" &&
-                row.original.tenantId === "" ? (
-                  <button onClick={() => onRegisterTenantClick(row.original.phone)} className="btn btn-info">Register Tenant</button>
-                ) : (
-                  <></>
-                )}
                 {cell.column.Header === "Images" ? (
                   <Image
                     storage={storage}
                     name={cell.value?.[1]?.[1]}
                     id={
-                      "image" +
-                      (
-                        cell.value?.[1]?.[0].replace("=", "") +
-                        row.original.tenantId
-                      ).replace("=", "")
+                      cell.value?.[1]?.[0] == undefined
+                        ? "image"
+                        : atob(cell?.value?.[1]?.[0]).replace("\n", "") +
+                          atob(row?.original?.tenantId).replace("\n", "")
                     }
                     labels={
                       cell.value
@@ -86,15 +97,6 @@ const PhoneTableCollapse = ({ row }: Props) => {
             </>
           );
         })}
-
-        <td>
-          <button
-            className="btn btn-secondary"
-            onClick={() => onViewClick(row.original.tenantId)}
-          >
-            View
-          </button>
-        </td>
       </tr>
       <tr>
         <td
@@ -112,10 +114,17 @@ const PhoneTableCollapse = ({ row }: Props) => {
                         <Image
                           storage={storage}
                           name={i[1]}
-                          id={`image${
-                            i[0].replace("=", "") +
-                            row.original.tenantId.replace("=", "")
-                          }`}
+                          id={
+                            i[1] == undefined
+                              ? "image"
+                              : `${
+                                  atob(i[0]).replace("\n", "") +
+                                  atob(row?.original?.tenantId).replace(
+                                    "\n",
+                                    ""
+                                  )
+                                }`
+                          }
                           labels={
                             row.original.labels !== undefined
                               ? (row.original.labels

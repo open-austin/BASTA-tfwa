@@ -5,8 +5,9 @@ import { PhonesFilteredByName } from "../types/PhonesFilteredByName";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import PhoneTableCollapse from "./phone-table-collapse";
+import { useHistory } from "react-router-dom";
+import styles from "./tenant-details.module.css";
 
-//TODO: THIS IS NOT FETCHING PHONES W/O TENANTS. Consider filtering on client
 const PHONES_BY_NAME_FILTER = gql`
   query PhonesFilteredByName($name: String = "") {
     phones(
@@ -65,8 +66,16 @@ const columns: Column<PhoneRow>[] = [
     Header: "Images",
     accessor: "images",
   },
+  {
+    Header: "Action",
+    accessor: "actionFunc",
+  },
 ];
 
+type ActionFunc = {
+  name: string;
+  func: Function;
+};
 type PhoneRow = {
   name: string;
   tenantId: string;
@@ -74,9 +83,23 @@ type PhoneRow = {
   images: [string, string][];
   property: string;
   labels: [string, string[]][];
+  actionFunc: JSX.Element;
 };
 
 const PhoneTable: React.FC = () => {
+  const history = useHistory();
+  const onViewClick = (tenantId: string) => {
+    console.log(`tenantID from path in phone-list ${tenantId}`);
+    history.push({
+      pathname: `/dashboard/tenant/${tenantId}`,
+      state: { [tenantId] : tenantId },
+    });
+  };
+
+  const onRegisterTenantClick = (phone: string) => {
+    history.push(`/add-tenant/${phone}`);
+  };
+
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
   const nameQuery = searchParams.get("q") || "";
@@ -84,10 +107,11 @@ const PhoneTable: React.FC = () => {
     name: nameQuery,
   };
 
-  const { loading, error, data } = useQuery<PhonesFilteredByName>(
+  const { loading, error, data, refetch } = useQuery<PhonesFilteredByName>(
     PHONES_BY_NAME_FILTER,
     {
       variables: queryVariables,
+      fetchPolicy: "cache-and-network",
     }
   );
 
@@ -117,6 +141,26 @@ const PhoneTable: React.FC = () => {
                 (l) => `${l.label} - ${Math.round((l.confidence ?? 0) * 100)}%`
               ) as string[],
           ]) as [string, string[]][],
+          // actionFunc: edge.node.tenants?.[0]?.id === "" ?
+          //   { name: "Register", func: onRegisterTenantClick }
+          //   :{name: "View", func: onViewClick}
+          actionFunc: !edge.node.tenants?.[0]?.id ? (
+            <button
+              onClick={() =>
+                onRegisterTenantClick(edge.node.phoneNumber.replace("+1", ""))
+              }
+              className="btn btn-info"
+            >
+              Register Tenant
+            </button>
+          ) : (
+            <button
+              className={styles.bastaBtn}
+              onClick={() => onViewClick(edge.node.tenants?.[0]?.id ?? "")}
+            >
+              View
+            </button>
+          ),
         });
       }
       return acc;
@@ -127,11 +171,10 @@ const PhoneTable: React.FC = () => {
     data: rowData,
   });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
     <Table hover {...getTableProps()}>

@@ -15,7 +15,7 @@ using HotChocolate.Types.Relay;
 
 namespace TenantFile.Api.Models.Properties
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class PropertyQueries
     {
         [UseTenantFileContext]

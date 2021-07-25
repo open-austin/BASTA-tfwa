@@ -22,13 +22,7 @@ const Footer: React.FC = () => {
           <i className="las la-cog"></i>
           <span>Settings</span>
         </NavLink>
-        <NavLink to="#" tabIndex={0}>
-          <span>
-            {!profile.isEmpty
-              ? `You are signed in as: ${profile.token.claims.email}`
-              : 'You need to sign in'}
-          </span>
-        </NavLink>
+      
       </StyledFooter>
     </>
   );

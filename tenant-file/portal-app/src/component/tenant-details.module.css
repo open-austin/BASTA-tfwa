@@ -1,0 +1,98 @@
+.readOnlyInput {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem);
+  padding: 0.375rem calc(0.75rem + 1px);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  color: black;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 0px solid transparent;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.formControl {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition:  border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.formLabel {
+  color: #524763;
+  font-weight: 300;
+  margin-bottom: 0px;
+}
+.cardHeader,
+.cardheader > div > div > h4 {
+  color: #524763;
+  padding: 1.25rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.bastaBtn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 2px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  color: white;
+  background-color: #524763;
+  border-color: #29282b;
+  margin: 0;
+  font-family: inherit;
+}
+.bastaBtn:hover {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: transparent;
+
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  color: #524763;
+  background-color: #f0c28688;
+  /* border-color: hsl(40deg 52% 70% / 40%); */
+  margin: 0;
+  font-family: inherit;
+}
+.bastaBtn > i {
+  color: aqua;
+}
+/* .bastaBtn:hover > i {
+  color: black;
+} */

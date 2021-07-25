@@ -14,7 +14,6 @@ import Properties from './component/properties';
 import Home from './component/home';
 import TenantDetails from './component/tenant-details';
 import FileUpload from './component/file-upload';
-import AddTenant from './component/add-tenant';
 import AddProperty from './component/add-property';
 
 
@@ -39,12 +38,7 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/add-tenant/:phone"
-          component={AddTenant}>
-        </Route>
-        <Route path="/properties">
-          <Properties />
-        </Route>
+       
         <Route path="/home">
           <Home />
         </Route>

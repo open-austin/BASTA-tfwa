@@ -10,7 +10,7 @@ interface ImageProps {
   labels: string[];
 }
 const Image: React.FC<ImageProps> = ({ name, id, storage, labels }) => {
-  console.log(`name ${name}`);
+  
   const [url, setUrl] = useState("");
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [tooltipText, settooltipText] = useState("");
@@ -23,7 +23,7 @@ const Image: React.FC<ImageProps> = ({ name, id, storage, labels }) => {
         const promise = storageRef.child(name);
         setUrl(await promise.getDownloadURL());
         if (labels !== undefined) {
-          console.log(`name ${name} labels ${labels}`);
+        
           settooltipText(
             labels.reduce((text, label) => text + "\n" + label, "")
           );

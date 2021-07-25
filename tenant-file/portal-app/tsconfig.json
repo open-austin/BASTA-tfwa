@@ -5,6 +5,7 @@
       "dom",
       "dom.iterable",
       "esnext"
+     
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -21,7 +22,7 @@
   },
   "include": [
     "src"
-  ],
+, "apollo.config.js"  ],
   "exclude": [
     "src/types/globalTypes.ts"
   ]
