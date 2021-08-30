@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Mime;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Storage.V1;
@@ -82,15 +83,16 @@ namespace TenantFile.Api.Controllers
                 using var outputStream = new MemoryStream();
                 using var archive = new ZipArchive(outputStream, ZipArchiveMode.Create, true);
                 //ms.Position = 0;
-                // {
+                // Will likely be usuful to have TenantData and Property data seperate classes
                 foreach (var imageData in data!)
                 {
                     using var ms = new MemoryStream();
                     var googleObject = await _storageClient.GetObjectAsync(bucket, imageData.imageUrl);
 
                     await _storageClient.DownloadObjectAsync(googleObject, ms);
-
-                    var zipArchiveEntry = archive.CreateEntry(imageData.tenantName + imageData.imageUrl, CompressionLevel.Optimal);
+                    var imageNameWithExtension = imageData!.imageUrl!.Split("/")[1];
+                    //CreateEntry needs a full file name with extension. Can have a directory structure.
+                    var zipArchiveEntry = archive.CreateEntry($"{imageData!.tenantName}/{imageNameWithExtension.Split(".")[0]}/{imageNameWithExtension}", CompressionLevel.Optimal);
                     using (var zipStream = zipArchiveEntry.Open())
                     {
 
@@ -99,17 +101,20 @@ namespace TenantFile.Api.Controllers
                         //zipStream.Flush();
                     }
 
-                }
-                // var zipArchiveEntry = archive.CreateEntry("file1.txt", CompressionLevel.Fastest);
-                // using (var zipStream = zipArchiveEntry.Open()) zipStream.Write(file1, 0, file1.Length);
+                    var zipArchiveEntry2 = archive.CreateEntry($"{imageData!.tenantName}/{imageNameWithExtension.Split(".")[0]}/{imageNameWithExtension}-labels.txt", CompressionLevel.Optimal);
+                    using (var zipStream2 = zipArchiveEntry2.Open())
+                    {
 
-                // zipArchiveEntry = archive.CreateEntry("file2.txt", CompressionLevel.Fastest);
-                // using (var zipStream = zipArchiveEntry.Open()) zipStream.Write(file2, 0, file2.Length);
+                        zipStream2.Write(Encoding.ASCII.GetBytes(string.Concat(imageData!.labels!.Select(l => l.Label + "\r").ToList())));
+
+                    }
+
+                }
+
                 archive.Dispose();
 
-
                 outputStream.Seek(0, SeekOrigin.Begin);
-                //outputStream.ToArray();
+
                 //var response = File(outputStream.ToArray(), "application/zip", "Images.zip");
                 var packageId = Guid.NewGuid().ToString();
                 var uploadResult = await _storageClient.UploadObjectAsync(bucket, "packages/" + packageId + ".zip", MediaTypeNames.Application.Zip, outputStream);
