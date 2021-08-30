@@ -1,0 +1,34 @@
+.collapseRow {
+  display: block;
+  border: 0px solid transparent;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  transform: scaleY(0);
+}
+.showRow {
+  overflow: hidden;
+  transition: transform 0.2s ease-out;
+  height: auto;
+  line-height: 1px;
+  transform: scaleY(1);
+  transform-origin: top;
+}
+.collapsedTd{
+    padding: 0px !important;
+    border: 0px solid transparent !important;
+}
+
+/* .collapseRow,
+.collapseRow > td {
+    flex: 0;
+}
+.showRow,
+.showRow > td {
+    overflow: hidden;
+
+    transition: all 0.3s ease-out;
+
+    height: auto;
+    flex: 1;
+} */

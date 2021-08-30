@@ -26,7 +26,7 @@ const DisplayImages = () => {
     };
     func();
   }, []);
-  console.log(images);
+  // console.log(images);
 
   return (
     <Container>

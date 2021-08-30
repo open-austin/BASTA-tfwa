@@ -7,10 +7,12 @@ const StyledHeader = styled.div`
   color: ${(props) => props.theme.darkSecondary};
   font-weight: 700;
   text-align: left;
+  
 
   .main-header {
-    align-text: center;
+    text-align: center;
     vertical-align: top;
+    
   }
 
   .main-image {

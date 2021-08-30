@@ -21,7 +21,7 @@ const Properties = ({ bldgSelectHandler }: Props) => {
   const { loading, data } = useQuery(GET_PROPERTIES);
   if (loading)
     return (
-      <select className="form-control" id="bldgId" name="bldgId">
+      <select className="form-control form-control-sm" id="bldgId" name="bldgId">
         <div className="spinner-border">loading...</div>
       </select>
     );
@@ -31,7 +31,7 @@ const Properties = ({ bldgSelectHandler }: Props) => {
         console.log(`e.currentTarget.value: ${e.currentTarget.value}`);
         bldgSelectHandler(e.currentTarget.value);
       }}
-      className="form-control"
+      className="form-control form-control-sm"
       id="bldgId"
       name="bldgId"
     >

@@ -46,6 +46,7 @@ export interface GetTenantById_tenant_phones_nodes_images {
 
 export interface GetTenantById_tenant_phones_nodes {
   __typename: "Phone";
+  id: string;
   phoneNumber: string;
   preferredLanguage: PreferredLanguage | null;
   images: (GetTenantById_tenant_phones_nodes_images | null)[] | null;

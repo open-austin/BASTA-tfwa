@@ -4,8 +4,6 @@ import { Cell, Row } from "react-table";
 //import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
-import firebase from "firebase";
-import "@firebase/storage";
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -37,7 +35,7 @@ type PhoneRow = {
 type Props = {
   row: Row<PhoneRow>;
 };
-const storage = firebase.app().storage();
+
 const PhoneTableCollapse = ({ row }: Props) => {
   //let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +56,8 @@ const PhoneTableCollapse = ({ row }: Props) => {
           if (
             cell.column.Header === "Images" &&
             cell?.value?.[1]?.[0] !== undefined
-          ) {
+          )
+          {
             console.log(
               ` cell.value?.[1]?.[0] ${atob(cell?.value?.[1]?.[0]).replace(
                 "\n",
@@ -72,10 +71,9 @@ const PhoneTableCollapse = ({ row }: Props) => {
               <td {...cell.getCellProps()}>
                 {cell.column.Header === "Images" ? (
                   <Image
-                    storage={storage}
                     name={cell.value?.[1]?.[1]}
                     id={
-                      cell.value?.[1]?.[0] == undefined
+                      cell.value?.[1]?.[0] === undefined
                         ? "image"
                         : atob(cell?.value?.[1]?.[0]).replace("\n", "") +
                           atob(row?.original?.tenantId).replace("\n", "")
@@ -112,10 +110,9 @@ const PhoneTableCollapse = ({ row }: Props) => {
                     return (
                       <>
                         <Image
-                          storage={storage}
                           name={i[1]}
                           id={
-                            i[1] == undefined
+                            i[1] === undefined
                               ? "image"
                               : `${
                                   atob(i[0]).replace("\n", "") +

@@ -56,7 +56,7 @@ const Admin: React.FC = () => {
           },
         })
         .then((x) => x.data);
-      console.log("RESPONSE", usersResponse);
+      // console.log("RESPONSE", usersResponse);
       setUsers(usersResponse.users);
     };
     func();
@@ -80,7 +80,7 @@ const Admin: React.FC = () => {
               [],
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            console.log(values);
+            // console.log(values);
             if (editMode === "create") {
               await firebase
                 .auth()
