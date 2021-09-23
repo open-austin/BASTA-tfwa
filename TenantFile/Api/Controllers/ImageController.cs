@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SixLabors.ImageSharp;
 using TenantFile.Api.Common;
 using TenantFile.Api.Models;
 
@@ -89,10 +90,17 @@ namespace TenantFile.Api.Controllers
                     using var ms = new MemoryStream();
                     var googleObject = await _storageClient.GetObjectAsync(bucket, imageData.imageUrl);
 
+                    //TODO: Get date taken, this should be done on image caputre
                     await _storageClient.DownloadObjectAsync(googleObject, ms);
+
                     var imageNameWithExtension = imageData!.imageUrl!.Split("/")[1];
+                    var imageExtension = imageNameWithExtension.Split('.').Last();
+                    var rawBestLabel = imageData!.labels!.OrderByDescending(l => l.Confidence).FirstOrDefault()?.Label;
+
+                    string bestLabel = GetTrimmedLabel(rawBestLabel, 20);
+
                     //CreateEntry needs a full file name with extension. Can have a directory structure.
-                    var zipArchiveEntry = archive.CreateEntry($"{imageData!.tenantName}/{imageNameWithExtension.Split(".")[0]}/{imageNameWithExtension}", CompressionLevel.Optimal);
+                    var zipArchiveEntry = archive.CreateEntry($"{imageData!.tenantName}/{bestLabel}-date/{bestLabel}date.{imageExtension}", CompressionLevel.Optimal);
                     using (var zipStream = zipArchiveEntry.Open())
                     {
 
@@ -101,11 +109,11 @@ namespace TenantFile.Api.Controllers
                         //zipStream.Flush();
                     }
 
-                    var zipArchiveEntry2 = archive.CreateEntry($"{imageData!.tenantName}/{imageNameWithExtension.Split(".")[0]}/{imageNameWithExtension}-labels.txt", CompressionLevel.Optimal);
+                    var zipArchiveEntry2 = archive.CreateEntry($"{imageData!.tenantName}/{bestLabel}-date/{bestLabel}-date-labels.txt", CompressionLevel.Optimal);
                     using (var zipStream2 = zipArchiveEntry2.Open())
                     {
 
-                        zipStream2.Write(Encoding.ASCII.GetBytes(string.Concat(imageData!.labels!.Select(l => l.Label + "\r").ToList())));
+                        zipStream2.Write(Encoding.ASCII.GetBytes(string.Concat(imageData!.labels!.Select(l => l.Label + "-" + l.Confidence + "-" + l.Source + "\r").ToList())));
 
                     }
 
@@ -210,6 +218,33 @@ namespace TenantFile.Api.Controllers
                 _logger.LogError(ex.Message);
                 return new BadRequestResult();
             }
+        }
+        string GetTrimmedLabel(string? input, int stringLength)
+        {
+            if (input == null) return "Unlabeled Image";
+
+            int bufferlength = 0;
+            foreach (var item in input!)
+            {
+                if (char.IsLetterOrDigit(item) || char.IsWhiteSpace(item))
+                {
+                    bufferlength++;
+                }
+            }
+            bufferlength = bufferlength < stringLength ? bufferlength : stringLength;
+            var cleanArray = new char[bufferlength];
+            int bufferIndex = 0;
+            int i = 0;
+            while (i <= input?.Length && bufferIndex < bufferlength)
+            {
+                if (char.IsLetterOrDigit(input[i]) || char.IsWhiteSpace(input[i]))
+                {
+                    cleanArray[bufferIndex++] = input[i];
+                }
+                i++;
+            }
+
+            return new string(cleanArray);
         }
     }
 }

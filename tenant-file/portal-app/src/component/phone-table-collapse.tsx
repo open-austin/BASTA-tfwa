@@ -4,6 +4,8 @@ import { Cell, Row } from "react-table";
 //import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
+import ContextMenu from "./ContextMenu";
+import ImageMenu from "./ImageMenu";
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -56,8 +58,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
           if (
             cell.column.Header === "Images" &&
             cell?.value?.[1]?.[0] !== undefined
-          )
-          {
+          ) {
             console.log(
               ` cell.value?.[1]?.[0] ${atob(cell?.value?.[1]?.[0]).replace(
                 "\n",
@@ -109,6 +110,18 @@ const PhoneTableCollapse = ({ row }: Props) => {
                   (i: [string, string], index: number) => {
                     return (
                       <>
+                        <ContextMenu
+                          menu={
+                            <ImageMenu
+                              imageData={{
+                                imageUrl: i[1],
+                                phoneNumber: row.original.phone,
+                                tenantName: row.original.name,
+                                labels: row.original.labels,
+                              }}
+                            ></ImageMenu>
+                          }
+                        ></ContextMenu>
                         <Image
                           name={i[1]}
                           id={

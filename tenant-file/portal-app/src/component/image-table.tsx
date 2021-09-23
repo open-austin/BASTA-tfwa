@@ -11,7 +11,7 @@ import {
 } from "../types/GetImagesForPhone";
 // import "@google.picker";
 
-import GooglePicker from "react-google-picker";
+// import GooglePicker from "react-google-picker";
 import ImageTableCollapse from "./image-table-collapse";
 import { useState } from "react";
 // import { Label } from "reactstrap";

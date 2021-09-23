@@ -21,6 +21,7 @@ using Google.Cloud.Vision.V1;
 using System;
 using System.Text.Json;
 using TenantFile.Api.Common;
+using System.Linq.Expressions;
 
 namespace TenantFile.Api.Controllers
 {
@@ -48,11 +49,11 @@ namespace TenantFile.Api.Controllers
         [HttpPost("/api/captureData")]
         public async Task<IActionResult> CaptureTenantData([FromBody] FlowData data)
         {
-            var phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == data.from)!;
+            var phone = await context.Phones.AsQueryable().FirstOrDefaultAsync(x => x.PhoneNumber == data.from)!;
 
-            var property = context.Properties.Include(p => p.Address).AsQueryable().Where(p => p.Name == data.propertyName).First();
+            var property = await context.Properties.Include(p => p.Address).AsQueryable().Where(p => p.Name == data.propertyName).FirstAsync();
 
-            var newTenant = GetOrCreateTenant(out var tenant, phone);
+            bool newTenant = GetOrCreateTenant(out var tenant, phone);
             if (newTenant)
             {
                 tenant.Name = string.Join(" ", data.firstName, data.lastName);
@@ -114,7 +115,7 @@ namespace TenantFile.Api.Controllers
             var imageUrlList = new List<string>();
             var imageTypeList = new List<string>();
 
-            var newPhone = GetOrCreatePhone(out var phone, request["From"].GetString()!);
+            bool newPhone = GetOrCreatePhoneAsync(out var phone, request["From"].GetString()!);
 
             foreach (var (image, thumbnail, labels) in filenames)
             {
@@ -211,7 +212,7 @@ namespace TenantFile.Api.Controllers
 
         async Task<IEnumerable<ImageLabel>> GetLabelsAsync(string uri)
         {
-            var image = await Google.Cloud.Vision.V1.Image.FetchFromUriAsync(uri);//is image not avalible?  
+            var image = await Google.Cloud.Vision.V1.Image.FetchFromUriAsync(uri);
             var client = ImageAnnotatorClient.Create();
             var imageLabels = new List<ImageLabel>();
 
@@ -229,7 +230,7 @@ namespace TenantFile.Api.Controllers
 
                 if (completedTask == labelResponse)
                 {
-                    foreach (var annotation in labelResponse.Result)//could not access URL from twilio
+                    foreach (var annotation in labelResponse.Result)
                     {
                         if (annotation.Description != null)
                         {
@@ -335,7 +336,7 @@ namespace TenantFile.Api.Controllers
         /// <param name="phone"></param>
         /// <param name="from"></param>
         /// <returns></returns>
-        bool GetOrCreatePhone(out Phone phone, string fromNumber)
+        bool GetOrCreatePhoneAsync(out Phone phone, string fromNumber)
         {
             var newPhone = false;
             phone = context.Phones.FirstOrDefault(x => x.PhoneNumber == fromNumber)!;
@@ -353,6 +354,26 @@ namespace TenantFile.Api.Controllers
             }
 
             return newPhone;
+        }
+        async Task<(T entity, bool isNew)> GetOrCreate<T>(Expression<Func<T, bool>> expression) where T : class
+        {
+            bool newT = false;
+            try
+            {
+
+                T entity = await context.Set<T>().FirstOrDefaultAsync(expression);
+                if (entity == null)
+                {
+                    entity = Activator.CreateInstance<T>();
+                    newT = true;
+                }
+                return new(entity, newT);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
         bool GetOrCreateTenant(out Tenant tenant, Phone phone)
         {
@@ -374,8 +395,6 @@ namespace TenantFile.Api.Controllers
             return newTenant;
         }
 
-
-
         /// <summary>
         /// Since names are a single string, i.e. no first or last name properties /and phone numbers can have multiple Tenants, this query will return the first word before white space for each Tenant and seperate them with an "&"
         /// </summary>
@@ -396,6 +415,13 @@ namespace TenantFile.Api.Controllers
                                    .SelectMany(p => p.Images.SelectMany(i => i.Labels!.Select(l => l.Label.ToLower())));
             return labelList.ContainsAsync(label);
         }
+
+        // async Task<IEnumerable<ImageLabel>> GetMetadata(Stream ms)
+        // {
+        //     ms.Position = 0;
+        //     var img = await SixLabors.ImageSharp.Image.LoadAsync(ms);
+
+        // }
 
     }
 
