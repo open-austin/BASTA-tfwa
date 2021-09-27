@@ -65,7 +65,7 @@ const Admin: React.FC = () => {
   return (
     <>
       <Modal isOpen={modal} toggle={toggleEditModal}>
-        <ModalHeader toggle={toggleEditModal}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggleEditModal}>Edit User</ModalHeader>
 
         <Formik
           initialValues={{
@@ -133,7 +133,7 @@ const Admin: React.FC = () => {
                     defaultValue={userBeingModified?.displayName}
                     tag={Field}
                   />
-                  <Label for="claims">Display Name</Label>
+                  <Label for="claims">Claims</Label>
                   <Input
                     type="select"
                     as="select"
