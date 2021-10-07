@@ -27,6 +27,8 @@ type Props = {
   row: Row<TenantRow>;
 };
 
+const storage = firebase.app().storage();
+
 const TenantTableCollapse = ({ row }: Props) => {
   let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -42,9 +44,11 @@ const TenantTableCollapse = ({ row }: Props) => {
         {row.cells.map((cell: Cell<TenantRow, any>, index: number) => {
           return (
             <td {...cell.getCellProps()}>
+
               {/* {cell.column.Header === "Images" ? (
                 <Image
                   imageName={cell.value[0]}
+
                   id={cell.value[0]}
                   labels={["", ""]}
                 />
@@ -77,6 +81,7 @@ const TenantTableCollapse = ({ row }: Props) => {
                     {/* <Image id={row.cells[0].value} imageName={i} labels={["", ""]} /> */}
                   </>
                 ))}
+
               </ImageGridStyles>
             ) : (
               "No images to show."

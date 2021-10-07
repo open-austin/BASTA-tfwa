@@ -4,10 +4,10 @@ import { Cell, Row } from "react-table";
 //import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
-
 // import ImageMenu from "./ImageMenu";
 // import { imageCartVar } from "../cache";
 import {} from "../";
+
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -20,10 +20,12 @@ const ImageGridStyles = styled.div`
     place-self: center;
   }
 `;
+
 // type ActionFunc = {
 //   name: string;
 //   func: Function;
 // };
+
 type PhoneRow = {
   name: string;
   tenantId: string;
@@ -31,6 +33,7 @@ type PhoneRow = {
   images: [string, string][];
   property: string;
   labels: [string, string[]][];
+
   actionFunc: JSX.Element;
 };
 // function b64_to_utf8(str: string) {
@@ -53,10 +56,12 @@ const PhoneTableCollapse = ({ row }: Props) => {
   //   history.push(`/add-tenant/?phone=${phone}`);
   // };
 
+
   return (
     <>
       <tr {...row.getRowProps()} onClick={toggle}>
         {row.cells.map((cell: Cell<PhoneRow, any>, index: number) => {
+
           if (
             cell.column.Header === "Images" &&
             cell?.value?.[1]?.[0] !== undefined
@@ -82,6 +87,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
                         ? "image"
                         : atob(cell?.value?.[1]?.[0]).replace("\n", "") +
                           atob(row?.original?.tenantId).replace("\n", "")
+
                     }
                     labels={
                       cell.value
@@ -100,6 +106,15 @@ const PhoneTableCollapse = ({ row }: Props) => {
             </>
           );
         })}
+        <td>
+          <button
+            className="btn btn-secondary"
+            onClick={() => onViewClick(row.original.tenantId)}
+          >
+            View
+          </button>
+        </td>
+
       </tr>
       <tr>
         <td
@@ -114,6 +129,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
                   (i: [string, string], index: number) => {
                     return (
                       <>
+
                         {/* <ContextMenu
                           menu={
                             <ImageMenu
@@ -141,6 +157,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
                                   )
                                 }`
                           }
+
                           labels={
                             row.original.labels !== undefined
                               ? (row.original.labels
@@ -160,7 +177,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
           </Collapse>
         </td>
       </tr>
-     
+
     </>
   );
 };

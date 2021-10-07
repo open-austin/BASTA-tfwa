@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 import "@firebase/storage";
+
 // import { Tooltip } from "reactstrap";
 // import { BrowserRouter } from "react-router-dom";
 import { getToken } from "./firebase";
@@ -27,6 +28,7 @@ const Image: React.FC<ImageProps> = ({
   const [url, setUrl] = useState("");
   // const [tooltipOpen, setTooltipOpen] = useState(false);
   //const [tooltipText, settooltipText] = useState("");
+
 
   // const [show, setShow] = useState(false);
   const [token, setToken] = useState("");
@@ -65,6 +67,7 @@ const Image: React.FC<ImageProps> = ({
   const storage = firebase.app().storage();
   useEffect(() => {
     const onFileChange = async () => {
+
       if (imageName !== undefined) {
         const storageRef = storage.ref();
         const promise = storageRef.child(imageName);
@@ -160,6 +163,7 @@ const Image: React.FC<ImageProps> = ({
         <></>
       )}
     </span>
+
   );
 };
 
