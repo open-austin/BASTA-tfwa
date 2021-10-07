@@ -15,7 +15,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Images
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class ImageQueries
     {
         [UseTenantFileContext]

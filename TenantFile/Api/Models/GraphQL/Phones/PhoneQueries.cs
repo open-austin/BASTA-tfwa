@@ -16,7 +16,7 @@ using HotChocolate.Types.Relay;
 
 namespace TenantFile.Api.Models.Phones
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class PhoneQueries
     {
 

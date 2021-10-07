@@ -1,36 +1,48 @@
-import React from 'react';
-import PropertyForm from './property-form';
-import { Container, Row, Col } from 'reactstrap';
+import React from "react";
 
-// TODO: Mutation to be implemented
-// const CREATE_PROPERTY = gql``;
+import { gql, useQuery } from "@apollo/client";
 
-const Properties = () => {
-  // Below are dummy values that will later come from useMutation once Apollo is linked to the backend
-  let addProperty = (values: Object) => {
-    console.log('Creating new property', values);
-  };
-  let loading = false;
-  const error = null;
-
-  const isError = () => {
-    if (error) return true;
-    return false;
-  };
-
+type Props = {
+  bldgSelectHandler: Function;
+};
+const Properties = ({ bldgSelectHandler }: Props) => {
+  const GET_PROPERTIES = gql`
+    query getProps {
+      properties {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  `;
+  const { loading, data } = useQuery(GET_PROPERTIES);
+  if (loading)
+    return (
+      <select className="form-control form-control-sm" id="bldgId" name="bldgId">
+        <div className="spinner-border">loading...</div>
+      </select>
+    );
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>New Property</h1>
-          <PropertyForm
-            onSubmit={addProperty}
-            loading={loading}
-            error={isError()}
-          />
-        </Col>
-      </Row>
-    </Container>
+    <select
+      onSelect={(e) => {
+        console.log(`e.currentTarget.value: ${e.currentTarget.value}`);
+        bldgSelectHandler(e.currentTarget.value);
+      }}
+      className="form-control form-control-sm"
+      id="bldgId"
+      name="bldgId"
+    >
+      {data.properties.nodes.map((bldgNode: any) => {
+        //bldgSelectHandler(bldgNode);
+
+        return (
+          <option key={bldgNode.id} value={bldgNode.name}>
+            {bldgNode.name}
+          </option>
+        );
+      })}
+    </select>
   );
 };
 

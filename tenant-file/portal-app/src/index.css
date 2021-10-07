@@ -14,7 +14,7 @@ body {
 
 main {
   flex: 1 1;
-  overflow: scroll;
+  /* overflow: scroll; */
   /* Accounts for Footer height */
   margin-bottom: 50px;
 }

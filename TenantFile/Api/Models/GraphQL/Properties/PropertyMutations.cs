@@ -14,7 +14,7 @@ using TenantFile.Api.Models.Addresses;
 
 namespace TenantFile.Api.Models.Properties
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(OperationTypeNames.Mutation)]
     public class PropertyMutations
     {
         [UseTenantFileContext]

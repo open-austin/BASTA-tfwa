@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Collapse } from "reactstrap";
 import { Cell, Row } from "react-table";
 import { useHistory } from "react-router-dom";
-import Image from "./image";
 import styled from "styled-components";
-import firebase from "firebase";
-import "@firebase/storage";
-
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -30,7 +26,9 @@ type TenantRow = {
 type Props = {
   row: Row<TenantRow>;
 };
-const storage = firebase.app().storage();
+
+// const storage = firebase.app().storage();
+
 const TenantTableCollapse = ({ row }: Props) => {
   let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -46,20 +44,20 @@ const TenantTableCollapse = ({ row }: Props) => {
         {row.cells.map((cell: Cell<TenantRow, any>, index: number) => {
           return (
             <td {...cell.getCellProps()}>
-              {cell.column.Header === "Images" ? (
+
+              {/* {cell.column.Header === "Images" ? (
                 <Image
-                  storage={storage}
-                  name={cell.value[0]}
+                  imageName={cell.value[0]}
+
                   id={cell.value[0]}
                   labels={["", ""]}
                 />
               ) : (
                 cell.render("Cell")
-              )}
+              )} */}
             </td>
           );
         })}
-
         <td>
           <button
             className="btn btn-secondary"
@@ -80,10 +78,10 @@ const TenantTableCollapse = ({ row }: Props) => {
               <ImageGridStyles>
                 {row.cells[2].value.map((i: string) => (
                   <>
-                    <Image  id={row.cells[0].value} storage={storage} name={i} labels={["", ""]} />
+                    {/* <Image id={row.cells[0].value} imageName={i} labels={["", ""]} /> */}
                   </>
                 ))}
-                
+
               </ImageGridStyles>
             ) : (
               "No images to show."

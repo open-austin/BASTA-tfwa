@@ -10,7 +10,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Images
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(OperationTypeNames.Mutation)]
     public class ImageMutations
     {/// <summary>
      /// Intended for use by Organizer uploading Images via dashboard, not for SMS/Twilio uploads

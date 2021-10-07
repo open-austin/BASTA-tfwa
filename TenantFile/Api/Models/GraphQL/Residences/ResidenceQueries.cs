@@ -14,7 +14,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Residences
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class ResidenceQueries
     {
         [UseTenantFileContext]

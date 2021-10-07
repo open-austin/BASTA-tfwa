@@ -56,7 +56,7 @@ const Admin: React.FC = () => {
           },
         })
         .then((x) => x.data);
-      console.log("RESPONSE", usersResponse);
+      // console.log("RESPONSE", usersResponse);
       setUsers(usersResponse.users);
     };
     func();
@@ -65,7 +65,7 @@ const Admin: React.FC = () => {
   return (
     <>
       <Modal isOpen={modal} toggle={toggleEditModal}>
-        <ModalHeader toggle={toggleEditModal}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggleEditModal}>Edit User</ModalHeader>
 
         <Formik
           initialValues={{
@@ -80,7 +80,7 @@ const Admin: React.FC = () => {
               [],
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            console.log(values);
+            // console.log(values);
             if (editMode === "create") {
               await firebase
                 .auth()
@@ -133,7 +133,7 @@ const Admin: React.FC = () => {
                     defaultValue={userBeingModified?.displayName}
                     tag={Field}
                   />
-                  <Label for="claims">Display Name</Label>
+                  <Label for="claims">Claims</Label>
                   <Input
                     type="select"
                     as="select"

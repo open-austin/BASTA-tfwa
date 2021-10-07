@@ -12,7 +12,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Phones
 {
-    [ExtendObjectType(Name = "Subscription")]
+    [ExtendObjectType(OperationTypeNames.Subscription)]
     public class PhoneSubscriptions
     {
         [Subscribe/*(With = nameof(SubscribeToOnNewPhoneReceivedAsync))*/]

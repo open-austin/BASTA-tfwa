@@ -8,6 +8,7 @@ namespace TenantFile.Api.Tenants
         protected override void Configure(IFilterInputTypeDescriptor<Tenant> descriptor)
         {
             descriptor.Ignore(t => t.Id);
+       
         }
     }
 }

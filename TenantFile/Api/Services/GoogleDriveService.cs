@@ -44,6 +44,8 @@ namespace TenantFile.Api.Services
         }
         public async Task<IUploadProgress> UploadToSurveyFolder(string fileUrl, string mediaContentType, string phoneNumber)
         {
+            //James' nav folder
+            // var bastaSurveyFolderId = "18Gb5xZrQvHrMnMAg7xQFbabzfnIm9hSM";
             var bastaSurveyFolderId = "1mAopWyRImJZThMO75_DP93SqI5wyxwjF";
             var imageFiles = await GetImageFilesInFolder(bastaSurveyFolderId);
 

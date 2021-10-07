@@ -12,7 +12,7 @@ using TenantFile.Api.Models.Entities;
 
 namespace TenantFile.Api.Models.Residences
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType(OperationTypeNames.Mutation)]
     public class ResidenceMutations
     {
         [UseTenantFileContext]
