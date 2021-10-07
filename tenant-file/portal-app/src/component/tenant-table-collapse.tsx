@@ -27,7 +27,7 @@ type Props = {
   row: Row<TenantRow>;
 };
 
-const storage = firebase.app().storage();
+// const storage = firebase.app().storage();
 
 const TenantTableCollapse = ({ row }: Props) => {
   let history = useHistory();
