@@ -107,7 +107,8 @@ const PhoneTable: React.FC = () => {
     name: nameQuery,
   };
 
-  const { loading, error, data, refetch } = useQuery<PhonesFilteredByName>(
+  // const { loading, error, data, refetch } = useQuery<PhonesFilteredByName>(
+  const { loading, error, data } = useQuery<PhonesFilteredByName>(
     PHONES_BY_NAME_FILTER,
     {
       variables: queryVariables,

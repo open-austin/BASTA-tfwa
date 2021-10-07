@@ -1,13 +1,12 @@
 import React from "react";
-import { } from "module";
-import firebase from "firebase";
+import {} from "module";
 import "@firebase/storage";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import styles from "./tenant-details.module.css";
 import {
   GetImagesForPhone,
-  GetImagesForPhone_phone_images,
-  GetImagesForPhone_phone_images_labels,
+  // GetImagesForPhone_phone_images,
+  // GetImagesForPhone_phone_images_labels,
 } from "../types/GetImagesForPhone";
 // import "@google.picker";
 
@@ -18,9 +17,15 @@ import { useState } from "react";
 
 type Props = {
   phoneId: string;
+  tenantName: string;
+  phoneNumber: string;
 };
 
-const ImageTable: React.FC<Props> = ({ phoneId }: Props) => {
+const ImageTable: React.FC<Props> = ({
+  phoneId,
+  tenantName,
+  phoneNumber,
+}: Props) => {
   const GET_IMAGES_FOR_PHONE = gql`
     query GetImagesForPhone($id: ID!) {
       phone(id: $id) {
@@ -37,7 +42,7 @@ const ImageTable: React.FC<Props> = ({ phoneId }: Props) => {
       }
     }
   `;
-const storage = firebase.app().storage();
+  //const storage = firebase.app().storage();
   // const sortLabels = (
   //   images: GetImagesForPhone_phone_images[]
   // ): GetImagesForPhone_phone_images_labels[] | undefined => {
@@ -74,6 +79,8 @@ const storage = firebase.app().storage();
                   ? "image"
                   : atob(image?.id).replace("\n", "")
               }
+              phoneNumber={phoneNumber}
+              tenantName={tenantName}
               image={image}
               index={index}
             ></ImageTableCollapse>
@@ -89,9 +96,8 @@ const storage = firebase.app().storage();
       <div className="card shadow">
         <div className={styles.cardHeader}>
           <div className="d-flex">
-            
             <h4 className="m-0 font-weight-bold mr-3">Images</h4>
-            
+
             <input
               className={styles.bastaBtnSm}
               id="myFileInput"
@@ -137,8 +143,7 @@ const storage = firebase.app().storage();
                 </label> */}
               </div>
             </div>
-            <div className="col-md-6">
-            </div>
+            <div className="col-md-6"></div>
           </div>
           <div
             className=" table-responsive mt-2"
@@ -178,16 +183,14 @@ const storage = firebase.app().storage();
               </tfoot>
             </table>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-md-6 align-self-center">
               <p
                 id="dataTable_info"
                 className="dataTables_info"
                 role="status"
                 aria-live="polite"
-              >
-               
-              </p>
+              ></p>
             </div>
             <div className="col-md-6">
               <nav className="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
@@ -220,7 +223,7 @@ const storage = firebase.app().storage();
                 </ul>
               </nav>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

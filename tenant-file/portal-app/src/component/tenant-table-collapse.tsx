@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Collapse } from "reactstrap";
 import { Cell, Row } from "react-table";
 import { useHistory } from "react-router-dom";
-import Image from "./image";
 import styled from "styled-components";
 
 const ImageGridStyles = styled.div`
@@ -43,15 +42,15 @@ const TenantTableCollapse = ({ row }: Props) => {
         {row.cells.map((cell: Cell<TenantRow, any>, index: number) => {
           return (
             <td {...cell.getCellProps()}>
-              {cell.column.Header === "Images" ? (
+              {/* {cell.column.Header === "Images" ? (
                 <Image
-                  name={cell.value[0]}
+                  imageName={cell.value[0]}
                   id={cell.value[0]}
                   labels={["", ""]}
                 />
               ) : (
                 cell.render("Cell")
-              )}
+              )} */}
             </td>
           );
         })}
@@ -75,7 +74,7 @@ const TenantTableCollapse = ({ row }: Props) => {
               <ImageGridStyles>
                 {row.cells[2].value.map((i: string) => (
                   <>
-                    <Image id={row.cells[0].value} name={i} labels={["", ""]} />
+                    {/* <Image id={row.cells[0].value} imageName={i} labels={["", ""]} /> */}
                   </>
                 ))}
               </ImageGridStyles>

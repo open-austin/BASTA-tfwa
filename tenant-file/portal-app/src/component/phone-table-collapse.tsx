@@ -4,8 +4,10 @@ import { Cell, Row } from "react-table";
 //import { useHistory } from "react-router-dom";
 import Image from "./image";
 import styled from "styled-components";
-import ContextMenu from "./ContextMenu";
-import ImageMenu from "./ImageMenu";
+
+// import ImageMenu from "./ImageMenu";
+// import { imageCartVar } from "../cache";
+import {} from "../";
 
 const ImageGridStyles = styled.div`
   display: grid;
@@ -18,10 +20,10 @@ const ImageGridStyles = styled.div`
     place-self: center;
   }
 `;
-type ActionFunc = {
-  name: string;
-  func: Function;
-};
+// type ActionFunc = {
+//   name: string;
+//   func: Function;
+// };
 type PhoneRow = {
   name: string;
   tenantId: string;
@@ -65,14 +67,16 @@ const PhoneTableCollapse = ({ row }: Props) => {
                 ""
               )}`
             );
-            console.log(`atob cell.value?.[1]?.[0] ${cell?.value?.[1]?.[0]}`);
           }
           return (
             <>
               <td {...cell.getCellProps()}>
+                {console.log(`row.cells[2].value ${row.original.name}`)}
                 {cell.column.Header === "Images" ? (
                   <Image
-                    name={cell.value?.[1]?.[1]}
+                  tenantName={row.original.name}
+                  phoneNumber={row.original.phone}
+                    imageName={cell.value?.[1]?.[1]}
                     id={
                       cell.value?.[1]?.[0] === undefined
                         ? "image"
@@ -110,7 +114,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
                   (i: [string, string], index: number) => {
                     return (
                       <>
-                        <ContextMenu
+                        {/* <ContextMenu
                           menu={
                             <ImageMenu
                               imageData={{
@@ -121,9 +125,11 @@ const PhoneTableCollapse = ({ row }: Props) => {
                               }}
                             ></ImageMenu>
                           }
-                        ></ContextMenu>
+                        ></ContextMenu> */}
                         <Image
-                          name={i[1]}
+                          imageName={i[1]}
+                          tenantName={row.cells[0].value}
+                          phoneNumber={row.cells[2].value}
                           id={
                             i[1] === undefined
                               ? "image"
@@ -154,6 +160,7 @@ const PhoneTableCollapse = ({ row }: Props) => {
           </Collapse>
         </td>
       </tr>
+     
     </>
   );
 };

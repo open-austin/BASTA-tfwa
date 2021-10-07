@@ -6,18 +6,20 @@ import {
 import { useState } from "react";
 import Image from "./image";
 import styles from "./image-table-collapse.module.css";
-import { Card, CardBody, Collapse } from "reactstrap";
+import { Collapse } from "reactstrap";
 
 type Props = {
   image: GetImagesForPhone_phone_images | null;
-
+  tenantName: string;
+  phoneNumber: string;
   id: string | undefined;
   index: number;
 };
 const ImageTableCollapse: React.FC<Props> = ({
   index,
   id,
-
+  tenantName,
+  phoneNumber,
   image,
 }: Props) => {
   const [isOpen, setOpen] = useState(false);
@@ -47,7 +49,9 @@ const ImageTableCollapse: React.FC<Props> = ({
       <tr key={`image${index}`}>
         <td>
           <Image
-            name={image?.id === undefined ? "" : image?.thumbnailName}
+             tenantName={tenantName}
+             phoneNumber={phoneNumber}
+            imageName={image?.id === undefined ? "" : image?.thumbnailName}
             labels={
               image?.id === undefined
                 ? ["", ""]

@@ -1,7 +1,5 @@
 import React from "react";
-import PropertyForm from "./property-form";
-import { Container, Row, Col } from "reactstrap";
-import { RouteComponentProps } from "react-router-dom";
+
 import { gql, useQuery } from "@apollo/client";
 
 type Props = {
