@@ -79,7 +79,7 @@ const BatchImageSelector: React.FC = () => {
           //   "Content-Disposition": "attachment",
           // },
           data: {
-            imageCart,
+           // imageCart,
           },
         })
         .then((result) => result);
