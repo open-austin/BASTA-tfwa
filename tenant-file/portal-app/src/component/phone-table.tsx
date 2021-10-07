@@ -5,8 +5,11 @@ import { PhonesFilteredByName } from "../types/PhonesFilteredByName";
 import { Table } from "reactstrap";
 import { useTable, Column } from "react-table";
 import PhoneTableCollapse from "./phone-table-collapse";
+
 import { useHistory } from "react-router-dom";
 import styles from "./tenant-details.module.css";
+
+//TODO: THIS IS NOT FETCHING PHONES W/O TENANTS. Consider filtering on client
 
 const PHONES_BY_NAME_FILTER = gql`
   query PhonesFilteredByName($name: String = "") {
@@ -66,6 +69,7 @@ const columns: Column<PhoneRow>[] = [
     Header: "Images",
     accessor: "images",
   },
+
   {
     Header: "Action",
     accessor: "actionFunc",
@@ -76,6 +80,7 @@ type ActionFunc = {
   name: string;
   func: Function;
 };
+
 type PhoneRow = {
   name: string;
   tenantId: string;
@@ -83,6 +88,7 @@ type PhoneRow = {
   images: [string, string][];
   property: string;
   labels: [string, string[]][];
+
   actionFunc: JSX.Element;
 };
 
@@ -100,6 +106,7 @@ const PhoneTable: React.FC = () => {
     history.push(`/add-tenant/${phone}`);
   };
 
+
   const paramsString = useLocation().search;
   const searchParams = new URLSearchParams(paramsString);
   const nameQuery = searchParams.get("q") || "";
@@ -107,7 +114,9 @@ const PhoneTable: React.FC = () => {
     name: nameQuery,
   };
 
+
   // const { loading, error, data, refetch } = useQuery<PhonesFilteredByName>(
+
   const { loading, error, data } = useQuery<PhonesFilteredByName>(
     PHONES_BY_NAME_FILTER,
     {
@@ -142,6 +151,7 @@ const PhoneTable: React.FC = () => {
                 (l) => `${l.label} - ${Math.round((l.confidence ?? 0) * 100)}%`
               ) as string[],
           ]) as [string, string[]][],
+
           // actionFunc: edge.node.tenants?.[0]?.id === "" ?
           //   { name: "Register", func: onRegisterTenantClick }
           //   :{name: "View", func: onViewClick}
@@ -162,6 +172,7 @@ const PhoneTable: React.FC = () => {
               View
             </button>
           ),
+
         });
       }
       return acc;
@@ -172,10 +183,12 @@ const PhoneTable: React.FC = () => {
     data: rowData,
   });
 
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+
 
   return (
     <Table hover {...getTableProps()}>
