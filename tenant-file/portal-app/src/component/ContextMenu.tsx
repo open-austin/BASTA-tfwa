@@ -1,7 +1,7 @@
-import React, { ReactElement, useState } from "react";
+import React from "react";
 import { useContextMenu } from "../hooks/useContextMenu";
 import { Motion, spring } from "react-motion";
-import { BatchImageData } from "../..";
+// import { BatchImageData } from "../..";
 
 // import { useCustomContextMenu } from "../hooks/useCustomContextMenu";
 
