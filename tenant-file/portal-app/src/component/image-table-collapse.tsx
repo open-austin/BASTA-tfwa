@@ -50,18 +50,47 @@ const ImageTableCollapse: React.FC<Props> = ({
 
       <Modal isOpen={showImageModal}>
 
-        This is the Modal.
-
         <ModalHeader>
           This is the Modal Header.
         </ModalHeader>
 
         <ModalBody>
           This is the Modal Body.
+
+          <Image
+             tenantName={tenantName}
+             phoneNumber={phoneNumber}
+            imageName={image?.id === undefined ? "" : image?.thumbnailName}
+            labels={
+              image?.id === undefined
+                ? ["", ""]
+                : ([
+                    sortedLabels?.[0].label,
+                    sortedLabels?.[0].confidence,
+                    sortedLabels?.[0].source,
+                  ] as string[])
+            }
+            id={
+              image?.id === undefined
+                ? "image"
+                : atob(image?.id).replace("\n", "")
+            }
+          ></Image>
+
         </ModalBody>
 
         <ModalFooter>
-          This is the Modal Footer.
+          This is the Modal Footer.  Click <button
+            className="btn btn-sm btn-link"
+            onClick={() => {
+              let anchor = document.createElement("a");
+              anchor.style.display = "none";
+              anchor.click();
+              setShowImageModal(!showImageModal);
+            }}
+            >
+            here
+          </button> to close.
         </ModalFooter>
 
       </Modal>
