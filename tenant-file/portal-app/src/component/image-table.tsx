@@ -152,7 +152,7 @@ const storage = firebase.app().storage();
                   <th>Image</th>
                   <th>Label</th>
                   <th>Source</th>
-                  <th>Confidnece</th>
+                  <th>Confidence</th>
                   <th>Date Received</th>
                 </tr>
               </thead>
