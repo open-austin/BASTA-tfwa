@@ -12,12 +12,6 @@ import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { rrfProps } from "./component/firebase";
 import { imageCartVar } from "./cache";
 
-document.addEventListener("contextmenu", (event) => {
-  event.preventDefault();
-  const xPos = event.pageX + "px";
-  const yPos = event.pageY + "px";
-  //
-});
 const client = new ApolloClient({
   uri: `${process.env.REACT_APP_API_URL}/graphql`,
   cache: new InMemoryCache({

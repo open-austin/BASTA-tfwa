@@ -21,8 +21,8 @@ const Nav: React.FC<Props> = ({ setIsSidebarOpen, children }) => {
     setIsSidebarOpen(true);
   };
   const photoStyle = {
-    maxHeight: "50px",
-    maxWidth: "50px",
+    height: "50px",
+    width: "50px",
     // borderRadius: "15%",
     // border: "2px solid white",
   };
@@ -40,9 +40,12 @@ const Nav: React.FC<Props> = ({ setIsSidebarOpen, children }) => {
           <>
             <img
               style={photoStyle}
+              alt={""}
               src={firebase.auth().currentUser?.photoURL ?? ""}
             ></img>
-            <NavLink to="#" tabIndex={0}> {"   "}
+            <NavLink to="#" tabIndex={0}>
+              {" "}
+              {"   "}
               <span>
                 {!profile.isEmpty
                   ? `${profile.token.claims.email}`

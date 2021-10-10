@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Formik, Field, Form } from "formik";
 import Properties from "./properties";
@@ -108,7 +108,7 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
     : styles.readOnlyInputSm;
   const [tenantData] = useMutation(ADD_TENANT);
   const location = useLocation();
-  const tenantId = props?.tenantId;
+  // const tenantId = props?.tenantId;
 
   const { loading, data } = useQuery(GET_TENANT_DATA, {
     variables: { tenantId: location.pathname.split("/dashboard/tenant/")[1] },
@@ -376,6 +376,8 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
       <div className="row  justify-content-center">
         <div className="col mx-5">
           <ImageTable
+            phoneNumber={data?.tenant?.phones?.nodes[0]?.phoneNumber}
+            tenantName={data?.tenant.name.split(" ")[0]} 
             phoneId={
               data?.tenant?.phones?.nodes[0]?.id === undefined
                 ? ""

@@ -1,4 +1,3 @@
-// hooks/useTodos.tsx
 import { ReactiveVar } from "@apollo/client";
 import { BatchImageData } from "../..";
 
