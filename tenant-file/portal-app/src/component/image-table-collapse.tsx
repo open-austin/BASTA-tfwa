@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 import Image from "./image";
 import styles from "./image-table-collapse.module.css";
-import { Collapse } from "reactstrap";
+import { Collapse, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 type Props = {
   image: GetImagesForPhone_phone_images | null;
@@ -23,6 +23,9 @@ const ImageTableCollapse: React.FC<Props> = ({
   image,
 }: Props) => {
   const [isOpen, setOpen] = useState(false);
+
+  const [showImageModal, setShowImageModal] = useState(false);
+
   //   const collapseHidden = !isOpen ? styles.collapseRow : styles.showRow;
   //   const collapseHidden = !isOpen ? styles.collapsedTd : styles.showTd;
   function sortLabels(ascending: boolean) {
@@ -44,10 +47,28 @@ const ImageTableCollapse: React.FC<Props> = ({
   const sortedLabels = [...(image?.labels ?? [])]?.sort(sortLabels(false));
   return (
     <>
+
+      <Modal isOpen={showImageModal}>
+
+        This is the Modal.
+
+        <ModalHeader>
+          This is the Modal Header.
+        </ModalHeader>
+
+        <ModalBody>
+          This is the Modal Body.
+        </ModalBody>
+
+        <ModalFooter>
+          This is the Modal Footer.
+        </ModalFooter>
+
+      </Modal>
      
       {" "}
       <tr key={`image${index}`}>
-        <td>
+        <td onClick={() => setShowImageModal(!showImageModal)}>
           <Image
              tenantName={tenantName}
              phoneNumber={phoneNumber}
