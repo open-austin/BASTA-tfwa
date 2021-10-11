@@ -126,11 +126,8 @@ namespace TenantFile.Api.Controllers
             //TODO: Issue 172, if the Tenant is not new, that means the Tenant asked to update/change their contact info. Should this:
             // A: overwrite the contact info
             // B: add a new Tenant and associate it with the texting Phone Entity
-            var tenant = phone.Tenants.First();
 
-
-
-
+            //var tenant = phone.Tenants.First();
 
             var parsedImageids = data.imageIds.Split(',');
             var sentImages = phone.Images.Where(i => parsedImageids
