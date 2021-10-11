@@ -115,19 +115,21 @@ namespace TenantFile.Api.Controllers
                  .Include(p => p.Images)
                  .FirstOrDefaultAsync(x => x.PhoneNumber == data.fromNumber)!;
 
-            if (!phone.Tenants.Any())
+            //Tenant must have a name, cannot be null. Only add Tenant if a first or last name is provided  and there are not Tenants in the collection on the phone
+            if (!phone.Tenants.Any() && (!string.IsNullOrEmpty(data.firstName) || !string.IsNullOrEmpty(data.lastName)))
             {
-                phone.Tenants.Add(new Tenant());
+                phone.Tenants.Add(new Tenant()
+                {
+                    Name = string.Join(" ", data.firstName, data.lastName)
+                });
             }
             //TODO: Issue 172, if the Tenant is not new, that means the Tenant asked to update/change their contact info. Should this:
             // A: overwrite the contact info
             // B: add a new Tenant and associate it with the texting Phone Entity
             var tenant = phone.Tenants.First();
 
-            if (!string.IsNullOrEmpty(data.firstName) && !string.IsNullOrEmpty(data.lastName))
-            {
-                tenant.Name = string.Join(" ", data.firstName, data.lastName);
-            }
+
+
 
 
             var parsedImageids = data.imageIds.Split(',');
@@ -199,7 +201,7 @@ namespace TenantFile.Api.Controllers
                     imageNumber = numMedia,
                     newPhone = newPhone,
                     imageIds = imageIds
-                }); //if multiple images...handle this first then circle back
+                });
             }
             else
             {
