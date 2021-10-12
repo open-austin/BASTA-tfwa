@@ -364,6 +364,7 @@ namespace TenantFile.Api.Controllers
             if (labelDefs.Contains("Text") || labelDefs.Contains("Document"))
             {
                 var textResponse = await client.DetectDocumentTextAsync(image);
+                imageLabels.Add(new ImageLabel("GCP - Full Text", textResponse.Text, 1));
                 imageLabels.AddRange(FindWordsFromOCR(textResponse, keyWords));
                 imageLabels.AddRange(FindPhrasesFromOCR(textResponse, keyPhrases));
 
