@@ -177,7 +177,7 @@ const ImageTable: React.FC<Props> = ({
                     <strong>Confidence</strong>
                   </td>
                   <td>
-                    <strong>Date Sent</strong>
+                    <strong>Date Received</strong>
                   </td>
                 </tr>
               </tfoot>

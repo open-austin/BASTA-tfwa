@@ -138,10 +138,10 @@ namespace TenantFile.Api.Controllers
             {
                 var labels = image.Labels?.ToList();
 
-                labels?.Add(new ImageLabel("tenant - date taken", data.dateTaken, 100));
-                labels?.Add(new ImageLabel("tenant - description", data.description, 100));
-                labels?.Add(new ImageLabel("tenant - reported", data.reported, 100));
-                labels?.Add(new ImageLabel("tenant - address or property", data.propertyAddressTag, 100));
+                labels?.Add(new ImageLabel("tenant - date taken", data.dateTaken, 1));
+                labels?.Add(new ImageLabel("tenant - description", data.description, 1));
+                labels?.Add(new ImageLabel("tenant - reported", data.reported, 1));
+                labels?.Add(new ImageLabel("tenant - address or property", data.propertyAddressTag, 1));
 
                 image.Labels = labels;
             }
@@ -361,7 +361,7 @@ namespace TenantFile.Api.Controllers
                 visionTasks.Remove(completedTask);
             }
             var labelDefs = imageLabels.Select(l => l.Label);
-            if (labelDefs.Contains("Text") || labelDefs.Contains("Document"))
+            if (labelDefs.Contains("Text") || labelDefs.Contains("Document") || labelDefs.Contains("Font") || labelDefs.Contains("Handwriting") || labelDefs.Contains("writing"))
             {
                 var textResponse = await client.DetectDocumentTextAsync(image);
                 imageLabels.Add(new ImageLabel("GCP - Full Text", textResponse.Text, 1));
