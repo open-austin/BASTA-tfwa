@@ -7,6 +7,26 @@ import { useState } from "react";
 import Image from "./image";
 import styles from "./image-table-collapse.module.css";
 import { Collapse, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import TenantFileCustomModal from "./tenantFileCustomModal";
+
+/* declare module "react" {
+  namespace JSX {
+      interface IntrinsicElements {
+          tenantFileCustomModal: any
+          i: any
+          tr: any
+          td: any
+          div: any
+          tbody: any
+          table: any
+          p: any
+          h4: any
+          input: any
+          label: any
+          e: any
+      }
+  }
+} */
 
 type Props = {
   image: GetImagesForPhone_phone_images | null;
@@ -23,8 +43,6 @@ const ImageTableCollapse: React.FC<Props> = ({
   image,
 }: Props) => {
   const [isOpen, setOpen] = useState(false);
-
-  const [showImageModal, setShowImageModal] = useState(false);
 
   //   const collapseHidden = !isOpen ? styles.collapseRow : styles.showRow;
   //   const collapseHidden = !isOpen ? styles.collapsedTd : styles.showTd;
@@ -45,59 +63,64 @@ const ImageTableCollapse: React.FC<Props> = ({
   }
 
   const sortedLabels = [...(image?.labels ?? [])]?.sort(sortLabels(false));
+  
+  type Props = {
+
+  }
+
+  const ShowModal: React.FC<Props> = () => {
+
+    return (
+
+      <TenantFileCustomModal
+            isOpen_param={true}
+            customHeaderContent={"This is the header."}
+            customBodyContent={
+              <Image
+                tenantName={tenantName}
+                phoneNumber={phoneNumber}
+                imageName={image?.id === undefined ? "" : image?.name}
+                labels={
+                  image?.id === undefined
+                    ? ["", ""]
+                    : ([
+                        sortedLabels?.[0].label,
+                        sortedLabels?.[0].confidence,
+                        sortedLabels?.[0].source,
+                      ] as string[])
+                }
+                id={
+                  image?.id === undefined
+                    ? "image"
+                    : atob(image?.id).replace("\n", "")
+                }
+              >
+    
+              </Image>
+              
+            }
+            customFooterContent={"This is the footer."}
+          >
+    
+    
+    
+          </TenantFileCustomModal>
+    );
+  }
+
   return (
     <>
 
-      <Modal isOpen={showImageModal}>
-
-        <ModalHeader>
-          This is the Modal Header.
-        </ModalHeader>
-
-        <ModalBody>
-          This is the Modal Body.
-
-          <Image
-             tenantName={tenantName}
-             phoneNumber={phoneNumber}
-            imageName={image?.id === undefined ? "" : image?.thumbnailName}
-            labels={
-              image?.id === undefined
-                ? ["", ""]
-                : ([
-                    sortedLabels?.[0].label,
-                    sortedLabels?.[0].confidence,
-                    sortedLabels?.[0].source,
-                  ] as string[])
-            }
-            id={
-              image?.id === undefined
-                ? "image"
-                : atob(image?.id).replace("\n", "")
-            }
-          ></Image>
-
-        </ModalBody>
-
-        <ModalFooter>
-          This is the Modal Footer.  Click <button
-            className="btn btn-sm btn-link"
-            onClick={() => {
-              let anchor = document.createElement("a");
-              anchor.style.display = "none";
-              anchor.click();
-              setShowImageModal(!showImageModal);
-            }}
-            >
-            here
-          </button> to close.
-        </ModalFooter>
-
-      </Modal>
+      
      
       {" "}
       <tr key={`image${index}`}>
-        <td onClick={() => setShowImageModal(!showImageModal)}>
+        <td onClick={() =>
+          //console.log("The image name is: " + image?.name)
+          (<div>
+            This is a Test.
+          </div>)
+        }>
           <Image
              tenantName={tenantName}
              phoneNumber={phoneNumber}
