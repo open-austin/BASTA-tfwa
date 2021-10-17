@@ -8,20 +8,6 @@ import React, { useState } from 'react';
 
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-/* declare module "react" {
-    namespace JSX {
-        interface IntrinsicElements {
-            tenantFileCustomModal: any
-            i: any
-            tr: any
-            td: any
-            div: any
-            tbody: any
-            table: any
-        }
-    }
-} */
-
 type Props = {
     isOpen_param: boolean
     customHeaderContent: any

@@ -6,27 +6,8 @@ import {
 import { useState } from "react";
 import Image from "./image";
 import styles from "./image-table-collapse.module.css";
-import { Collapse, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { Collapse, Modal } from "reactstrap";
 import TenantFileCustomModal from "./tenantFileCustomModal";
-
-/* declare module "react" {
-  namespace JSX {
-      interface IntrinsicElements {
-          tenantFileCustomModal: any
-          i: any
-          tr: any
-          td: any
-          div: any
-          tbody: any
-          table: any
-          p: any
-          h4: any
-          input: any
-          label: any
-          e: any
-      }
-  }
-} */
 
 type Props = {
   image: GetImagesForPhone_phone_images | null;
@@ -116,10 +97,14 @@ const ImageTableCollapse: React.FC<Props> = ({
       {" "}
       <tr key={`image${index}`}>
         <td onClick={() =>
-          //console.log("The image name is: " + image?.name)
-          (<div>
+          console.log("The image name is: " + image?.name)
+          
+          /* (<Modal>
             This is a Test.
-          </div>)
+          </Modal>) */
+
+          // <ShowModal />
+
         }>
           <Image
              tenantName={tenantName}
