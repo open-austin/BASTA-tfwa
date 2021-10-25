@@ -10,20 +10,23 @@ import TenantTableCollapse from "./tenant-table-collapse";
 
 const TENANT_QUERY = gql`
   query TenantListQuery($name: String = "") {
-    tenants(order: { name: ASC }, where: { name: { contains: $name } }) {
-      nodes {
-        name
-        id
-        phones {
-          nodes {
-            phoneNumber
-            images {
-              thumbnailName
-              name
-              labels {
-                label
-                confidence
-                source
+  tenants(order: { name: ASC }, where: { name: { contains: $name } }) {
+    nodes {
+      name
+      id
+      phones {
+        nodes {
+          phoneNumber
+          images {
+            edges {
+              node {
+                thumbnailName
+                name
+                labels {
+                  label
+                  confidence
+                  source
+                }
               }
             }
           }
@@ -31,7 +34,7 @@ const TENANT_QUERY = gql`
       }
     }
   }
-  
+} 
 `;
 
 const columns: Column<TenantRow>[] = [
@@ -73,7 +76,7 @@ const TenantList: React.FC = () => {
   });
   console.log("ROWDATA", loading, error, data);
 
-
+  
   const rowData =
     data?.tenants?.nodes?.reduce((acc, node) => {
       if (node?.name && node?.phones?.nodes?.[0].phoneNumber) {
@@ -82,9 +85,8 @@ const TenantList: React.FC = () => {
           id: node.id,
           phone: node.phones.nodes[0].phoneNumber,
           images:
-          node?.phones?.nodes?.[0].images
-              ?.filter((x) => x)
-              .map((x) => x!.thumbnailName) ?? [],
+          node?.phones?.nodes?.[0].images?.edges?.filter((x) => x)
+              .map((x) => x!.node!.thumbnailName) ?? [],
         });
       }
       return acc;

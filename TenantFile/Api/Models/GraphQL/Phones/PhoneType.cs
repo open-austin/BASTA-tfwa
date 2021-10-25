@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TenantFile.Api.DataLoader;
 using TenantFile.Api.Extensions;
 using TenantFile.Api.Models.Entities;
+using TenantFile.Api.Models.Images;
 using TenantFile.Api.Models.Tenants;
 
 namespace TenantFile.Api.Models.Phones
@@ -27,16 +28,17 @@ namespace TenantFile.Api.Models.Phones
 
             descriptor
                 .Field(p => p.Images)
-                .ResolveWith<PhoneResolvers>(r =>  r.GetImagesAsync(default!, default!, default!, default))
+                .ResolveWith<PhoneResolvers>(r => r.GetImagesAsync(default!, default!, default!, default))
                 .UseTenantContext<TenantFileContext>()
+                .UsePaging<NonNullType<ImageType>>()
                 .Name("images");
             descriptor
                 .Field(p => p.Tenants)
-                .ResolveWith<PhoneResolvers>(r =>  r.GetTenantsAsync(default!, default!, default!, default))
+                .ResolveWith<PhoneResolvers>(r => r.GetTenantsAsync(default!, default!, default!, default))
                 .UseTenantContext<TenantFileContext>()
-                // .UsePaging<NonNullType<TenantType>>()//You can only use this on one of the 
+                // .UsePaging<NonNullType<TenantType>>()//You can only use this on one.
                 .Name("tenants");
-         
+
 
         }
     }
@@ -55,7 +57,7 @@ namespace TenantFile.Api.Models.Phones
                                          .ToArrayAsync();
 
             return await dataLoader.LoadAsync(cancellationToken, await imagesId);
-            
+
         }
         [UseTenantFileContext]
         public async Task<IEnumerable<Tenant>> GetTenantsAsync(
@@ -73,7 +75,7 @@ namespace TenantFile.Api.Models.Phones
 
             return await dataLoader.LoadAsync(tenantIds, cancellationToken);
 
-            
+
         }
     }
 }

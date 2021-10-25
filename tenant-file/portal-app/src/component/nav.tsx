@@ -48,7 +48,7 @@ const Nav: React.FC<Props> = ({ setIsSidebarOpen, children }) => {
               {"   "}
               <span>
                 {!profile.isEmpty
-                  ? `${profile.token.claims.email}`
+                  ? `${profile?.token?.claims.email}`
                   : "You need to sign in"}
               </span>
             </NavLink>

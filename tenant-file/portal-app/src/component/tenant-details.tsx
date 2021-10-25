@@ -64,31 +64,33 @@ function ValidatePhoneNumber(number: any) {
 //TODO: PROPS DONT WORK, path hack in place
 const TenantDetails: React.FC<TParams> = (props: TParams) => {
   const GET_TENANT_DATA = gql`
-    query GetTenantById($tenantId: ID!) {
-      tenant(id: $tenantId) {
-        name
-        id
-        residenceId
+   query GetTenantById($tenantId: ID!) {
+  tenant(id: $tenantId) {
+    name
+    id
+    residenceId
 
-        residence {
-          property {
-            id
-            name
-          }
-          address {
-            line1
-            line2
-            city
-            state
-            postalCode
-          }
-        }
-        phones {
-          nodes {
-            id
-            phoneNumber
-            preferredLanguage
-            images {
+    residence {
+      property {
+        id
+        name
+      }
+      address {
+        line1
+        line2
+        city
+        state
+        postalCode
+      }
+    }
+    phones {
+      nodes {
+        id
+        phoneNumber
+        preferredLanguage
+        images {
+          edges {
+            node {
               thumbnailName
               name
               labels {
@@ -101,6 +103,9 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
         }
       }
     }
+  }
+}
+
   `;
   const [isInEditMode, setEditMode] = useState(false);
   const inputClass = isInEditMode

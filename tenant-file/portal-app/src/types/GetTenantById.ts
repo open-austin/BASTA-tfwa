@@ -30,18 +30,34 @@ export interface GetTenantById_tenant_residence {
   address: GetTenantById_tenant_residence_address | null;
 }
 
-export interface GetTenantById_tenant_phones_nodes_images_labels {
+export interface GetTenantById_tenant_phones_nodes_images_edges_node_labels {
   __typename: "ImageLabel";
   label: string;
   confidence: number | null;
   source: string;
 }
 
-export interface GetTenantById_tenant_phones_nodes_images {
+export interface GetTenantById_tenant_phones_nodes_images_edges_node {
   __typename: "Image";
   thumbnailName: string;
   name: string;
-  labels: GetTenantById_tenant_phones_nodes_images_labels[] | null;
+  labels: GetTenantById_tenant_phones_nodes_images_edges_node_labels[] | null;
+}
+
+export interface GetTenantById_tenant_phones_nodes_images_edges {
+  __typename: "ImageEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: GetTenantById_tenant_phones_nodes_images_edges_node;
+}
+
+export interface GetTenantById_tenant_phones_nodes_images {
+  __typename: "ImageConnection";
+  /**
+   * A list of edges.
+   */
+  edges: GetTenantById_tenant_phones_nodes_images_edges[] | null;
 }
 
 export interface GetTenantById_tenant_phones_nodes {
@@ -49,7 +65,7 @@ export interface GetTenantById_tenant_phones_nodes {
   id: string;
   phoneNumber: string;
   preferredLanguage: PreferredLanguage | null;
-  images: (GetTenantById_tenant_phones_nodes_images | null)[] | null;
+  images: GetTenantById_tenant_phones_nodes_images | null;
 }
 
 export interface GetTenantById_tenant_phones {

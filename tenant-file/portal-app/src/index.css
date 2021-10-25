@@ -1,26 +1,33 @@
 body {
-  margin: 0;
+  /* margin: 0; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
+  /* position: fixed; */
+  /* height: 100vh; */  
 }
 
 #root {
-  height: 100%;
+  height: 100vh;  
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  /* height: auto; */
+  overflow: hidden;
+
 }
 
 main {
-  flex: 1 1;
+  /* flex: 1 1; */
   /* overflow: scroll; */
   /* Accounts for Footer height */
   margin-bottom: 50px;
 }
 
 footer {
-  position: fixed;
+  display: grid;
+  position: relative;
   bottom: 0;
 }
 

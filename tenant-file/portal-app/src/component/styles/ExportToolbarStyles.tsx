@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const StyledExportToolbar = styled.div`
   &.hide {
     transform: translateY(-100%);
+    display: none;
   }
-  display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem;
