@@ -55,28 +55,11 @@ const ImageTableCollapse: React.FC<Props> = ({
 
             isOpen_param={isModalOpen}
             customHeaderContent={"This is the header."}
-            customBodyContent={
-              <Image
-                tenantName={tenantName}
-                phoneNumber={phoneNumber}
-                imageName={image?.id === undefined ? "" : image?.name}
-                labels={
-                  image?.id === undefined
-                    ? ["", ""]
-                    : ([
-                        sortedLabels?.[0].label,
-                        sortedLabels?.[0].confidence,
-                        sortedLabels?.[0].source,
-                      ] as string[])
-                }
-                id={
-                  image?.id === undefined
-                    ? "image"
-                    : atob(image?.id).replace("\n", "")
-                }
-              >
-              </Image>
-            }
+            
+            tenantName={tenantName}
+            phoneNumber={phoneNumber}
+            image={image}
+
             customFooterContent={"This is the footer."}
           >
     
@@ -92,9 +75,13 @@ const ImageTableCollapse: React.FC<Props> = ({
       {" "}
       <tr key={`image${index}`}>
         <td onClick={() => (
-          console.log("The image name is: " + image?.name),
-          setModalOpen(!isModalOpen)
+          console.log("Old state value before clicking button was: " + isModalOpen),
+          setModalOpen(!isModalOpen),
+          console.log("New state value after clicking button is: " + isModalOpen)
         )}>
+          
+
+          {/* Logic for the table itself (not related to the modal) */}
           <Image
              tenantName={tenantName}
              phoneNumber={phoneNumber}
