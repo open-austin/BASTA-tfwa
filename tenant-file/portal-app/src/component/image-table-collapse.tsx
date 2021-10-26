@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "./image";
 import styles from "./image-table-collapse.module.css";
 import { Collapse, Modal } from "reactstrap";
-import TenantFileCustomModal from "./tenantFileCustomModal";
+import ImageModal from "./imageModal";
 
 type Props = {
   image: GetImagesForPhone_phone_images | null;
@@ -44,17 +44,16 @@ const ImageTableCollapse: React.FC<Props> = ({
   }
 
   const sortedLabels = [...(image?.labels ?? [])]?.sort(sortLabels(false));
-  
-  type Props = {
 
-  }
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  type Props = {};
 
   const ShowModal: React.FC<Props> = () => {
-
     return (
+      <ImageModal
 
-      <TenantFileCustomModal
-            isOpen_param={true}
+            isOpen_param={isModalOpen}
             customHeaderContent={"This is the header."}
             customBodyContent={
               <Image
@@ -76,36 +75,26 @@ const ImageTableCollapse: React.FC<Props> = ({
                     : atob(image?.id).replace("\n", "")
                 }
               >
-    
               </Image>
-              
             }
             customFooterContent={"This is the footer."}
           >
     
-    
-    
-          </TenantFileCustomModal>
+          </ImageModal>
     );
   }
 
   return (
     <>
 
-      
-     
+      <ShowModal />
+
       {" "}
       <tr key={`image${index}`}>
-        <td onClick={() =>
-          console.log("The image name is: " + image?.name)
-          
-          /* (<Modal>
-            This is a Test.
-          </Modal>) */
-
-          // <ShowModal />
-
-        }>
+        <td onClick={() => (
+          console.log("The image name is: " + image?.name),
+          setModalOpen(!isModalOpen)
+        )}>
           <Image
              tenantName={tenantName}
              phoneNumber={phoneNumber}

@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/55834987/in-typescript-why-is-jsx-intrinsicelements-not-working-as-documentation-describ/55835142
 // https://stackoverflow.com/questions/66207765/react-typescript-expects-at-least-3-arguments-but-the-jsx-factory-react-cr
 
-import styles from "./tenantFileCustomModalStyling.module.css";
+import styles from "./imageModalStyling.module.css";
 
 import React, { useState } from 'react';
 
@@ -15,7 +15,7 @@ type Props = {
     customFooterContent: any
 }
 
-const TenantFileCustomModal: React.FC<Props> = ({
+const ImageModal: React.FC<Props> = ({
     isOpen_param,
     customHeaderContent,
     customBodyContent,
@@ -55,4 +55,4 @@ const TenantFileCustomModal: React.FC<Props> = ({
     );
 };
 
-export default TenantFileCustomModal;
+export default ImageModal;
