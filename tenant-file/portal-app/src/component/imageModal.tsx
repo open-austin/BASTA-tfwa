@@ -19,11 +19,14 @@ type Props = {
     isOpen_param: boolean
     customHeaderContent: any
 
-    tenantName: any
-    phoneNumber: any
-    image: any
+    tenantName: string
+    phoneNumber: string
+    image: GetImagesForPhone_phone_images | null
+    labels: string[]
 
     customFooterContent: any
+
+    func: (open : boolean) => void
 }
 
 const ImageModal: React.FC<Props> = ({
@@ -34,37 +37,18 @@ const ImageModal: React.FC<Props> = ({
     tenantName,
     phoneNumber,
     image,
+    labels,
 
-    customFooterContent
+    customFooterContent,
+
+    func
 }: Props) => {
-
-    const [showImageModal, setShowImageModal] = useState(isOpen_param);
-
-    function sortLabels(ascending: boolean) {
-        return function (
-          right: GetImagesForPhone_phone_images_labels,
-          left: GetImagesForPhone_phone_images_labels
-        ) {
-          if ((right?.confidence ?? 0) === (left?.confidence ?? 0)) {
-            return 0;
-          }
-          if (ascending) {
-            return (right?.confidence ?? 0) < (left?.confidence ?? 0) ? -1 : 1;
-          } else {
-            return (right?.confidence ?? 0) < (left?.confidence ?? 0) ? 1 : -1;
-          }
-        };
-      }
-
-    const sortedLabels = [...(image?.labels ?? [])]?.sort(sortLabels(false));
 
     const imgName = image?.id === undefined ? "" : image?.name;
     
-    //const imgLabels = image?.id === undefined ? ["", ""] : ( ["Label: " + sortedLabels?.[0].label.toString() + "\n Confidence: " + sortedLabels?.[0].confidence + "\n Source: " + sortedLabels?.[0].source.toString(), ""] );
-
     return (
 
-        <Modal isOpen={showImageModal}>
+        <Modal isOpen={isOpen_param}>
 
             <ModalHeader>
                 <div>Image: {image?.name}</div>
@@ -72,10 +56,7 @@ const ImageModal: React.FC<Props> = ({
                 <i
                     className="fa fa-window-close"
                     onClick={() => {
-                        let anchor = document.createElement("a");
-                        anchor.style.display = "none";
-                        anchor.click();
-                        setShowImageModal(!showImageModal);
+                        func(!isOpen_param);
                     }}
                 >
                 </i>
@@ -87,7 +68,7 @@ const ImageModal: React.FC<Props> = ({
                     tenantName={tenantName}
                     phoneNumber={phoneNumber}
                     imageName={imgName}
-                    labels={[]}
+                    labels={labels}
                     id={
                     image?.id === undefined
                         ? "image"
@@ -98,11 +79,9 @@ const ImageModal: React.FC<Props> = ({
             </ModalBody>
 
             <ModalFooter>
-                <strong>Labels:</strong> {sortedLabels?.[0].label}
-                <br></br>
-                <strong>Confidence:</strong> {sortedLabels?.[0].confidence}
-                <br></br>
-                <strong>Source:</strong> {sortedLabels?.[0].source}
+                <p><strong>Labels:</strong> {labels?.[0]}</p>
+                <p><strong>Confidence:</strong> {labels?.[1]}</p>
+                <p><strong>Source:</strong> {labels?.[2]}</p>
             </ModalFooter>
 
         </Modal>

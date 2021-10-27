@@ -59,11 +59,22 @@ const ImageTableCollapse: React.FC<Props> = ({
             tenantName={tenantName}
             phoneNumber={phoneNumber}
             image={image}
+            labels={
+              image?.id === undefined
+                ? ["", ""]
+                : ([
+                    sortedLabels?.[0].label,
+                    sortedLabels?.[0].confidence?.toString(),
+                    sortedLabels?.[0].source,
+                  ] as string[])
+            }
 
             customFooterContent={"This is the footer."}
+
+            func={setModalOpen}
           >
     
-          </ImageModal>
+      </ImageModal>
     );
   }
 
@@ -76,8 +87,7 @@ const ImageTableCollapse: React.FC<Props> = ({
       <tr key={`image${index}`}>
         <td onClick={() => (
           console.log("Old state value before clicking button was: " + isModalOpen),
-          setModalOpen(!isModalOpen),
-          console.log("New state value after clicking button is: " + isModalOpen)
+          setModalOpen(!isModalOpen)
         )}>
           
 
