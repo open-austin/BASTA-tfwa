@@ -115,9 +115,10 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
   const { loading, data } = useQuery(GET_TENANT_DATA, {
     variables: { tenantId: location.pathname.split("/dashboard/tenant/")[1] },
   });
+
   const [
     tenantData,
-    { data: datamutation, loading: loadingMutation, error: errorMutation },
+    // { data: datamutation, loading: loadingMutation, error: errorMutation },
   ] = useMutation(EDIT_TENANT);
   // const tenantId = props?.tenantId;
 

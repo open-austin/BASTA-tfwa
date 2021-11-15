@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import {
   PhonesFilteredByName,
   PhonesFilteredByName_phones_edges_node_images,
-  PhonesFilteredByName_phones_edges_node_images_edges_node_labels,
 } from "../types/PhonesFilteredByName";
 import Image from "./image";
-import { Table } from "reactstrap";
-import { useTable, Column } from "react-table";
-import PhoneTableCollapse from "./phone-table-collapse";
+// import { Table } from "reactstrap";
+// import { useTable, Column } from "react-table";
+// import PhoneTableCollapse from "./phone-table-collapse";
 
 import { useHistory } from "react-router-dom";
 import styles from "./phone-table.module.css";
@@ -70,35 +69,35 @@ const PHONES_BY_NAME_FILTER = gql`
   }
 `;
 
-const columns: Column<PhoneRow>[] = [
-  {
-    Header: "Name",
-    accessor: "name",
-  },
-  {
-    Header: "Property Name",
-    accessor: "property",
-  },
+// const columns: Column<PhoneRow>[] = [
+//   {
+//     Header: "Name",
+//     accessor: "name",
+//   },
+//   {
+//     Header: "Property Name",
+//     accessor: "property",
+//   },
 
-  {
-    Header: "Phone Number",
-    accessor: "phone",
-  },
-  {
-    Header: "Images",
-    accessor: "images",
-  },
+//   {
+//     Header: "Phone Number",
+//     accessor: "phone",
+//   },
+//   {
+//     Header: "Images",
+//     accessor: "images",
+//   },
 
-  {
-    Header: "Action",
-    accessor: "actionFunc",
-  },
-];
+//   {
+//     Header: "Action",
+//     accessor: "actionFunc",
+//   },
+// ];
 
-type ActionFunc = {
-  name: string;
-  func: Function;
-};
+// type ActionFunc = {
+//   name: string;
+//   func: Function;
+// };
 
 type PhoneRow = {
   name: string;
@@ -136,7 +135,7 @@ const PhoneTable: React.FC = () => {
   // const { loading, error, data, refetch } = useQuery<PhonesFilteredByName>(
 
   // const { loading, error, fetchMore, data } =
-  const { loading, error, data, fetchMore } = useQuery<PhonesFilteredByName>(
+  const {  error, data, fetchMore } = useQuery<PhonesFilteredByName>(
     PHONES_BY_NAME_FILTER,
     {
       notifyOnNetworkStatusChange: true,
