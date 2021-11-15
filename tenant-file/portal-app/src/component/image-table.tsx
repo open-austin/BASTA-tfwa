@@ -139,7 +139,7 @@ const ImageTable: React.FC<Props> = ({
         <div className={styles.cardHeader}>
           <div className="d-flex">
             <h4 className="m-0 font-weight-bold mr-3">Images</h4>
-
+{/* 
             <input
               className={styles.bastaBtnSm}
               id="myFileInput"
@@ -147,7 +147,7 @@ const ImageTable: React.FC<Props> = ({
               accept="image/*"
               capture="camera"
               multiple
-            />
+            /> */}
             <div
               className="text-md-right dataTables_filter"
               id="dataTable_filter"
@@ -156,7 +156,7 @@ const ImageTable: React.FC<Props> = ({
                 <input
                   onChange={(e) => setSearchTerm(e.currentTarget.value)}
                   type="search"
-                  className="form-control form-control-sm"
+                  className="form-control"
                   aria-controls="dataTable"
                   placeholder="Search by label"
                 />

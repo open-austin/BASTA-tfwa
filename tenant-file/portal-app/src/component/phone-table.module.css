@@ -13,8 +13,8 @@
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.scrollFeed{
-  height: 480px;
+.scrollFeed {
+  height: 70vh;
   overflow: auto;
 }
 .formControl {
@@ -35,7 +35,7 @@
 .readOnlyInputSm {
   display: block;
   width: 100%;
- 
+
   font-size: 1rem;
   font-weight: 500;
   line-height: 1;
@@ -175,33 +175,10 @@
   margin: 0;
   font-family: inherit;
 }
-.bastaBtn:disabled {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  background-color: transparent;
-
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-  color: lightgray;
-  background-color: #807d79d5;
-  /* border-color: hsl(40deg 52% 70% / 40%); */
-  margin: 0;
-  font-family: inherit;
-}
 .bastaBtn > i,
 .bastaBtnSm > i {
   color: aqua;
 }
 /* .bastaBtn:hover > i {
-  color: black;
-} */
+    color: black;
+  } */

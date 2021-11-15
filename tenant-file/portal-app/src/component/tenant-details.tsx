@@ -15,41 +15,6 @@ type TParams = {
   phone: string;
 };
 
-//TODO: If there is no Tenant, this will break. Make this Phone based as well
-const ADD_TENANT = gql`
-  mutation addingATenant(
-    $fullName: String!
-    $phoneNumber: String!
-    $street: String!
-    $unitNumber: String!
-    $city: String!
-    $zip: String!
-    $bldgId: ID
-  ) {
-    createTenant(
-      inputTenant: {
-        name: $fullName
-        phoneNumber: $phoneNumber
-        currentResidence: {
-          addressInput: {
-            line1: $street
-            line2: $unitNumber
-            city: $city
-            state: "TX"
-            postalCode: $zip
-          }
-          propertyId: $bldgId
-        }
-      }
-    ) {
-      payload {
-        id
-        name
-      }
-    }
-  }
-`;
-
 function ValidatePhoneNumber(number: any) {
   let error;
   if (!number) {
@@ -63,61 +28,99 @@ function ValidatePhoneNumber(number: any) {
 }
 //TODO: PROPS DONT WORK, path hack in place
 const TenantDetails: React.FC<TParams> = (props: TParams) => {
-  const GET_TENANT_DATA = gql`
-   query GetTenantById($tenantId: ID!) {
-  tenant(id: $tenantId) {
-    name
-    id
-    residenceId
-
-    residence {
-      property {
-        id
-        name
-      }
-      address {
-        line1
-        line2
-        city
-        state
-        postalCode
+  //TODO: If there is no Tenant, this will break. Make this Phone based as well
+  const EDIT_TENANT = gql`
+    mutation editTenant(
+      $fullName: String!
+      $phoneNumber: String!
+      $street: String!
+      $unitNumber: String!
+      $city: String!
+      $zip: String!
+      $propertyId: ID
+      $tenantId: ID!
+    ) {
+      editTenant(
+        inputTenant: {
+          name: $fullName
+          phoneNumber: $phoneNumber
+          currentResidence: {
+            addressInput: {
+              line1: $street
+              line2: $unitNumber
+              city: $city
+              state: "TX"
+              postalCode: $zip
+            }
+            propertyId: $propertyId
+          }
+          tenantId: $tenantId
+        }
+      ) {
+        payload {
+          id
+          name
+        }
       }
     }
-    phones {
-      nodes {
+  `;
+  const GET_TENANT_DATA = gql`
+    query GetTenantById($tenantId: ID!) {
+      tenant(id: $tenantId) {
+        name
         id
-        phoneNumber
-        preferredLanguage
-        images {
-          edges {
-            node {
-              thumbnailName
-              name
-              labels {
-                label
-                confidence
-                source
+        residenceId
+
+        residence {
+          property {
+            id
+            name
+          }
+          address {
+            line1
+            line2
+            city
+            state
+            postalCode
+          }
+        }
+        phones {
+          nodes {
+            id
+            phoneNumber
+            preferredLanguage
+            images {
+              edges {
+                node {
+                  thumbnailName
+                  name
+                  labels {
+                    label
+                    confidence
+                    source
+                  }
+                }
               }
             }
           }
         }
       }
     }
-  }
-}
-
   `;
   const [isInEditMode, setEditMode] = useState(false);
   const inputClass = isInEditMode
     ? styles.formControlSm
     : styles.readOnlyInputSm;
-  const [tenantData] = useMutation(ADD_TENANT);
   const location = useLocation();
-  // const tenantId = props?.tenantId;
-
   const { loading, data } = useQuery(GET_TENANT_DATA, {
     variables: { tenantId: location.pathname.split("/dashboard/tenant/")[1] },
   });
+  const [
+    tenantData,
+    { data: datamutation, loading: loadingMutation, error: errorMutation },
+  ] = useMutation(EDIT_TENANT);
+  // const tenantId = props?.tenantId;
+
   const onEditClick = () => {
     setEditMode(!isInEditMode);
   };
@@ -142,7 +145,6 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                   height={125}
                 />
                 <div className="mb-3">
-              
                   <button type="button" className={styles.bastaBtn}>
                     <i className="las la-image"></i> Change Photo
                   </button>
@@ -158,18 +160,21 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                     firstName: data?.tenant?.name.split(" ")[0] ?? "",
                     lastName: data?.tenant?.name.split(" ")[1] ?? "",
                     street: data?.tenant?.residence?.address?.line1 ?? "",
-                    unitNumber: data?.address?.line2 ?? "",
+                    unitNumber: data?.tenant?.residence?.address?.line2 ?? "",
                     city: data?.tenant?.residence?.address?.city ?? "",
                     state: data?.tenant?.residence?.address?.state ?? "",
                     zip: data?.tenant?.residence?.address?.postalCode ?? "",
-                    bldgId: data?.tenant?.residence?.property?.id ?? "",
+                    propertyId: data?.tenant?.residence?.property?.id ?? "",
+                    propertyName: data?.tenant?.residence?.property?.name ?? "",
                     phoneNumber: props.phone
                       ? props.phone.split("+1")[1] ?? ""
                       : data?.tenant?.phones?.nodes[0]?.phoneNumber.split(
                           "+1"
                         )[1] ?? "",
                   }}
-                  onSubmit={async (e) => {
+                  onSubmit={(e) => {
+                    console.log(`e.params ${JSON.stringify(e)}`);
+                    setEditMode(false)
                     tenantData({
                       variables: {
                         fullName: e.firstName + " " + e.lastName,
@@ -178,12 +183,14 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                         city: e.city,
                         state: e.state,
                         zip: e.zip,
-                        bldgId: e.bldgId,
+                        propertyId: e.propertyId,
                         //Submitting the phoneNumber alone is fine because the CreateTenant Mutation checks if the phone is registered already
                         phoneNumber: "+1" + e.phoneNumber,
+                        tenantId:
+                          location.pathname.split("/dashboard/tenant/")[1],
                       },
                     });
-                    setTimeout(() => {}, 1000);
+                    setTimeout(() => {}, 10000);
                   }}
                 >
                   {({
@@ -271,11 +278,28 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                                 >
                                   <strong>*Property:</strong>
                                 </label>
-                                <Properties
-                                  bldgSelectHandler={(id: string) =>
-                                    (values.bldgId = id)
-                                  }
-                                ></Properties>
+                                {isInEditMode ? (
+                                  <Properties
+                                    defaultProperty={values.propertyId}
+                                    bldgSelectHandler={(
+                                      keyValueArray: string
+                                    ) => {
+                                      let arr = keyValueArray.split(",");
+                                      // console.log(
+                                      //   `values.propertyId ${arr[0]}`
+                                      // );
+                                      // console.log(
+                                      //   `values.propertyName ${arr[1]}`
+                                      // );
+                                      values.propertyId = arr[0];
+                                      values.propertyName = arr[1];
+                                    }}
+                                  ></Properties>
+                                ) : (
+                                  <div className={inputClass}>
+                                    {values.propertyName}
+                                  </div>
+                                )}
                               </div>
                             </div>
                             <div className="col">
@@ -361,6 +385,7 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                                 <button
                                   className={styles.bastaBtn}
                                   type="submit"
+                                  disabled={!isInEditMode}
                                 >
                                   <i className="las la-check-square"> </i>{" "}
                                   Submit
@@ -382,7 +407,7 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
         <div className="col mx-5">
           <ImageTable
             phoneNumber={data?.tenant?.phones?.nodes[0]?.phoneNumber}
-            tenantName={data?.tenant.name.split(" ")[0]} 
+            tenantName={data?.tenant.name.split(" ")[0]}
             phoneId={
               data?.tenant?.phones?.nodes[0]?.id === undefined
                 ? ""

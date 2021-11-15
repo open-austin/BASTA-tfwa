@@ -12,7 +12,7 @@ import { useTable, Column } from "react-table";
 import PhoneTableCollapse from "./phone-table-collapse";
 
 import { useHistory } from "react-router-dom";
-import styles from "./tenant-details.module.css";
+import styles from "./phone-table.module.css";
 const PHONES_BY_NAME_FILTER = gql`
   query PhonesFilteredByName(
     $name: String = ""
@@ -222,35 +222,42 @@ const PhoneTable: React.FC = () => {
       });
     }
   };
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   const renderRows = () => {
     return rowData.map((phoneRow) => (
-       
       <>
         <tr>
           <td>{phoneRow.name}</td>
           <td>{phoneRow.phone}</td>
-          <td>{(phoneRow?.images?.edges?.[0] === undefined ? (<></>) :
-           ( <Image
-              imageName={phoneRow?.images?.edges?.[0].node?.thumbnailName ?? ""}
-              id={
-                phoneRow?.images?.edges?.[0].node?.id === undefined
-                  ? "image"
-                  : atob(phoneRow!.images!.edges?.[0].node!.id).replace(
-                      "\n",
-                      ""
-                    )
-              }
-              tenantName={phoneRow.name}
-              phoneNumber={phoneRow.phone}
-              labels={
-                phoneRow?.images?.edges?.[0].node?.labels
-                  ?.filter((l) => !l?.source.includes("SafeSearch"))
-                  .map((l) => l.label) ?? [""]
-              }
-            />))}
+          <td>{phoneRow.property}</td>
+          <td>
+            {phoneRow?.images?.edges?.[0] === undefined ? (
+              <></>
+            ) : (
+              <Image
+                imageName={
+                  phoneRow?.images?.edges?.[0].node?.thumbnailName ?? ""
+                }
+                id={
+                  phoneRow?.images?.edges?.[0].node?.id === undefined
+                    ? "image"
+                    : atob(phoneRow!.images!.edges?.[0].node!.id).replace(
+                        "\n",
+                        ""
+                      )
+                }
+                tenantName={phoneRow.name}
+                phoneNumber={phoneRow.phone}
+                labels={
+                  phoneRow?.images?.edges?.[0].node?.labels
+                    ?.filter((l) => !l?.source.includes("SafeSearch"))
+                    .map((l) => l.label) ?? [""]
+                }
+              />
+            )}
           </td>
+          <td>{phoneRow.actionFunc}</td>
         </tr>
       </>
     ));
@@ -265,29 +272,6 @@ const PhoneTable: React.FC = () => {
         <div className={styles.cardHeader}>
           <div className="d-flex">
             <h4 className="m-0 font-weight-bold mr-3">Images</h4>
-
-            <input
-              className={styles.bastaBtnSm}
-              id="myFileInput"
-              type="file"
-              accept="image/*"
-              capture="camera"
-              multiple
-            />
-            <div
-              className="text-md-right dataTables_filter"
-              id="dataTable_filter"
-            >
-              <label>
-                <input
-                  onChange={(e) => setSearchTerm(e.currentTarget.value)}
-                  type="search"
-                  className="form-control form-control-sm"
-                  aria-controls="dataTable"
-                  placeholder="Search by label"
-                />
-              </label>
-            </div>
           </div>
         </div>
         <div className="card-body">
@@ -323,30 +307,30 @@ const PhoneTable: React.FC = () => {
             <table className="table my-0" id="dataTable">
               <thead>
                 <tr>
+                  <th>Tenant Name</th>
+                  <th>Number</th>
+                  <th>Property</th>
                   <th>Image</th>
-                  <th>Label</th>
-                  <th>Source</th>
-                  <th>Confidnece</th>
-                  <th>Date Received</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>{renderRows()}</tbody>
               <tfoot>
                 <tr>
                   <td>
+                    <strong>Tenant Name</strong>
+                  </td>
+                  <td>
+                    <strong>Number</strong>
+                  </td>
+                  <td>
+                    <strong>Property</strong>
+                  </td>
+                  <td>
                     <strong>Image</strong>
                   </td>
                   <td>
-                    <strong>Label</strong>
-                  </td>
-                  <td>
-                    <strong>Source</strong>
-                  </td>
-                  <td>
-                    <strong>Confidence</strong>
-                  </td>
-                  <td>
-                    <strong>Date Received</strong>
+                    <strong>Action</strong>
                   </td>
                 </tr>
               </tfoot>

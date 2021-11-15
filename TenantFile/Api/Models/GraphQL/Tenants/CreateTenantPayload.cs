@@ -17,6 +17,7 @@ namespace TenantFile.Api.Models.Tenants
         public CreateTenantPayload(UserError error)
             : base(new[] { error })
         {
+             Console.WriteLine($"Error when adding Tenant... message: {error.Message} code: {error.Code}");
         }
     }
 }
