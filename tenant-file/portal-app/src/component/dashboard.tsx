@@ -5,7 +5,7 @@ import NameSearch from "./name-search";
 const Dashboard: React.FC = () => (
   <div className="container-fluid">
     <div className="row  justify-content-center">
-      <div className=" col-9">
+      <div className="mt-5 col-10">
         <div className="card shadow py-2 px-4">
           <NameSearch />
           <PhoneTable />

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
-import Footer from './footer';
-import Navigation from './nav';
-import SideBar from './sidebar';
-import ExportToolbar from './export-toolbar';
-import theme from './styles/themes';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import styled, { ThemeProvider } from "styled-components";
+// import Footer from "./footer";
+import Navigation from "./nav";
+import SideBar from "./sidebar";
+import ExportToolbar from "./export-toolbar";
+import theme from "./styles/themes";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const PageLayout = styled.div`
-  min-height: 100%;
+  /* min-height: 100%; */
   display: grid;
   grid-template-rows: auto 1fr auto;
+  overflow: hidden;
 `;
 
 type Props = {
@@ -74,7 +75,7 @@ const Layout: React.FC = (props) => {
           <ExportToolbar isExportToolsOpen={isExportToolsOpen} />
         </header>
         <main>{props.children}</main>
-        <Footer />
+        {/* <Footer /> */}
       </PageLayout>
     </ThemeProvider>
   );

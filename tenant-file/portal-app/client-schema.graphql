@@ -1,0 +1,7 @@
+directive @client on FIELD
+type imageCart {
+  imageUrl: String
+  phoneNumber: String
+  tenantName: String
+  labels: [ImageLabel]
+}

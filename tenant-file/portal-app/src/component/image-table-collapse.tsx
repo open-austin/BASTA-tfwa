@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  GetImagesForPhone_phone_images,
-  GetImagesForPhone_phone_images_labels,
+  GetImagesForPhone_phone_images_edges_node,
+  GetImagesForPhone_phone_images_edges_node_labels,
 } from "../types/GetImagesForPhone";
 import { useState } from "react";
 import Image from "./image";
@@ -9,7 +9,7 @@ import styles from "./image-table-collapse.module.css";
 import { Collapse } from "reactstrap";
 
 type Props = {
-  image: GetImagesForPhone_phone_images | null;
+  image: GetImagesForPhone_phone_images_edges_node | null;
   tenantName: string;
   phoneNumber: string;
   id: string | undefined;
@@ -27,8 +27,8 @@ const ImageTableCollapse: React.FC<Props> = ({
   //   const collapseHidden = !isOpen ? styles.collapsedTd : styles.showTd;
   function sortLabels(ascending: boolean) {
     return function (
-      right: GetImagesForPhone_phone_images_labels,
-      left: GetImagesForPhone_phone_images_labels
+      right: GetImagesForPhone_phone_images_edges_node_labels,
+      left: GetImagesForPhone_phone_images_edges_node_labels
     ) {
       if ((right?.confidence ?? 0) === (left?.confidence ?? 0)) {
         return 0;

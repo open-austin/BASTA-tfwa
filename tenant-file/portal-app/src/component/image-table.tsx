@@ -27,21 +27,32 @@ const ImageTable: React.FC<Props> = ({
   phoneNumber,
 }: Props) => {
   const GET_IMAGES_FOR_PHONE = gql`
-    query GetImagesForPhone($id: ID!) {
+    query GetImagesForPhone($id: ID!, $limit: Int = 5, $cursor: String = null) {
       phone(id: $id) {
-        images {
-          id
-          name
-          thumbnailName
-          labels {
-            label
-            source
-            confidence
+        images(first: $limit, after: $cursor) {
+          pageInfo {
+            endCursor
+            hasNextPage
+            hasPreviousPage
+            startCursor
+          }
+          edges {
+            node {
+              id
+              name
+              thumbnailName
+              labels {
+                label
+                source
+                confidence
+              }
+            }
           }
         }
       }
     }
   `;
+
   //const storage = firebase.app().storage();
   // const sortLabels = (
   //   images: GetImagesForPhone_phone_images[]
@@ -52,7 +63,7 @@ const ImageTable: React.FC<Props> = ({
   //       (left, right) => (left?.confidence ?? 0) + (right?.confidence ?? 0)
   //     );
   // };
-  const { data, error, loading } = useQuery<GetImagesForPhone>(
+  const { data, error, loading, fetchMore } = useQuery<GetImagesForPhone>(
     GET_IMAGES_FOR_PHONE,
     {
       variables: {
@@ -60,28 +71,59 @@ const ImageTable: React.FC<Props> = ({
       },
     }
   );
+
+  const handleScroll = (e: any) => {
+    console.log(`HandleScroll`);
+    //this needs to "add on" to the table and now rerender it. An independent component that addes new rows?
+    const bottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    const lastItem = data?.phone?.images?.pageInfo?.endCursor;
+    const hasMoreItems = data?.phone?.images?.pageInfo?.hasNextPage;
+    if (bottom && hasMoreItems) {
+      console.log(`bottom hit`);
+      fetchMore({
+        variables: {
+          // name: nameQuery,
+          limit: 5,
+          cursor: lastItem,
+        },
+        updateQuery: (previous, { fetchMoreResult }) => {
+          if (fetchMoreResult!.phone!.images!.edges!.length > 0) {
+            fetchMoreResult!.phone!.images!.edges = [
+              ...(previous.phone?.images?.edges ?? []),
+              ...(fetchMoreResult?.phone?.images?.edges ?? []),
+            ];
+            return fetchMoreResult!;
+          } else {
+            return previous!;
+          }
+        },
+      });
+    }
+  };
+
   const [searchTerm, setSearchTerm] = useState("");
   const renderRows = () => {
-    return data?.phone?.images
+    return data?.phone?.images?.edges
       ?.filter(
-        (image) =>
+        (edge) =>
           searchTerm.length === 0 ||
-          image?.labels?.some((l) =>
+          edge?.node?.labels?.some((l) =>
             l.label.toLowerCase().includes(searchTerm.toLowerCase(), 0)
           )
       )
-      .map((image, index) => {
+      .map((edge, index) => {
         return (
           <>
             <ImageTableCollapse
               id={
-                image?.id === undefined
+                edge?.node?.id === undefined
                   ? "image"
-                  : atob(image?.id).replace("\n", "")
+                  : atob(edge?.node?.id).replace("\n", "")
               }
               phoneNumber={phoneNumber}
               tenantName={tenantName}
-              image={image}
+              image={edge.node}
               index={index}
             ></ImageTableCollapse>
           </>
@@ -97,7 +139,7 @@ const ImageTable: React.FC<Props> = ({
         <div className={styles.cardHeader}>
           <div className="d-flex">
             <h4 className="m-0 font-weight-bold mr-3">Images</h4>
-
+{/* 
             <input
               className={styles.bastaBtnSm}
               id="myFileInput"
@@ -105,7 +147,7 @@ const ImageTable: React.FC<Props> = ({
               accept="image/*"
               capture="camera"
               multiple
-            />
+            /> */}
             <div
               className="text-md-right dataTables_filter"
               id="dataTable_filter"
@@ -114,7 +156,7 @@ const ImageTable: React.FC<Props> = ({
                 <input
                   onChange={(e) => setSearchTerm(e.currentTarget.value)}
                   type="search"
-                  className="form-control form-control-sm"
+                  className="form-control"
                   aria-controls="dataTable"
                   placeholder="Search by label"
                 />
@@ -146,7 +188,8 @@ const ImageTable: React.FC<Props> = ({
             <div className="col-md-6"></div>
           </div>
           <div
-            className=" table-responsive mt-2"
+            onScroll={handleScroll}
+            className={styles.scrollFeed}
             id="dataTable"
             role="grid"
             aria-describedby="dataTable_info"

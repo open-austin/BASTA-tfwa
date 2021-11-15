@@ -16,11 +16,25 @@ const client = new ApolloClient({
   uri: `${process.env.REACT_APP_API_URL}/graphql`,
   cache: new InMemoryCache({
     typePolicies: {
-      Query: {
+      imageCartVar: {
         fields: {
           imageCart: {
             read() {
               return imageCartVar();
+            },
+          },
+        },
+      },
+      Query: {
+        fields: {
+          feed: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
             },
           },
         },
