@@ -55,14 +55,14 @@ namespace TenantFile.Api
       var connectionString = "";
       if (_currentEnvironment.IsDevelopment())
       {
-        connectionString = "Server=127.0.0.1; Port=5432; User Id=postgres; Password=example";
+        connectionString = "Server=127.0.0.1; Port=5432; Database=basta; User Id=postgres; Password=exapmle";
       } else if (_currentEnvironment.IsProduction())
       {
         connectionString = Configuration["LocalSQL:ConnectionString"];
       }
 
-      services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(connectionString)
-              .LogTo(Console.WriteLine, LogLevel.Information))
+      services.AddPooledDbContextFactory<TenantFileContext>(options => options.UseNpgsql(connectionString,options => options.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(1),errorCodesToAdd: null ))
+              .LogTo(Console.WriteLine, LogLevel.Error))
         .AddGraphQLServer()
               .AddApolloTracing(TracingPreference.Always)
                .AddMutationType(d => d.Name("Mutation"))
