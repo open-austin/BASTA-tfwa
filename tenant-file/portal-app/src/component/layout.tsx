@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import Footer from "./footer";
+// import Footer from "./footer";
 import Navigation from "./nav";
 import SideBar from "./sidebar";
 import ExportToolbar from "./export-toolbar";
