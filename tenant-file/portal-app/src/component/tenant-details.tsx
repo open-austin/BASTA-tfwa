@@ -14,7 +14,11 @@ type TParams = {
   tenantId: string;
   phone: string;
 };
-
+// function ValidatePropertyId(id: string) {
+//   if (id === "000") {
+//     return "You must select a property";
+//   }
+// }
 function ValidatePhoneNumber(number: any) {
   let error;
   if (!number) {
@@ -28,7 +32,6 @@ function ValidatePhoneNumber(number: any) {
 }
 //TODO: PROPS DONT WORK, path hack in place
 const TenantDetails: React.FC<TParams> = (props: TParams) => {
-  //TODO: If there is no Tenant, this will break. Make this Phone based as well
   const EDIT_TENANT = gql`
     mutation editTenant(
       $fullName: String!
@@ -175,7 +178,7 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
                   }}
                   onSubmit={(e) => {
                     console.log(`e.params ${JSON.stringify(e)}`);
-                    setEditMode(false)
+                    setEditMode(false);
                     tenantData({
                       variables: {
                         fullName: e.firstName + " " + e.lastName,
@@ -410,9 +413,10 @@ const TenantDetails: React.FC<TParams> = (props: TParams) => {
             phoneNumber={data?.tenant?.phones?.nodes[0]?.phoneNumber}
             tenantName={data?.tenant.name.split(" ")[0]}
             phoneId={
-              data?.tenant?.phones?.nodes[0]?.id === undefined
-                ? ""
-                : data?.tenant?.phones?.nodes[0]?.id
+              data?.tenant?.phones?.nodes[0]?.id
+              // data?.tenant?.phones?.nodes[0]?.id === undefined
+              //   ? ""
+              //   : data?.tenant?.phones?.nodes[0]?.id
             }
           ></ImageTable>
         </div>

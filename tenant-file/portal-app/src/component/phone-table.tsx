@@ -121,7 +121,7 @@ const PhoneTable: React.FC = () => {
   };
 
   const onRegisterTenantClick = (phone: string) => {
-    history.push(`/add-tenant/${phone}`);
+    history.push(`/register-tenant/${phone}`);
   };
 
   const paramsString = useLocation().search;

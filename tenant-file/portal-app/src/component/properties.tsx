@@ -44,6 +44,13 @@ const Properties = ({ bldgSelectHandler, defaultProperty }: Props) => {
       id="bldgId"
       name="bldgId"
     >
+      {defaultProperty === "000" ? (
+        <option selected key={"000"} value={["000", "Select a Property"]}>
+          {"Select a Property"}
+        </option>
+      ) : (
+        <></>
+      )}
       {data?.properties?.nodes?.map((bldgNode: getProps_properties_nodes) => {
         //bldgSelectHandler(bldgNode);
 

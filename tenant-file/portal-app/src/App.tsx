@@ -15,6 +15,7 @@ import Home from "./component/home";
 import TenantDetails from "./component/tenant-details";
 import FileUpload from "./component/file-upload";
 import AddProperty from "./component/add-property";
+import RegisterTenant from "./component/register-tenant";
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
         <PrivateRoute
           path="/dashboard/tenant/:id"
           component={TenantDetails}
+        ></PrivateRoute>
+        <PrivateRoute
+          path="/register-tenant"
+          component={RegisterTenant}
         ></PrivateRoute>
         <Route path="/login">
           <Login />
