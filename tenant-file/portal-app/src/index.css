@@ -20,9 +20,9 @@ body {
 
 main {
   /* flex: 1 1; */
-  /* overflow: scroll; */
+  overflow: auto;
   /* Accounts for Footer height */
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 
 footer {
